@@ -1,8 +1,8 @@
 import './App.css'
 import ForgotPassword from './sites/ForgotPassword.jsx'
-import Login from './sites/Login.jsx'
+import Login from './sites/LogIn.jsx'
 import Register from './sites/Register.jsx'
-import Tests from './sites/Tests.jsx'
+// import Tests from './sites/Tests.jsx'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
 function App() {
