@@ -2,6 +2,7 @@ import { useState } from 'react';
 import './../styles/SignUp.css';
 import logo from './../assets/images/appLogo.png';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { Link } from 'react-router-dom';
 
 function Register(){
   const [showPassword, setShowPassword] = useState(false);
@@ -12,7 +13,7 @@ function Register(){
         <div className="panel">
           <div className="panel-top">
             <img src={logo} alt="App Logo" />
-            <button className="change-sign-up">Logowanie</button>
+            <Link to='/login'><button className="change-sign-up">Logowanie</button></Link>
           </div>
           <h1 className="title">Rejestracja</h1>
           <div className="inputs">

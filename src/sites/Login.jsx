@@ -2,9 +2,10 @@ import { useState } from 'react';
 import './../styles/SignUp.css';
 import logo from './../assets/images/appLogo.png';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { Link } from 'react-router-dom';
 
 function Login(){
-  const MAIN_URL = 'http://217.154.252.37';
+  // const BASE_URL = 'http://217.154.252.37';
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -14,7 +15,7 @@ function Login(){
         <div className="panel">
           <div className="panel-top">
             <img src={logo} alt="App Logo" />
-            <button className="change-sign-up">Rejestracja</button>
+            <Link to='/register'><button className="change-sign-up">Rejestracja</button></Link>
           </div>
           <h1 className="title">Logowanie</h1>
             <div className="inputs">
@@ -42,7 +43,7 @@ function Login(){
               </div>
             </div>
             <div className="forgot-password-box">
-              <a href="#" className='forgot-password'>Zapomniałem hasła</a>
+              <Link to="/forgot-password" className='forgot-password'>Zapomniałem hasła</Link>
             </div>
             <button className="sign-up-btn">ZALOGUJ</button>
         </div>

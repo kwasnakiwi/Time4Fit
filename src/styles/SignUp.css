@@ -139,6 +139,16 @@ input{
   color: #F37900;
 }
 
+.description ~ .inputs{
+    margin-top: 20px;
+}
+.description{
+    font-size: 18px;
+    margin-top: 60px;
+}
+.forgot-password-box{
+    margin-top: 20px;
+}
 @media (max-width: 800px){
     .main-container{
         display: block;
