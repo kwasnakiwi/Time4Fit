@@ -4,7 +4,7 @@ import logo from './../assets/images/appLogo.png';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 
-function Login(){
+function SignUp(){
   // const BASE_URL = 'http://217.154.252.37';
 
   const [showPassword, setShowPassword] = useState(false);
@@ -52,4 +52,4 @@ function Login(){
   )
 }
 
-export default Login
+export default SignUp
