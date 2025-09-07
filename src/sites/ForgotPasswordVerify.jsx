@@ -5,56 +5,58 @@ import { BASE_URL, ENDPOINTS } from '../utils/Endopoints';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
-function ForgotPassword(){
+function ForgotPasswordVerify(){
   const navigate = useNavigate();
-  const [email, setEmail] = useState('');
+  const [code, setCode] = useState('');
   const [error, setError] = useState('');
+  const challenge_id = localStorage.getItem("challenge_id");
+  const purpose = localStorage.getItem("purpose");
 
   const handleResetPassword = async () => {
     setError('');
 
-    if(!email){
-      setError('Podaj adres email');
+    if(!code){
+      setError("Wpisz kod z E-maila");
       return;
     }
 
     try{
-      const response = await fetch(`${BASE_URL}${ENDPOINTS.resetPassword}`, {
-        method: "POST",
+      const response = await fetch(`${BASE_URL}${ENDPOINTS.otpVerify}`, {
+        method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({challenge_id, purpose, code}),
       });
 
       let data;
 
       try{
-        data = await response.json()
-        console.log(data);
+        data = await response.json();
       }
       catch{
         data = null;
       }
 
       if(!response.ok){
-        const backendMsg = 'Coś nie powiodło się przy resecie hasła.';
-        throw new Error(backendMsg);        
+        const backendMsg = 'Coś nie powiodło się przy logowaniu.';
+        throw new Error(backendMsg);
       }
 
-      const challenge_id = data?.challenge_id;
-      const purpose = data?.purpose;
+      const reset_ticket_id = data?.reset_ticket_id;
 
-      localStorage.setItem('challenge_id', challenge_id);
-      localStorage.setItem('purpose', purpose);
+      localStorage.removeItem("purpose");
+      localStorage.removeItem("challenge_id");
 
-      navigate('/forgot-password/verify');
+      localStorage.setItem('reset_ticket_id', reset_ticket_id);
+
+      navigate('/forgot-password/change-password');
     }
     catch(err){
-      setError(err);
+      setError(err)
     }
-  };
+  }
 
   const onKeyDown = (e) => {
-    if(e.key === 'Enter') handleResetPassword();
+    if(e.key === 'Enter') handleResetPassword() 
   }
 
   return(
@@ -67,17 +69,21 @@ function ForgotPassword(){
           </div>
           <h1 className='title'>Zapomniałem hasła</h1>
           <p className='description'>
-            Wprowadź email
+            Wprowadź kod wysłany na podany adres email
           </p>
           <div className='inputs'>
             <input 
-              type="email" 
+              type="text" 
               id="codeForPasswordResetInput" 
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              required
+              value={code}
+              onChange={(e) => setCode(e.target.value)}
               onKeyDown={onKeyDown}
-              autoComplete='email'
+              autoComplete='none'
             />
+          </div>
+          <div className="forgot-password-box">
+            <Link to="/forgot-password" className='forgot-password'>Wyślij ponownie</Link>
           </div>
           <button className="sign-up-btn" onClick={handleResetPassword}>PRZYWRÓĆ HASŁO</button>
         </div>
@@ -86,4 +92,4 @@ function ForgotPassword(){
   )
 }
 
-export default ForgotPassword
+export default ForgotPasswordVerify

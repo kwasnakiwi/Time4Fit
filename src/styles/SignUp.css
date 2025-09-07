@@ -134,6 +134,8 @@ input{
   color: #747474;
   font-size: 1.7em;
   height: 28px;
+  background: none;
+  border: none;
 }
 .toggle-password:hover {
   color: #F37900;
@@ -141,6 +143,7 @@ input{
 
 .description ~ .inputs{
     margin-top: 20px;
+    margin-bottom: 50px;
 }
 .description{
     font-size: 18px;
