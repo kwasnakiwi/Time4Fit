@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import './../styles/SignUp.css';
-import logo from './../assets/images/appLogo.png';
+import './../../styles/SignUp.css';
+import logo from './../../assets/images/appLogo.png';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from 'react-router-dom';
-import { ENDPOINTS } from '../utils/Endopoints.jsx';
-import { BASE_URL } from '../utils/Endopoints.jsx';
+import { ENDPOINTS } from '../../utils/Endopoints.jsx';
+import { BASE_URL } from '../../utils/Endopoints.jsx';
+import { apiFetch } from '../../interceptor/interceptor.jsx';
 
 function ChangePassword(){
   const navigate = useNavigate();
@@ -28,7 +29,7 @@ function ChangePassword(){
     }
 
     try{
-      const response = await fetch(`${BASE_URL}${ENDPOINTS.resetPasswordConfirm}`, {
+      const response = await apiFetch(`${BASE_URL}${ENDPOINTS.resetPasswordConfirm}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ reset_ticket_id, password }),

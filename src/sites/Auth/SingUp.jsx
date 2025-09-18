@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import './../styles/SignUp.css';
-import logo from './../assets/images/appLogo.png';
+import './../../styles/SignUp.css';
+import logo from './../../assets/images/appLogo.png';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from 'react-router-dom';
-import { ENDPOINTS } from '../utils/Endopoints.jsx';
-import { BASE_URL } from '../utils/Endopoints.jsx';
+import { ENDPOINTS } from '../../utils/Endopoints.jsx';
+import { BASE_URL } from '../../utils/Endopoints.jsx';
 
 function SignUp() {
   const navigate = useNavigate();

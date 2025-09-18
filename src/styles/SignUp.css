@@ -1,3 +1,8 @@
+:root{
+    --clr-primary: #F37900;
+    --clr-backgorund: #282828;
+}
+
 body{
     margin: 0;
     font-family: Poppins;
@@ -8,7 +13,7 @@ body{
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
-    background-color: #282828;
+    background-color: var(--clr-backgorund);
     display: flex;
     justify-content: right;
 }
@@ -32,7 +37,7 @@ body{
     font-weight: 600;
     font-size: 14px;
     text-align: center;
-    background-color: #F37900;
+    background-color: var(--clr-primary);
     border: none;
     padding: 6px 18px;
     border-radius: 10px;
@@ -76,8 +81,8 @@ input{
     padding-left: 10px;
 }
 .inputs input:focus{
-    outline: 2px solid #F37900;
-    box-shadow: 0 0 10px 0 #F37900;
+    outline: 2px solid var(--clr-primary);
+    box-shadow: 0 0 10px 0 var(--clr-primary);
 }
 .sign-up-label{
     color: #747474;
@@ -103,7 +108,7 @@ input{
     font-weight: 600;
     font-size: 18px;
     text-align: center;
-    background-color: #F37900;
+    background-color: var(--clr-primary);
     border: none;
     padding: 16px 0;
     width: 100%;
@@ -138,7 +143,7 @@ input{
   border: none;
 }
 .toggle-password:hover {
-  color: #F37900;
+  color: var(--clr-primary);
 }
 
 .description ~ .inputs{

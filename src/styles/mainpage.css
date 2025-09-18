@@ -1,0 +1,67 @@
+/* navbar */
+*{
+    font-family: Poppins;
+}
+.navbar{
+    background-color: #f7f7f7;
+    border-radius: 10px;
+    padding: 10px 20px;
+    display: flex;
+    margin: 10px;
+    gap: 24px;
+    align-items: center;
+}
+.route{
+    font-size: 12px;
+    color: #747474;
+    font-weight: normal;
+    margin: 0;
+}
+.title{
+    color: #E96D00;
+    font-size: 20px;
+    font-weight: normal;
+    margin: 0;
+}
+.title span svg{
+    color: #747474;
+    width: 15px;
+    height: 30px;
+    margin-right: 20px;
+}
+.notification-icon{
+    margin-left: auto;
+    width: 30px;
+    height: 30px;
+    padding: 10px;
+    background: linear-gradient(90deg, #E96D00 0%, #F98017 39%, #F59745 100%);
+    border-radius: 250px;
+    color: white;
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+.profile-box{
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+.profile-box img{
+    min-width: 50px;
+    max-height: 50px;
+}
+.name-data{
+    max-height: 50px;
+}
+.name-data-text{
+    font-weight: normal;
+    margin: 0 0 5px 0;
+}
+
+.bold{
+    font-weight: 600;
+}
+.icon{
+    transform: translateY(25%);
+    cursor: pointer;
+}

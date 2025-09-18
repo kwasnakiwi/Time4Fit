@@ -1,7 +1,7 @@
-import logo from './../assets/images/appLogo.png';
-import './../styles/SignUp.css';
+import logo from './../../assets/images/appLogo.png';
+import './../../styles/SignUp.css';
 import { Link } from 'react-router-dom';
-import { BASE_URL, ENDPOINTS } from '../utils/Endopoints';
+import { BASE_URL, ENDPOINTS } from '../../utils/Endopoints';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 

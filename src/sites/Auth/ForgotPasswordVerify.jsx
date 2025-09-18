@@ -1,18 +1,18 @@
-import logo from './../assets/images/appLogo.png';
-import './../styles/SignUp.css';
-import { Link, useNavigate } from 'react-router-dom';
+import logo from './../../assets/images/appLogo.png';
+import './../../styles/SignUp.css';
+import { Link } from 'react-router-dom';
+import { BASE_URL, ENDPOINTS } from '../../utils/Endopoints';
+import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { ENDPOINTS } from '../utils/Endopoints.jsx';
-import { BASE_URL } from '../utils/Endopoints.jsx';
 
-function TwoFA(){
+function ForgotPasswordVerify(){
   const navigate = useNavigate();
-  const [code, setCode] = useState("");
-  const [error, setError] = useState("");
+  const [code, setCode] = useState('');
+  const [error, setError] = useState('');
   const challenge_id = localStorage.getItem("challenge_id");
   const purpose = localStorage.getItem("purpose");
 
-  const handleLogin = async () => {
+  const handleResetPassword = async () => {
     setError('');
 
     if(!code){
@@ -22,7 +22,7 @@ function TwoFA(){
 
     try{
       const response = await fetch(`${BASE_URL}${ENDPOINTS.otpVerify}`, {
-        method: "POST",
+        method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({challenge_id, purpose, code}),
       });
@@ -41,25 +41,23 @@ function TwoFA(){
         throw new Error(backendMsg);
       }
 
-      const refresh = data?.refresh;
-      const access = data?.refresh;
+      const reset_ticket_id = data?.reset_ticket_id;
 
       localStorage.removeItem("purpose");
       localStorage.removeItem("challenge_id");
 
-      localStorage.setItem("refresh", refresh);
-      localStorage.setItem("access", access);
+      localStorage.setItem('reset_ticket_id', reset_ticket_id);
 
-      navigate('/home-page');
+      navigate('/forgot-password/change-password');
     }
     catch(err){
-      setError("Błąd logowania");
+      setError(err)
     }
-  };
+  }
 
   const onKeyDown = (e) => {
-    if (e.key === 'Enter') handleLogin();
-  };
+    if(e.key === 'Enter') handleResetPassword() 
+  }
 
   return(
     <>
@@ -69,28 +67,29 @@ function TwoFA(){
             <img src={logo} alt="App Logo" />
             <Link to='/'><button className="change-sign-up">Logowanie</button></Link>
           </div>
-          <h1 className='title'>Logowanie</h1>
+          <h1 className='title'>Zapomniałem hasła</h1>
           <p className='description'>
-            Wpisz kod wysłany na podany adres E-mail
+            Wprowadź kod wysłany na podany adres email
           </p>
           <div className='inputs'>
-            <input
+            <input 
               type="text" 
-              id="codeForPasswordResetInput"
-              value={code}
-              onChange={(e) => {setCode(e.target.value)}}
+              id="codeForPasswordResetInput" 
               required
+              value={code}
+              onChange={(e) => setCode(e.target.value)}
               onKeyDown={onKeyDown}
+              autoComplete='none'
             />
           </div>
-          <button className="sign-up-btn" onClick={handleLogin}>ZALOGUJ</button>
           <div className="forgot-password-box">
-            <Link to="/login" className='forgot-password'>Wyślij ponownie</Link>
+            <Link to="/forgot-password" className='forgot-password'>Wyślij ponownie</Link>
           </div>
+          <button className="sign-up-btn" onClick={handleResetPassword}>PRZYWRÓĆ HASŁO</button>
         </div>
       </div>
-    </>    
+    </>
   )
 }
 
-export default TwoFA
+export default ForgotPasswordVerify

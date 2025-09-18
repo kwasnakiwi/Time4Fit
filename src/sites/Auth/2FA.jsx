@@ -1,18 +1,20 @@
-import logo from './../assets/images/appLogo.png';
-import './../styles/SignUp.css';
-import { Link } from 'react-router-dom';
-import { BASE_URL, ENDPOINTS } from '../utils/Endopoints';
-import { useNavigate } from 'react-router-dom';
+import logo from './../../assets/images/appLogo.png';
+import './../../styles/SignUp.css';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { ENDPOINTS } from './../../utils/Endopoints.jsx';
+import { BASE_URL } from './../../utils/Endopoints.jsx';
+import { apiFetch } from './../../interceptor/interceptor.jsx';
 
-function ForgotPasswordVerify(){
+
+function TwoFA(){
   const navigate = useNavigate();
-  const [code, setCode] = useState('');
-  const [error, setError] = useState('');
+  const [code, setCode] = useState("");
+  const [error, setError] = useState("");
   const challenge_id = localStorage.getItem("challenge_id");
   const purpose = localStorage.getItem("purpose");
 
-  const handleResetPassword = async () => {
+  const handleLogin = async () => {
     setError('');
 
     if(!code){
@@ -21,8 +23,8 @@ function ForgotPasswordVerify(){
     }
 
     try{
-      const response = await fetch(`${BASE_URL}${ENDPOINTS.otpVerify}`, {
-        method: 'POST',
+      const response = await apiFetch(`${BASE_URL}${ENDPOINTS.otpVerify}`, {
+        method: "POST",
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({challenge_id, purpose, code}),
       });
@@ -41,23 +43,25 @@ function ForgotPasswordVerify(){
         throw new Error(backendMsg);
       }
 
-      const reset_ticket_id = data?.reset_ticket_id;
+      const refresh = data?.refresh;
+      const access = data?.access;
 
       localStorage.removeItem("purpose");
       localStorage.removeItem("challenge_id");
 
-      localStorage.setItem('reset_ticket_id', reset_ticket_id);
+      localStorage.setItem("refresh", refresh);
+      localStorage.setItem("access", access);
 
-      navigate('/forgot-password/change-password');
+      navigate('/home-page');
     }
     catch(err){
-      setError(err)
+      setError(err.message || "Błąd logowania");
     }
-  }
+  };
 
   const onKeyDown = (e) => {
-    if(e.key === 'Enter') handleResetPassword() 
-  }
+    if (e.key === 'Enter') handleLogin();
+  };
 
   return(
     <>
@@ -67,29 +71,28 @@ function ForgotPasswordVerify(){
             <img src={logo} alt="App Logo" />
             <Link to='/'><button className="change-sign-up">Logowanie</button></Link>
           </div>
-          <h1 className='title'>Zapomniałem hasła</h1>
+          <h1 className='title'>Logowanie</h1>
           <p className='description'>
-            Wprowadź kod wysłany na podany adres email
+            Wpisz kod wysłany na podany adres E-mail
           </p>
           <div className='inputs'>
-            <input 
+            <input
               type="text" 
-              id="codeForPasswordResetInput" 
-              required
+              id="codeForPasswordResetInput"
               value={code}
-              onChange={(e) => setCode(e.target.value)}
+              onChange={(e) => {setCode(e.target.value)}}
+              required
               onKeyDown={onKeyDown}
-              autoComplete='none'
             />
           </div>
+          <button className="sign-up-btn" onClick={handleLogin}>ZALOGUJ</button>
           <div className="forgot-password-box">
-            <Link to="/forgot-password" className='forgot-password'>Wyślij ponownie</Link>
+            <Link to="/login" className='forgot-password'>Wyślij ponownie</Link>
           </div>
-          <button className="sign-up-btn" onClick={handleResetPassword}>PRZYWRÓĆ HASŁO</button>
         </div>
       </div>
-    </>
+    </>    
   )
 }
 
-export default ForgotPasswordVerify
+export default TwoFA
