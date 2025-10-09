@@ -1,22 +1,37 @@
 import { FaRegBell as Bell,
          FaArrowLeft as LeftArrow,
-         FaAngleDown as AngleDown,
-                                  } from "react-icons/fa";
+         FaAngleDown as AngleDown } from "react-icons/fa";
 import pfp from './../../../assets/images/pfp.png';
-import './../../../styles/mainpage.css'
+import './../../../styles/mainpage.css';
 
-function NavBar(props){
+function NavBar(props) {
 
-  return(
+  const handleBellHover = (e) => {
+    const bell = e.currentTarget;
+    bell.classList.add("animated-bell");
+    bell.addEventListener(
+      "animationend",
+      () => bell.classList.remove("animated-bell"),
+      { once: true }
+    );
+  };
+
+  return (
     <>
       <nav className="navbar">
         <div className="route-box">
-          <h5 className="route">{props.route ?? "Eventy"}</h5>
-          <h3 className="title"><span><LeftArrow className="icon"/></span>{props.title ?? "Eventy"}</h3>
+          <h5 className="route">{props.route ?? "-"}</h5>
+          <h3 className="nav-title">
+            <span><LeftArrow className="icon"/></span>
+            {props.title ?? "-"}
+          </h3>
         </div>
-        <Bell className="notification-icon" />
+        <Bell 
+          className="notification-icon"
+          onMouseEnter={handleBellHover}
+        />
         <div className="profile-box">
-          <img src={pfp} />
+          <img src={pfp} alt="Profile" />
           <div className="name-data">
             <h4 className="name-data-text bold">Andrzej Marek</h4>
             <h4 className="name-data-text">Użytkownik</h4>
@@ -25,7 +40,7 @@ function NavBar(props){
         </div>
       </nav>
     </>
-  )
+  );
 }
 
-export default NavBar
+export default NavBar;

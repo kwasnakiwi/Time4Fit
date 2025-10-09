@@ -7,4 +7,5 @@ export const ENDPOINTS = {
     resetPassword: "/user/reset_password/",
     resetPasswordConfirm: "/user/reset-password/confirm/",
     verifyToken: "/user/token/verify/",
+    eventEvents: "/event/events/"
 }
