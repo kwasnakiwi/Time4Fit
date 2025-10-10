@@ -112,7 +112,7 @@ function Register(){
               <input
                 type="tel" 
                 className="sign-up-input" 
-                id='emaiInput' 
+                id='phoneInput' 
                 required
                 value={phoneNumber}
                 onKeyDown={onKeyDown}

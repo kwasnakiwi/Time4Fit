@@ -1,12 +1,15 @@
 import NavBar from "../components/NavBar.jsx";
 import SideBar from "../components/SideBar.jsx";
 import Map from "./../components/Map.jsx";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import './../../../styles/mainpage.css'
 import footIcon from './../../../assets/images/foot.png'
 import repeatIcon from './../../../assets/images/repeatIcon.png'
 import { FaAngleDown as AngleDown, FaRegClock as Clock, FaRegCalendar as Calendar } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { EventContext } from "../../../utils/EventContext.jsx";
+import { BASE_URL, ENDPOINTS } from "../../../utils/Endopoints.jsx";
+import { apiFetch } from "../../../interceptor/interceptor.jsx";
 
 async function fetchPostalForCity(city, setPostial) {
   try {
@@ -27,6 +30,7 @@ async function fetchPostalForCity(city, setPostial) {
 function AddEvent1() {
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
+  const [categories, setCategories] = useState([]);
   const [shortDesc, setShortDesc] = useState("");
   const [longDesc, setLongDesc] = useState("");
   const [date, setDate] = useState("");
@@ -39,7 +43,7 @@ function AddEvent1() {
   const [city, setCity] = useState("");
   const [street, setStreet] = useState("");
   const [postial, setPostial] = useState("");
-  const [error, setError] = useState("");
+  const { eventData, setEventData } = useContext(EventContext);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -48,8 +52,24 @@ function AddEvent1() {
     }
   }, [isPremium, repeatable])
 
+  useEffect(() => {
+  const getCategories = async () => {
+    try {
+      const res = await apiFetch(`${BASE_URL}${ENDPOINTS.eventCategoryList}`);
+      console.log("status:", res.status);
+      
+      const data = await res.json();
+      console.log("Dane kategorii:", data);
 
-  // Tworzymy obiekt Date tylko jeśli coś wybrano
+      setCategories(data.results || data || []);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  getCategories();
+}, []);
+
+
   const formatted = date
     ? new Date(date).toLocaleDateString("pl-PL", {
         weekday: "long",
@@ -67,16 +87,19 @@ function AddEvent1() {
                 "w sobotę"];
 
   const nextStage = () => {
-    localStorage.setItem('title', title);
-    localStorage.setItem('category', category);
-    localStorage.setItem('shortDesc', shortDesc);
-    localStorage.setItem('longDesc', longDesc);
-    localStorage.setItem('date', date);
-    localStorage.setItem('time', time);
-    localStorage.setItem('duration', duration);
-    localStorage.setItem('city', city);
-    localStorage.setItem('street', street);
-    localStorage.setItem('postial', postial);
+    setEventData({
+      ...eventData,
+      title,
+      category,
+      shortDesc,
+      longDesc,
+      date,
+      time,
+      duration,
+      city,
+      street,
+      postial,
+    });
 
     navigate('/events/add-event/2/');
   }
@@ -120,10 +143,16 @@ function AddEvent1() {
                     value={category}
                     onChange={e => setCategory(e.target.value)}
                   >
-                    <option value={1}>1</option>
-                    <option value={2}>2</option>
-                    <option value={3}>3</option>
-                    <option value={4}>4</option>
+                    <option value="">Wybierz kategorię</option>
+                    {categories.length > 0 ? (
+                      categories.map(cat => (
+                        <option key={cat.id} value={cat.id}>
+                          {cat.name}
+                        </option>
+                      ))
+                    ) : (
+                      <option disabled>Ładowanie...</option>
+                    )}
                   </select>
                   <AngleDown className="event-category-select-arrow" />
                 </div>
@@ -217,6 +246,8 @@ function AddEvent1() {
                   </div>
                 </div>
               </div>
+
+              {/* 🔹 tu wraca sekcja powtarzalności */}
               <div className="second-row">
                 {
                   isPremium ?
@@ -240,6 +271,8 @@ function AddEvent1() {
                   </div>
                 }
               </div>
+
+              {/* 🔹 TU była zniknięta sekcja — teraz przywrócona */}
               <div className="third-row">
                 {
                   repeatable ? 
@@ -283,6 +316,7 @@ function AddEvent1() {
                 }
               </div>
             </div>
+
             <div className="event-input-box">
               <h2 className="event-input-box-title">
                 <span className="num-icon">6</span>

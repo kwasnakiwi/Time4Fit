@@ -1,9 +1,10 @@
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents, useMap } from "react-leaflet";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Icon } from "leaflet";
 import locIcon from "./../../../assets/images/location-pin.png";
 import "./../../../styles/mainpage.css";
 import "leaflet/dist/leaflet.css";
+import { LocationContext } from "../../../utils/LocationContext";
 
 const customMarker = new Icon({
   iconUrl: locIcon,
@@ -13,6 +14,7 @@ const customMarker = new Icon({
 function Map({ city, street, postial, setCity, setStreet, setPostial }) {
   const [position, setPosition] = useState(null);
   const [manual, setManual] = useState(false);
+  const { setLat, setLng } = useContext(LocationContext);
 
   // 🔹 szukanie współrzędnych po wpisaniu adresu
   useEffect(() => {
@@ -55,8 +57,8 @@ function Map({ city, street, postial, setCity, setStreet, setPostial }) {
     useMapEvents({
       async click(e) {
         const { lat, lng } = e.latlng;
-        localStorage.setItem('lat', lat)
-        localStorage.setItem('lng', lng)
+        setLat(lat);
+        setLng(lng);
         setPosition([lat, lng]);
         setManual(true); // przejście w tryb ręczny
 
@@ -116,3 +118,5 @@ function Map({ city, street, postial, setCity, setStreet, setPostial }) {
 }
 
 export default Map;
+
+// NAPRAWIC BUGA (LAT I LNG UNDEFINED (CONTEXT))

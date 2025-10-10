@@ -1,11 +1,15 @@
 import NavBar from "../components/NavBar.jsx";
 import SideBar from "../components/SideBar.jsx";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import './../../../styles/mainpage.css';
 import { BASE_URL, ENDPOINTS } from "../../../utils/Endopoints.jsx";
+import { LocationContext } from "../../../utils/LocationContext.jsx";
+import { EventContext } from "../../../utils/EventContext.jsx";
+import { apiFetch } from "../../../interceptor/interceptor.jsx";
+import { useNavigate } from "react-router-dom";
 
 function AddEvent2(){
-  const [advancedLevel, setAdvancedLevel] = useState("begginer");
+  const [advancedLevel, setAdvancedLevel] = useState("beginner");
   const [count, setCount] = useState(1);
   const [ageLimit, setAgeLimit] = useState("<12");
   const [isPublic, setIsPublic] = useState(true);
@@ -15,19 +19,12 @@ function AddEvent2(){
   const isPremium = true;
   const [specialGuests, setSpecialGuests] = useState([{name: "", surname: ""}]);
   const [error, setError] = useState('');
+  const access = localStorage.getItem("access");
+  const navigate = useNavigate();
 
-  const title = localStorage.getItem('title');
-  const category = localStorage.getItem('category');
-  const shortDesc = localStorage.getItem('shortDesc');
-  const longDesc = localStorage.getItem('longDesc');
-  const duration = localStorage.getItem('duration');
-  const date = localStorage.getItem('date');
-  const time = localStorage.getItem('time');
-  const street = localStorage.getItem('street');
-  const postial = localStorage.getItem('postial');
-  const city = localStorage.getItem('city');
-  const lat = localStorage.getItem('lat');
-  const lng = localStorage.getItem('lng')
+  const { eventData } = useContext(EventContext);
+  const { lat, lng } = useContext(LocationContext);
+
 
   const addGuest = () => {
     const hasEmptyFields = specialGuests.some((guest) => (
@@ -59,80 +56,68 @@ function AddEvent2(){
 
   const handleAddEvent = async () => {
     console.log("Kliknięto przycisk — handleAddEvent uruchomione");
-    setError('')
+    setError('');
 
-    if(  !title 
-      || !category 
-      || !shortDesc 
-      || !longDesc 
-      || !duration 
-      || !date 
-      || !time 
-      || !street 
-      || !postial 
-      || !city 
-      || !lat
-      || !lng
-      || !advancedLevel 
-      || !count
-      || !ageLimit
-      ) return;
+    console.log("eventData:", eventData);
+    console.log("lat/lng:", lat, lng);
+    console.log("specialGuests:", specialGuests);
 
-    if(!isFree && !price) return;
+    const formattedGuests = specialGuests
+      .filter(g => g.name.trim() && g.surname.trim())
+      .map(g => ({
+        name: g.name.trim(),
+        surname: g.surname.trim(),
+      }));
 
-    try{
-      const response = await fetch(`${BASE_URL}${ENDPOINTS.eventEvents}`, {
-        method: "POST",
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          title: title,
-          category: category,
-          short_desc: shortDesc,
-          long_desc: longDesc,
-          date_time_event: date + 'T' + time + ':00.000Z',
-          duration_min: duration,
-          latitude: lat,
-          longitude: lng,
-          public_event: isPublic,
-          country: 'poland',
-          city: city,
-          street: street,
-          street_number: "20",
-          flat_number: "9",
-          zip_code: postial,
-          additional_info: {
-            advanced_level: advancedLevel,
-            places_for_people_limit: count,
-            age_limit: ageLimit,
-            participant_list_show: false,
-            free: isFree,
-            price: isFree ? 0 : price,
-            payment_in_app: isPaymentInApp,
-            special_guests: [
-              {
-                name: specialGuests.name,
-                surname: specialGuests.surname
-              }
-            ]
-          }
-        })
-      });
+    try {
+          const response = await apiFetch(`${BASE_URL}${ENDPOINTS.eventEvents}`, {
+            method: "POST",
+            body: JSON.stringify({
+              title: eventData.title,
+              category: eventData.category,
+              short_desc: eventData.shortDesc,
+              long_desc: eventData.longDesc,
+              date_time_event: `${eventData.date}T${eventData.time}:00.000Z`,
+              duration_min: parseInt(eventData.duration),
+              latitude: lat,
+              longitude: lng,
+              public_event: isPublic,
+              country: "Poland",
+              city: eventData.city,
+              street: eventData.street,
+              street_number: "20",
+              flat_number: "9",
+              zip_code: eventData.postial,
+              additional_info: {
+                advanced_level: advancedLevel,
+                places_for_people_limit: parseInt(count),
+                age_limit: ageLimit,
+                participant_list_show: false,
+                price: price,
+                payment_in_app: isPaymentInApp,
+                special_guests: formattedGuests,
+              },
+            }),
+          });
 
-      let data;
+      const data = await response.json();
+      console.log("Odpowiedź z backendu:", data);
 
-      try{
-        data = await response.json();
-      }
-      catch{
-        data = null;
+      if (!response.ok) {
+        console.error("Błąd podczas tworzenia eventu:", data);
+        setError(JSON.stringify(data));
+        return;
       }
 
-      console.log(data);
+      navigate('/events')
+
+      console.log("Event utworzony pomyślnie");
+    } catch (err) {
+      console.error("Błąd sieci lub JSON:", err);
+      setError("Błąd połączenia z serwerem");
     }
-    catch(err){
-      console.error(err);
-    }
-  }
+  };
+
 
   return(
     <>
@@ -152,9 +137,9 @@ function AddEvent2(){
               </h2>
               <div className="event-buttons">
                 <button 
-                  className={`event-button ${advancedLevel === 'begginer' ? "ev-btn-selected" : ""}`}
+                  className={`event-button ${advancedLevel === 'beginner' ? "ev-btn-selected" : ""}`}
                   onClick={e => {
-                    setAdvancedLevel("begginer")
+                    setAdvancedLevel("beginner")
                   }}
                 >Początkujący
                 </button>
