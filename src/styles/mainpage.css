@@ -284,13 +284,13 @@ body{
 .select-wrapper{
     position: relative;
 }
-select{
+.event-input-box select{
     width: 414px;
     height: 36px;
     outline: 1px solid #74747450;
     font-size: 18px;
     width: 414px;
-    padding: 0 34px;
+    padding: 0 34px 0 10px;
     border: none;
     background: transparent;
     font-family: inherit;
@@ -308,6 +308,12 @@ select:focus{
     position: absolute;
     top: 20%;
     left: 5px;
+}
+#eventTimeSelect{
+    width: 120px;
+}
+#eventCategorySelect{
+    padding-left: 30px;
 }
 .event-category-select-arrow{
     position: absolute;
@@ -659,4 +665,186 @@ input[type="number"]::-webkit-outer-spin-button{
 }
 .event-input-box.opacity-down{
     border-color: rgba(197, 195, 195, 0.25);
+}
+
+/* events */
+
+.top-filters{
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 20px 34px 20px;
+}
+.filters{
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+}
+.event-type-buttons{
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+}
+.event-type-button{
+    padding: 6px 30px;
+    font-size: 14px;
+    cursor: pointer;
+    background: white;
+    border: none;
+    border-radius: 43px;
+    color: var(--text-secondery);
+}
+.event-type-button-selected{
+    background: var(--main-gradient);
+    color: white;
+    font-weight: 600;
+}
+.selectt-wrapper{
+    position: relative;
+}
+.selectt-wrapper select{
+    background-color: var(--clr-secondary);
+    color: var(--primary-orange);
+    padding: 6px 30px 6px 14px;
+    font-size: 14px;
+    border: none;
+    appearance: none;   
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: auto;
+    border-radius: 43px;
+    cursor: pointer;
+}
+.selectt-wrapper .icon{
+    position: absolute;
+    right: 10px;
+    top: 10%;
+    color: var(--primary-orange);
+}
+.filter-button{
+    padding: 6px 14px;
+    font-weight: 600;
+    color: var(--primary-orange);
+    background-color: var(--clr-secondary);
+    font-size: 14px;
+    border-radius: 43px;
+    border: none;
+    cursor: pointer;
+}
+#settings-button{
+    padding: 9px;
+    width: 32px;
+    height: 32px;
+    border-radius: 100%;
+}
+#map-icon{
+    cursor: default;
+}
+.selectt-wrapper input::placeholder, #search-icon{
+    color: #747474;
+}
+.selectt-wrapper input{
+    border: none;
+    border-radius: 43px;
+    width: 208px;
+    padding: 6px 30px 6px 10px;
+    font-size: 14px;
+}
+#search-icon{
+    top: 15%;
+    cursor: default;
+}
+.event-date{
+    color: #747474;
+    font-size: 12px;
+    margin: 0;
+}
+.event-type{
+    color: var(--primary-orange);
+}
+.event{
+    background-color: var(--clr-secondary);
+    padding-bottom: 10px;
+    border-radius: 14px;
+}
+.event-content{
+    background-color: white;
+    padding: 10px;
+    border-radius: 14px;
+}
+.events{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px 20px;
+    justify-content: center;
+    margin: 34px 20px;
+}
+.event-title{
+    font-size: 20px;
+    font-weight: 500;
+    margin: 4px 0 8px 0;
+}
+.event-short-desc{
+    font-size: 12px;
+    height: 36px;
+    margin: 0;
+}
+.event-info-box{
+    display: flex;
+    justify-content: space-between;
+}
+.event-info-title{
+    color: #747474;
+    font-size: 12px;
+}
+.event-info-value{
+    font-size: 12px;
+    color: var(--primary-orange);
+    font-weight: 500;
+}
+.progress-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background-color: transparent;
+  padding: 10px 0 0 10px;
+  border-radius: 12px;
+  width: fit-content;
+  font-family: "Inter", sans-serif;
+}
+
+.progress-range {
+  appearance: none;
+  width: 200px;
+  height: 12px;
+  border-radius: 8px;
+  
+  outline: none;
+}
+.progress-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 0;
+  height: 0;
+}
+.progress-range::-moz-range-thumb {
+  width: 0;
+  height: 0;
+}
+.more-event-info{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.more-bout-event{
+    padding-top: 10px;
+    padding-right: 10px;
+    color: var(--primary-orange);
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 500;
+}
+.quantity-of-people{
+    color: black;
+    font-size: 12px;
+    font-weight: 600;
 }

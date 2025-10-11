@@ -372,6 +372,32 @@ function AddEvent1() {
                     />
                   </div>
                 </div>
+                <div className="postial-input-container">
+                  <span className="event-props-label">Kod pocztowy</span>
+                  <div className="time-input-box">
+                    <input
+                      type="text"
+                      className="event-props-input"
+                      id="eventPostialInput"
+                      placeholder="00-000"
+                      value={postial}
+                      onChange={e => setPostial(e.target.value)}
+                    />
+                  </div>
+                </div>
+                <div className="postial-input-container">
+                  <span className="event-props-label">Kod pocztowy</span>
+                  <div className="time-input-box">
+                    <input
+                      type="text"
+                      className="event-props-input"
+                      id="eventPostialInput"
+                      placeholder="00-000"
+                      value={postial}
+                      onChange={e => setPostial(e.target.value)}
+                    />
+                  </div>
+                </div>
               </div>
               <div className="map-row">
                 <Map 

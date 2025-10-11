@@ -49,7 +49,7 @@ function AddEvent2(){
       setPrice(0);
       setIsPaymentInApp(false);
     }
-    if(!isFree){
+    else if(!isFree){
       setIsPaymentInApp(true)
     }
   }, [isFree]);
@@ -77,7 +77,7 @@ function AddEvent2(){
               category: eventData.category,
               short_desc: eventData.shortDesc,
               long_desc: eventData.longDesc,
-              date_time_event: `${eventData.date}T${eventData.time}:00.000Z`,
+              date_time_event: new Date(`${eventData.date}T${eventData.time}`).toISOString(),
               duration_min: parseInt(eventData.duration),
               latitude: lat,
               longitude: lng,

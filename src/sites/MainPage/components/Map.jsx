@@ -118,5 +118,3 @@ function Map({ city, street, postial, setCity, setStreet, setPostial }) {
 }
 
 export default Map;
-
-// NAPRAWIC BUGA (LAT I LNG UNDEFINED (CONTEXT))
