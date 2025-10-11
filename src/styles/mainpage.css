@@ -514,6 +514,9 @@ textarea{
 #eventPostialInput{
     width: 86px;
 }
+#eventStreetNumberInput, #eventFlatNumberInput{
+    width: 51px;
+}
 .map{
     width: 823px;
     height: 223px;

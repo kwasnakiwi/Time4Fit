@@ -43,6 +43,8 @@ function AddEvent1() {
   const [city, setCity] = useState("");
   const [street, setStreet] = useState("");
   const [postial, setPostial] = useState("");
+  const [streetNumber, setStreetNumber] = useState("");
+  const [flatNumber, setFlatNumber] = useState("");
   const { eventData, setEventData } = useContext(EventContext);
   const navigate = useNavigate();
 
@@ -99,6 +101,8 @@ function AddEvent1() {
       city,
       street,
       postial,
+      streetNumber,
+      flatNumber,
     });
 
     navigate('/events/add-event/2/');
@@ -359,29 +363,29 @@ function AddEvent1() {
                     />
                   </div>
                 </div>
-                <div className="postial-input-container">
-                  <span className="event-props-label">Kod pocztowy</span>
+                <div className="street-number-input-container">
+                  <span className="event-props-label">Nr. ulicy</span>
                   <div className="time-input-box">
                     <input
                       type="text"
                       className="event-props-input"
-                      id="eventPostialInput"
-                      placeholder="00-000"
-                      value={postial}
-                      onChange={e => setPostial(e.target.value)}
+                      id="eventStreetNumberInput"
+                      placeholder="00"
+                      value={streetNumber}
+                      onChange={e => setStreetNumber(e.target.value)}
                     />
                   </div>
                 </div>
-                <div className="postial-input-container">
-                  <span className="event-props-label">Kod pocztowy</span>
+                <div className="flat-number-input-container">
+                  <span className="event-props-label">Nr. lokalu</span>
                   <div className="time-input-box">
                     <input
                       type="text"
                       className="event-props-input"
-                      id="eventPostialInput"
-                      placeholder="00-000"
-                      value={postial}
-                      onChange={e => setPostial(e.target.value)}
+                      id="eventFlatNumberInput"
+                      placeholder="00"
+                      value={flatNumber}
+                      onChange={e => setFlatNumber(e.target.value)}
                     />
                   </div>
                 </div>
@@ -404,9 +408,11 @@ function AddEvent1() {
                   city={city} 
                   street={street} 
                   postial={postial} 
+                  streetNumber={streetNumber}
                   setCity={setCity} 
                   setStreet={setStreet} 
-                  setPostial={setPostial} 
+                  setPostial={setPostial}
+                  setStreetNumber={setStreetNumber}
                 />  
               </div>
             </div>

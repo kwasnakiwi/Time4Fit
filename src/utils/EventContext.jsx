@@ -14,6 +14,8 @@ export function EventProvider({ children }) {
     city: "",
     street: "",
     postial: "",
+    streetNumber: "",
+    flatNumber: "",
   });
 
   return (

@@ -11,46 +11,52 @@ const customMarker = new Icon({
   iconSize: [38, 38],
 });
 
-function Map({ city, street, postial, setCity, setStreet, setPostial }) {
+function Map({ city, street, postial, streetNumber, setCity, setStreet, setPostial, setStreetNumber }) {
   const [position, setPosition] = useState(null);
   const [manual, setManual] = useState(false);
   const { setLat, setLng } = useContext(LocationContext);
 
   // 🔹 szukanie współrzędnych po wpisaniu adresu
   useEffect(() => {
-    async function fetchCoords() {
-      if (manual) return; // jeśli jesteśmy w trybie ręcznym – nie ruszamy
-      if (!city) return;  // wymagamy przynajmniej miasta
+  async function fetchCoords() {
+    if (manual) return; // jeśli użytkownik kliknął ręcznie, nie ruszamy
+    if (!city) return;  // wymagamy przynajmniej miasta
 
-      let query = "";
-      if (street) {
-        query = `${street}, ${city}${postial ? " " + postial : ""}`;
-      } else if (postial) {
-        query = `${postial} ${city}`;
-      } else {
-        query = city;
-      }
-
-      try {
-        const res = await fetch(
-          `https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&accept-language=pl&q=${encodeURIComponent(query)}`
-        );
-        const data = await res.json();
-        if (data && data.length > 0) {
-          setPosition([parseFloat(data[0].lat), parseFloat(data[0].lon)]);
-        }
-      } catch (err) {
-        console.error("Błąd pobierania współrzędnych:", err);
-      }
+    // 🔹 budujemy zapytanie z uwzględnieniem ulicy, numeru i kodu
+    let query = "";
+    if (street) {
+      query = `${street}${streetNumber ? " " + streetNumber : ""}, ${city}${postial ? " " + postial : ""}`;
+    } else if (postial) {
+      query = `${postial} ${city}`;
+    } else {
+      query = city;
     }
 
-    fetchCoords();
-
-    // 🔹 każda zmiana inputów resetuje tryb manualny
-    if (manual) {
-      setManual(false);
+    try {
+      const res = await fetch(
+        `https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&accept-language=pl&q=${encodeURIComponent(query)}`
+      );
+      const data = await res.json();
+      if (data && data.length > 0) {
+        const lat = parseFloat(data[0].lat);
+        const lon = parseFloat(data[0].lon);
+        setPosition([lat, lon]);
+        setLat(lat);
+        setLng(lon);
+      }
+    } catch (err) {
+      console.error("Błąd pobierania współrzędnych:", err);
     }
-  }, [city, street, postial]);
+  }
+
+  fetchCoords();
+
+  // 🔹 każda zmiana inputów resetuje tryb manualny
+  if (manual) {
+    setManual(false);
+  }
+}, [city, street, streetNumber, postial]); // 🟢 dodaj streetNumber tutaj!
+
 
   // 🔹 kliknięcie w mapę → manualny marker + reverse geocoding
   function LocationMarker() {
@@ -70,6 +76,7 @@ function Map({ city, street, postial, setCity, setStreet, setPostial }) {
 
           if (data.address) {
             setStreet(data.address.road || "");
+            setStreetNumber(data.address.house_number || ""); 
             setCity(
               data.address.city || data.address.town || data.address.village || ""
             );
@@ -86,7 +93,7 @@ function Map({ city, street, postial, setCity, setStreet, setPostial }) {
     return position === null ? null : (
       <Marker position={position} icon={customMarker}>
         <Popup>
-          {street || "Brak ulicy"}, {city || "Brak miasta"} <br />
+          {street || "Brak ulicy"} {streetNumber ? ` ${streetNumber}` : ""}, {city || "Brak miasta"} <br />
           Kod: {postial || "brak"} <br />
           Lat: {position[0].toFixed(5)}, Lng: {position[1].toFixed(5)}
         </Popup>
@@ -99,14 +106,14 @@ function Map({ city, street, postial, setCity, setStreet, setPostial }) {
     const map = useMap();
     useEffect(() => {
       if (position) {
-        map.flyTo(position, 13);
+        map.flyTo(position, 16);
       }
     }, [position, map]);
     return null;
   }
 
   return (
-    <MapContainer center={[52.2297, 21.0122]} zoom={13} className="map">
+    <MapContainer center={[52.2297, 21.0122]} zoom={16} className="map">
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> contributors'

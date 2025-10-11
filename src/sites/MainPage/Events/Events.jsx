@@ -4,7 +4,6 @@ import { BASE_URL, ENDPOINTS } from "../../../utils/Endopoints.jsx";
 import NavBar from "../components/NavBar.jsx";
 import SideBar from "../components/SideBar.jsx";
 import './../../../styles/mainpage.css'
-// import { BsSliders as Settings, BsSearch as Search, BsPinMap as PinMap } from "react-icons/bs";
 import { FaAngleDown as AngleDown, FaSlidersH as Settings, FaSearch as Search } from "react-icons/fa";
 import { BiMap as PinMap } from "react-icons/bi";
 import { Link } from "react-router-dom";
@@ -123,7 +122,7 @@ function Events(){
                       />
                       <span className="quantity-of-people">{event.event_participant_count} / {event.additional_info.places_for_people_limit}</span>
                     </div>
-                    <Link className="more-bout-event" to='#'>Zobacz szczegóły ↗</Link>
+                    <Link className="more-bout-event" to={`/events/${event.id}`}>Zobacz szczegóły ↗</Link>
                   </div>
                 </div>
               );
