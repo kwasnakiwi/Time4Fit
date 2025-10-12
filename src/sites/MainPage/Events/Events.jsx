@@ -89,6 +89,7 @@ function Events(){
                   advanced: "Zaawansowany"
               };
               const advancedLevel = levels[event.additional_info.advanced_level];
+              
               return (
                 <div key={event.id} className="event">
                   <div className="event-content">
