@@ -7,6 +7,7 @@ import './../../../styles/mainpage.css'
 import { FaAngleDown as AngleDown, FaSlidersH as Settings, FaSearch as Search } from "react-icons/fa";
 import { BiMap as PinMap } from "react-icons/bi";
 import { Link } from "react-router-dom";
+import eventImg from '../../../assets/images/event.png'
 function Events(){
   const [events, setEvents] = useState([])
 
@@ -91,22 +92,27 @@ function Events(){
               return (
                 <div key={event.id} className="event">
                   <div className="event-content">
-                    <p className="event-date">{capitalizedDate} - <span className="event-type">Event Cykliczny</span></p>
-                    <h2 className="event-title">{event.title}</h2>
-                    <p className="event-short-desc">{event.short_desc}</p>
-                    <div className="event-info-box">
-                      <div className="event-info">
-                        <span className="event-info-title">Kategoria:</span><br />
-                        <span className="event-info-value">{event.category_name}</span>
+                    <div className="event-content-left">
+                      <p className="event-date">{capitalizedDate} - <span className="event-type">Event Cykliczny</span></p>
+                      <h2 className="event-title">{event.title}</h2>
+                      <p className="event-short-desc">{event.short_desc}</p>
+                      <div className="event-info-box">
+                        <div className="event-info">
+                          <span className="event-info-title">Kategoria:</span><br />
+                          <span className="event-info-value">{event.category_name}</span>
+                        </div>
+                        <div className="event-info">
+                          <span className="event-info-title">Grupa wiekowa:</span><br />
+                          <span className="event-info-value">{event.additional_info.age_limit}</span>
+                        </div>
+                        <div className="event-info">
+                          <span className="event-info-title">Poziom zaawansowania:</span><br />
+                          <span className="event-info-value">{advancedLevel}</span>
+                        </div>
                       </div>
-                      <div className="event-info">
-                        <span className="event-info-title">Grupa wiekowa:</span><br />
-                        <span className="event-info-value">{event.additional_info.age_limit}</span>
-                      </div>
-                      <div className="event-info">
-                        <span className="event-info-title">Poziom zaawansowania:</span><br />
-                        <span className="event-info-value">{advancedLevel}</span>
-                      </div>
+                    </div>
+                    <div className="event-content-right">
+                      <img src={eventImg} alt="event" />
                     </div>
                   </div>
                   <div className="more-event-info">

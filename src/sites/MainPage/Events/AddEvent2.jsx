@@ -85,8 +85,8 @@ function AddEvent2(){
               country: "Poland",
               city: eventData.city,
               street: eventData.street,
-              street_number: "20",
-              flat_number: "9",
+              street_number: eventData.streetNumber,
+              flat_number: eventData.flatNumber,
               zip_code: eventData.postial,
               additional_info: {
                 advanced_level: advancedLevel,
@@ -385,7 +385,7 @@ function AddEvent2(){
             } 
           </div>
           <div className="next-btn-box">
-            <button className="next-stage" onClick={handleAddEvent}>Następny etap</button>
+            <button className="next-stage" onClick={handleAddEvent}>Stwórz event</button>
           </div>
         </div>
       </main>

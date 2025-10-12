@@ -773,6 +773,15 @@ input[type="number"]::-webkit-outer-spin-button{
     background-color: white;
     padding: 10px;
     border-radius: 14px;
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+}
+.event-content-left{
+    width: 100%
+}
+.event-content-right img{
+    border-radius: 14px;
 }
 .events{
     display: grid;
@@ -788,8 +797,9 @@ input[type="number"]::-webkit-outer-spin-button{
 }
 .event-short-desc{
     font-size: 12px;
-    height: 36px;
+    height: 54px;
     margin: 0;
+    vertical-align: middle;
 }
 .event-info-box{
     display: flex;

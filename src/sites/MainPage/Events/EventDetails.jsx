@@ -43,10 +43,9 @@ function EventDetails(){
 			<SideBar />
 			<main className="events-main">
         <div className="main-events-container">
-					<p>{eventDetails.long_desc}</p>
+					<p>{eventDetails.long_desc} {eventDetails.flat_number} {eventDetails.street_number} </p>
 				</div>
 			</main>
-			
 		</>
 	)
 }

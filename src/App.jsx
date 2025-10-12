@@ -24,7 +24,7 @@ function App() {
             <Route path='/forgot-password' element={<ForgotPassword />} />
             <Route path='/login' element={<TwoFA />} />
             <Route path='/forgot-password/verify' element={<ForgotPasswordVerify />} />
-            <Route path='/forgot-password/change-password' element={<ChangePassword />} />
+            <Route path='/forgot-password/change-password' element={<ChangePassword />} />npm run d
             <Route path='/events' element={<Events />} />
             <Route path="/events/:id" element={<EventDetails />} />
             <Route
