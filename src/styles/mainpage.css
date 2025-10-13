@@ -274,7 +274,7 @@ body{
     padding: 0 10px;
     border: none;
     font-size: 14px;
-    outline: 1px solid var(--primary-grey)50;
+    outline: 1px solid #74747450;
     border-radius: 10px;
     background: transparent;
 }
@@ -288,7 +288,7 @@ body{
 .event-input-box select{
     width: 414px;
     height: 36px;
-    outline: 1px solid var(--primary-grey)50;
+    outline: 1px solid #74747450;
     font-size: 18px;
     width: 414px;
     padding: 0 34px 0 10px;
@@ -358,7 +358,7 @@ textarea{
 .event-time-select{
     width: 128px;
     height: 36px;
-    outline: 1px solid var(--primary-grey)50;
+    outline: 1px solid #74747450;
     font-size: 18px;
     padding: 0 34px 0 10px;
     border: none;
@@ -1067,4 +1067,33 @@ input[type="number"]::-webkit-outer-spin-button{
 .event-details-special-guests-enumerate{
     font-size: 12px;
     font-weight: bold;
+}
+.delete-event-popup{
+    text-align: center;
+    position: absolute;
+    background-color: var(--clr-secondary);
+    padding: 30px;
+    backdrop-filter: blur(5px);
+    z-index: 1121;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 14px;
+    border: 2px solid var(--primary-orange);
+}
+.delete-event-popup h1{
+    color: var(--primary-orange);
+    font-weight: 500;
+}
+.delete-event-popup p{
+    color: var(--primary-grey);
+    font-weight: var(--text-secondery);
+}
+.delete-event-popup-btns button{
+    border: 1px solid var(--primary-grey);
+}
+.delete-event-popup-btns{
+    display: flex;
+    justify-content: center;
+    gap: 30px;
 }

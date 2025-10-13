@@ -4,7 +4,7 @@ import { BASE_URL, ENDPOINTS } from "../../../utils/Endopoints.jsx";
 import NavBar from "../components/NavBar.jsx";
 import SideBar from "../components/SideBar.jsx";
 import './../../../styles/mainpage.css'
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import eventImg from '../../../assets/images/event.png'
 import { FaRegCalendar as Calendar, FaRegStar as Star } from "react-icons/fa";
 import { BiMap as Pin } from "react-icons/bi";
@@ -14,12 +14,14 @@ import pfp from './../../../assets/images/staff-pfp.png'
 function EventDetails(){
 	const { id } = useParams();
 	const [eventDetails, setEventDetails] = useState(null);
-	const [isLoading, setIsLoading] = useState(true)
+	const [isLoading, setIsLoading] = useState(true);
+	const [showPopup, setShowPopup] = useState(false);
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		const getEventDetails = async () => {
 			try{
-				const response = await apiFetch(`${BASE_URL}${ENDPOINTS.eventEvents}${id}`);
+				const response = await apiFetch(`${BASE_URL}${ENDPOINTS.eventEvents}${id}/`);
 				const data = await response.json();
 
 				if (!response.ok) {
@@ -63,8 +65,45 @@ function EventDetails(){
   };
   const advancedLevel = levels[eventDetails.additional_info.advanced_level];
 
+	const handleDeleteClick = () => {
+		setShowPopup(true);
+	};
+
+	const handleDeleteConfirm = async () => {
+		try{
+			const response = await apiFetch(`${BASE_URL}${ENDPOINTS.eventEvents}${id}/`,{
+				method: "DELETE",
+			});
+
+			if (!response.ok) {
+        throw new Error("Błąd podczas usuwania");
+      }
+
+		}
+		catch(err){
+			console.error(err);
+		}
+		finally{
+			setShowPopup(false);
+		}
+
+		navigate('/events');
+	};
+
+	const handleDeleteCancel = () => {
+		setShowPopup(false);
+	};
+
 	return(
 		<>
+			{showPopup && <div className="delete-event-popup">
+				<h1>Czy napewno chcesz usunąć to wydarzenie?</h1>
+				<p>Wszytskie informacje o nim zostaną usunięte i nie będzie można ich przywrócić</p>
+				<div className="delete-event-popup-btns">
+					<button className="delete-event-popup-cancel-btn event-type-button edit-event-btn" onClick={handleDeleteCancel} >Anuluj</button>
+					<button className="delete-event-popup-cancel-btn event-type-button delete-event-btn" onClick={handleDeleteConfirm}>Tak, usuń</button>
+				</div>
+			</div>}
 			<NavBar route='Eventy / Szczegóły Eventu' title='Szczegóły Eventu' />
 			<SideBar />
 			<main className="events-main">
@@ -76,7 +115,7 @@ function EventDetails(){
 							<button className="event-type-button">Zaproszenia</button>
             </div>
 						<div className="edit-delete-btns">
-							<button className="event-type-button delete-event-btn">Usuń wydarzenie</button>
+							<button className="event-type-button delete-event-btn" onClick={handleDeleteClick}>Usuń wydarzenie</button>
 							<button className="event-type-button edit-event-btn">Edytuj wydarzenie</button>
 						</div>
 					</header>
