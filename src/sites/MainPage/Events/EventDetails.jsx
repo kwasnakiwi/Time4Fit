@@ -6,9 +6,10 @@ import SideBar from "../components/SideBar.jsx";
 import './../../../styles/mainpage.css'
 import { useParams } from "react-router-dom";
 import eventImg from '../../../assets/images/event.png'
-import { FaRegCalendar as Calendar } from "react-icons/fa";
+import { FaRegCalendar as Calendar, FaRegStar as Star } from "react-icons/fa";
 import { BiMap as Pin } from "react-icons/bi";
 import StaticMap from "../components/StaticMap.jsx";
+import pfp from './../../../assets/images/staff-pfp.png'
 
 function EventDetails(){
 	const { id } = useParams();
@@ -54,6 +55,13 @@ function EventDetails(){
 
 	const capitalizedDate = formattedDate.slice(0, 1).toUpperCase() + formattedDate.slice(1)
 
+	const levels = {
+		none: "Brak",
+		beginner: "Początkujący",
+		"semi-advanced": "Średnio zaawansowany",
+		advanced: "Zaawansowany"
+  };
+  const advancedLevel = levels[eventDetails.additional_info.advanced_level];
 
 	return(
 		<>
@@ -96,11 +104,11 @@ function EventDetails(){
 									<hr className="event-details-line" />
 									<div className="event-details-long-desc-box">
 										<h3 className="event-details-long-desc-title">W skrócie</h3>
-										<p className="event-details-long-desc">{eventDetails.long_desc}</p>
+										<p className="event-details-long-desc">{eventDetails.short_desc}</p>
 									</div>
 									<hr className="event-details-line" />
 									<div className="event-details-localization-box">
-										<h3 className="event-details-long-desc-title"><Pin class="icon" /> Lokalizacja</h3>
+										<h3 className="event-details-long-desc-title"><Pin className="icon" /> Lokalizacja</h3>
 										<span className="event-details-localization">
 											{ eventDetails.flat_number ? `${eventDetails.city}, ${eventDetails.street} ${eventDetails.street_number}/${eventDetails.flat_number}` : `${eventDetails.city}, ${eventDetails.street} ${eventDetails.street_number}`}
 										</span>
@@ -129,7 +137,92 @@ function EventDetails(){
 							</div>
 						</div>
 						<div className="event-details-content-right">
-							sigma
+							<div className="event-details-list-box event-important-details">
+								<h3 className="event-details-list-title">Szczegóły organizacyjne</h3>
+								<div className="event-details-details">
+									<div className="event-details-detail">
+										<h4 className="event-details-detail-title">Kategoria:</h4>
+										<p className="event-details-detail-content">{eventDetails.category_name}</p>
+									</div>
+									<div className="event-details-detail">
+										<h4 className="event-details-detail-title">Poziom zaawansowania:</h4>
+										<p className="event-details-detail-content">{advancedLevel}</p>
+									</div>
+									<div className="event-details-detail">
+										<h4 className="event-details-detail-title">Grupa wiekowa:</h4>
+										<p className="event-details-detail-content">{eventDetails.additional_info.age_limit}</p>
+									</div>
+									<div className="event-details-detail">
+										<h4 className="event-details-detail-title">Dostępność wydarzenia:</h4>
+										<p className="event-details-detail-content">{eventDetails.public_event ? "Publiczne" : "Prywatne"}</p>
+									</div>
+								</div>
+							</div>
+							<div className="event-details-list-box event-important-details">
+								<h3 className="event-details-list-title">Kadra wydarzenia</h3>
+								<div className="staff-box">
+									<div className="staff">
+										<img src={pfp} alt="zdjecie profilowe" />
+										<div className="staff-content">
+											<h4 className="staff-name">Tomasz Nowak</h4>
+											<span className="staff-class">Założyciel</span>
+											<p className="staff-desc">
+												Lorem, ipsum dolor sit amet consectetur adipisicing elit. 
+												Illum asperiores quibusdam quisquam, minus fugiat voluptatem 
+												cumque dolore nihil autem sunt inventore eligendi, magni, 
+												corporis reprehenderit?
+											</p>
+											<div className="staff-profile-btn-wrapper">
+												<button className="staff-profile-btn">Zobacz profil</button>
+											</div>
+										</div>
+									</div>
+									<div className="staff">
+										<img src={pfp} alt="zdjecie profilowe" />
+										<div className="staff-content">
+											<h4 className="staff-name">Tomasz Nowak</h4>
+											<span className="staff-class">Założyciel</span>
+											<p className="staff-desc">
+												Lorem, ipsum dolor sit amet consectetur adipisicing elit. 
+												Illum asperiores quibusdam quisquam, minus fugiat voluptatem 
+												cumque dolore nihil autem sunt inventore eligendi, magni, 
+												corporis reprehenderit?
+											</p>
+											<div className="staff-profile-btn-wrapper">
+												<button className="staff-profile-btn">Zobacz profil</button>
+											</div> 
+										</div>
+									</div>
+									<div className="staff">
+										<img src={pfp} alt="zdjecie profilowe" />
+										<div className="staff-content">
+											<h4 className="staff-name">Tomasz Nowak</h4>
+											<span className="staff-class">Założyciel</span>
+											<p className="staff-desc">
+												Lorem, ipsum dolor sit amet consectetur adipisicing elit. 
+												Illum asperiores quibusdam quisquam, minus fugiat voluptatem 
+												cumque dolore nihil autem sunt inventore eligendi, magni, 
+												corporis reprehenderit?
+											</p>
+											<div className="staff-profile-btn-wrapper">
+												<button className="staff-profile-btn">Zobacz profil</button>
+											</div>
+										</div>
+									</div>
+								</div>
+								<hr className="event-details-line" />
+								<div className="event-details-special-guests-box">
+									<h3 className="event-details-long-desc-title"><Star className="icon" /> Goście specjalni</h3>
+									<div className="event-details-special-guests">
+										{eventDetails.additional_info.special_guests.map((guest, i) => (
+											<div key={guest.id} className="event-details-special-guest">
+												<span className="event-details-special-guests-enumerate">{i + 1}.</span>
+												<h4 className="event-details-special-guest-name">{guest.name} {guest.surname}</h4>
+											</div>
+										))}
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
