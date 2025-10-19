@@ -879,7 +879,7 @@ input[type="number"]::-webkit-outer-spin-button{
 }
 .event-details-content{
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, minmax(400px, 50%));
     justify-content: center;
     gap: 28px;
     margin: 18px 40px;
@@ -892,7 +892,7 @@ input[type="number"]::-webkit-outer-spin-button{
 .event-details-wrapper{
     border-radius: 0 0 14px 14px;
 }
-.event-important-details img{
+.event-important-details > img{
     width: 100%;
     height: 204px;
     margin-bottom: -10px;
@@ -1080,6 +1080,7 @@ input[type="number"]::-webkit-outer-spin-button{
     transform: translate(-50%, -50%);
     border-radius: 14px;
     border: 2px solid var(--primary-orange);
+    box-shadow: 3px 3px 7px 0 rgba(0, 0, 0, 0.25);
 }
 .delete-event-popup h1{
     color: var(--primary-orange);
@@ -1096,4 +1097,76 @@ input[type="number"]::-webkit-outer-spin-button{
     display: flex;
     justify-content: center;
     gap: 30px;
+}
+.event-details-props-input, .event-details-props-textarea{
+    font-size: 18px;
+    color: var(--text-secondery);
+    border-radius: 10px;
+    border: none;
+    outline: 1px solid #74747450;
+    background-color: transparent;
+    height: 36px;
+    margin: 0 5px 5px 5px;
+    padding: 0 10px;
+}
+#event-details-number-of-participants-input{
+    width: 30px;
+}
+.cena-wrapper{
+    position: relative;
+}
+.zl{
+    position: absolute;
+    top: 15%;
+    right: 10px;
+}
+#event-details-price-input{
+    width: 100px;
+}
+#event-details-small-desc-input{
+    width: calc(100% - 30px);
+    height: 54px;
+}
+#event-details-big-desc-input{
+    width: calc(100% - 30px);
+    max-height: 560px;
+    min-height: 108px;
+}
+#eventDeatilsCitySelect, #eventDetailsStreetInput{
+    width: 224px;
+}
+#eventDetailsStreetNumberInput, #eventDetailsFlatNumberInput{
+    width: 40px;
+}
+#eventDetailsPostialInput{
+    width: 80px;
+}
+.edit-location-row{
+    justify-content: space-between;
+    gap: 0;
+}
+.edit-location-row .event-details-props-input{
+    margin: 0;
+}
+#eventDetailsCategorySelect{
+    width: 230px;
+    padding-left: 35px;
+}
+.ed-advanced-level-btns{
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+.ed-advanced-level-btn{
+    background-color: var(--clr-secondary);
+    color: var(--primary-orange);
+    font-weight: 600;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 14px;
+    cursor: pointer;
+}
+.ed-selected{
+    background-color: var(--primary-orange);
+    color: white;
 }

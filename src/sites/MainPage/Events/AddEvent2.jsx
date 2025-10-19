@@ -19,7 +19,6 @@ function AddEvent2(){
   const isPremium = true;
   const [specialGuests, setSpecialGuests] = useState([{name: "", surname: ""}]);
   const [error, setError] = useState('');
-  const access = localStorage.getItem("access");
   const navigate = useNavigate();
 
   const { eventData } = useContext(EventContext);
@@ -55,7 +54,6 @@ function AddEvent2(){
   }, [isFree]);
 
   const handleAddEvent = async () => {
-    console.log("Kliknięto przycisk — handleAddEvent uruchomione");
     setError('');
 
     console.log("eventData:", eventData);

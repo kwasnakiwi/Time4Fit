@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { apiFetch } from "../../../interceptor/interceptor.jsx";
 import { BASE_URL, ENDPOINTS } from "../../../utils/Endopoints.jsx";
 import NavBar from "../components/NavBar.jsx";
@@ -6,16 +6,40 @@ import SideBar from "../components/SideBar.jsx";
 import './../../../styles/mainpage.css'
 import { useNavigate, useParams } from "react-router-dom";
 import eventImg from '../../../assets/images/event.png'
-import { FaRegCalendar as Calendar, FaRegStar as Star } from "react-icons/fa";
+import { FaRegCalendar as Calendar, FaRegStar as Star, FaAngleDown as AngleDown } from "react-icons/fa";
 import { BiMap as Pin } from "react-icons/bi";
 import StaticMap from "../components/StaticMap.jsx";
 import pfp from './../../../assets/images/staff-pfp.png'
+import Map from "../components/Map.jsx";
+import footIcon from './../../../assets/images/foot.png';
+import { LocationContext } from "../../../utils/LocationContext.jsx";
 
 function EventDetails(){
 	const { id } = useParams();
+	const { lat, lng } = useContext(LocationContext);
 	const [eventDetails, setEventDetails] = useState(null);
 	const [isLoading, setIsLoading] = useState(true);
 	const [showPopup, setShowPopup] = useState(false);
+	const [isEditing, setIsEditing] = useState(false);
+	const [title, setTitle] = useState("");
+  const [date, setDate] = useState("");
+	const [count, setCount] = useState(1);
+	const [showFormatted, setShowFormatted] = useState(false);
+	const [price, setPrice] = useState(0);
+	const [shortDesc, setShortDesc] = useState("");
+	const [city, setCity] = useState("");
+  const [street, setStreet] = useState("");
+  const [postial, setPostial] = useState("");
+  const [streetNumber, setStreetNumber] = useState("");
+  const [flatNumber, setFlatNumber] = useState("");
+	const [longDesc, setLongDesc] = useState("");
+	const [categories, setCategories] = useState([]);
+	const [category, setCategory] = useState("");
+	const [advancedLevel, setAdvancedLevel] = useState("");
+	const [ageLimit, setAgeLimit] = useState("");
+	const [isPublic, setIsPublic] = useState(true);
+	const [specialGuests, setSpecialGuests] = useState([{name: "", surname: ""}]);
+
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -41,12 +65,39 @@ function EventDetails(){
 		getEventDetails();
 	}, [id]);
 
+	useEffect(() => {
+  const getCategories = async () => {
+    try {
+      const res = await apiFetch(`${BASE_URL}${ENDPOINTS.eventCategoryList}`);
+      console.log("status:", res.status);
+      
+      const data = await res.json();
+      console.log("Dane kategorii:", data);
+
+      setCategories(data.results || data || []);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  getCategories();
+	}, []);
+
+	const addGuest = () => {
+		setSpecialGuests(g => [...g, { name: "", surname: "" }]);
+	}
+
+  const handleGuestChange = (index, field, value) => {
+    const updatedGuests = [...specialGuests];
+    updatedGuests[index][field] = value;
+    setSpecialGuests(updatedGuests);
+  }
+
   
 	if (isLoading) return <h1 style={{textAlign: 'center'}}>Ładowanie...</h1>
 	if (!eventDetails) return <h1 style={{textAlign: 'center'}}>Nie znaleziono wydarzenia.</h1>
 
-	const date = new Date(eventDetails.date_time_event);
-	const formattedDate = date.toLocaleString("pl-PL", {
+	const datee = new Date(eventDetails.date_time_event);
+	const formattedDate = datee.toLocaleString("pl-PL", {
 		weekday: "long",
 		year: "numeric",
 		month: "long",
@@ -63,7 +114,16 @@ function EventDetails(){
 		"semi-advanced": "Średnio zaawansowany",
 		advanced: "Zaawansowany"
   };
-  const advancedLevel = levels[eventDetails.additional_info.advanced_level];
+  const advanced_level = levels[eventDetails.additional_info.advanced_level];
+
+	const formatted = date
+    ? new Date(date).toLocaleDateString("pl-PL", {
+        weekday: "long",
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      })
+    : "";
 
 	const handleDeleteClick = () => {
 		setShowPopup(true);
@@ -94,16 +154,95 @@ function EventDetails(){
 		setShowPopup(false);
 	};
 
+  const handleEditSave = async () => {
+    try{
+			const response = await apiFetch(`${BASE_URL}${ENDPOINTS.eventEvents}${id}/`, {
+				method: "PATCH",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({
+					title: title || eventDetails.title,
+					category : null,
+					short_desc: shortDesc || eventDetails.short_desc,
+					long_desc: longDesc || eventDetails.long_desc,
+					date_time_event: date ? new Date(date).toISOString() : eventDetails.date_time_event,
+					duration_min: eventDetails.duration_min,
+					latitude: lat || eventDetails.latitude,
+					longitude: lng || eventDetails.longitude,
+					public_event: isPublic,
+					country: "poland",
+					city: city || eventDetails.city,
+					street: street || eventDetails.street,
+					street_number: streetNumber || eventDetails.street_number,
+					flat_number: flatNumber || eventDetails.flat_number ? flatNumber || eventDetails.flat_number : null,
+					zip_code: postial || eventDetails.zip_code,
+					additional_info: {
+						advanced_level: advancedLevel || eventDetails.additional_info.advanced_level,
+						places_for_people_limit: count || eventDetails.additional_info.places_for_people_limit,
+						age_limit: ageLimit || eventDetails.additional_info.age_limit,
+						price: price || eventDetails.additional_info.price,
+						payment_in_app: eventDetails.additional_info.payment_in_app,
+						special_guests:
+							specialGuests.length > 0
+              ? specialGuests.map(g => ({
+                  name: g.name || "",
+                  surname: g.surname || ""
+                }))
+              : eventDetails.additional_info.special_guests,
+					} 
+				}),
+			});
+
+			if(!response.ok) throw new Error("Błąd");
+
+			const data = await response.json();
+			setEventDetails(data);
+			setIsEditing(false);
+			console.log(data);
+		}
+		catch(err){
+			console.error(err);
+		}
+  }
+
+  const handleEditCancel = () => {
+    setIsEditing(false);
+  }
+
+	const handleStartEdit = () => {
+  setIsEditing(true);
+
+	setTitle(eventDetails.title);
+  setDate(eventDetails.date_time_event);
+  setShortDesc(eventDetails.short_desc);
+  setLongDesc(eventDetails.long_desc);
+  setPrice(eventDetails.additional_info.price);
+  setCount(eventDetails.additional_info.places_for_people_limit);
+  setCity(eventDetails.city);
+  setStreet(eventDetails.street);
+  setStreetNumber(eventDetails.street_number);
+  setFlatNumber(eventDetails.flat_number || "");
+  setPostial(eventDetails.zip_code);
+  setAdvancedLevel(eventDetails.additional_info.advanced_level);
+  setAgeLimit(eventDetails.additional_info.age_limit);
+  setIsPublic(eventDetails.public_event);
+
+  if(specialGuests.length === 1 && specialGuests[0].name === "" && specialGuests[0].surname === "") {
+    setSpecialGuests(eventDetails.additional_info.special_guests || []);
+  }
+};
+
 	return(
 		<>
-			{showPopup && <div className="delete-event-popup">
+			{showPopup && 
+      <div className="delete-event-popup">
 				<h1>Czy napewno chcesz usunąć to wydarzenie?</h1>
 				<p>Wszytskie informacje o nim zostaną usunięte i nie będzie można ich przywrócić</p>
 				<div className="delete-event-popup-btns">
 					<button className="delete-event-popup-cancel-btn event-type-button edit-event-btn" onClick={handleDeleteCancel} >Anuluj</button>
 					<button className="delete-event-popup-cancel-btn event-type-button delete-event-btn" onClick={handleDeleteConfirm}>Tak, usuń</button>
 				</div>
-			</div>}
+			</div>
+      }
 			<NavBar route='Eventy / Szczegóły Eventu' title='Szczegóły Eventu' />
 			<SideBar />
 			<main className="events-main">
@@ -115,88 +254,383 @@ function EventDetails(){
 							<button className="event-type-button">Zaproszenia</button>
             </div>
 						<div className="edit-delete-btns">
-							<button className="event-type-button delete-event-btn" onClick={handleDeleteClick}>Usuń wydarzenie</button>
-							<button className="event-type-button edit-event-btn">Edytuj wydarzenie</button>
+              {!isEditing ?
+                <>
+                  <button className="event-type-button delete-event-btn" onClick={handleDeleteClick}>Usuń wydarzenie</button>
+                  <button className="event-type-button edit-event-btn" onClick={handleStartEdit}>Edytuj wydarzenie</button>
+                </>
+                :
+                <>
+                  <button className="event-type-button delete-event-btn" onClick={handleEditSave}>Zapisz</button>
+							    <button className="event-type-button edit-event-btn" onClick={handleEditCancel}>Anuluj</button>
+                </>
+              }
 						</div>
 					</header>
 					<div className="event-details-content">
 						<div className="event-details-content-left">
 							<div className="event-important-details">
 								<img src={eventImg} alt="zdjecie wydarzenia" />
-								<div className="event-details-wrapper">
+								{!isEditing ?
+									<div className="event-details-wrapper">
+										<div className="event-details-title-box">
+											<div className="title-date">
+												<h2 className="event-details-title">{eventDetails.title}</h2>
+												<p className="event-details-date"><Calendar className="icon" />{capitalizedDate}</p>
+											</div>
+											<div className="people-price">
+												<div className="event-details-places">
+													<span className="event-details-span">Miejsca:</span><br />
+													<span className="event-details-content-span">{eventDetails.event_participant_count} / {eventDetails.additional_info.places_for_people_limit}</span>
+												</div>
+												<div className="event-details-price">
+													<span className="event-details-span">Cena:</span><br />
+													<span className="event-details-content-span orange">{eventDetails.additional_info.price} PLN</span>
+												</div>
+											</div>
+										</div>
+										<hr className="event-details-line" />
+										<div className="event-details-long-desc-box">
+											<h3 className="event-details-long-desc-title">W skrócie</h3>
+											<p className="event-details-long-desc">{eventDetails.short_desc}</p>
+										</div>
+										<hr className="event-details-line" />
+										<div className="event-details-localization-box">
+											<h3 className="event-details-long-desc-title"><Pin className="icon" /> Lokalizacja</h3>
+											<span className="event-details-localization">
+												{ eventDetails.flat_number ? `${eventDetails.city}, ${eventDetails.street} ${eventDetails.street_number}/${eventDetails.flat_number}` : `${eventDetails.city}, ${eventDetails.street} ${eventDetails.street_number}`}
+											</span>
+											<StaticMap 
+												lat={eventDetails.latitude}
+												lng={eventDetails.longitude}
+												city={eventDetails.city}
+												street={eventDetails.street}
+												streetNumber={eventDetails.street_number}
+												postial={eventDetails.postial}
+											/>
+										</div>
+									</div>
+									:
+									<div className="event-details-wrapper">
 									<div className="event-details-title-box">
 										<div className="title-date">
-											<h2 className="event-details-title">{eventDetails.title}</h2>
-											<p className="event-details-date"><Calendar className="icon" />{capitalizedDate}</p>
+											<input 
+												type="text" 
+												id="event-details-title-input" 
+												className="event-details-props-input" 
+												placeholder={eventDetails.title}
+												value={title}
+												onChange={e => setTitle(e.target.value)}
+                			/>
+											<input
+												type={showFormatted ? "text" : "date"}
+												value={showFormatted ? formatted.toString().slice(0, 1).toUpperCase() + formatted.toString().slice(1) : date}
+												readOnly={showFormatted}
+												onChange={(e) => setDate(e.target.value)}
+												onBlur={() => {
+													if(date) setShowFormatted(true);
+												}}
+												onFocus={() => {
+													setShowFormatted(false);
+												}}
+												className="event-details-props-input"
+												id="event-details-date-input"
+                    	/>
 										</div>
 										<div className="people-price">
 											<div className="event-details-places">
 												<span className="event-details-span">Miejsca:</span><br />
-												<span className="event-details-content-span">{eventDetails.event_participant_count} / {eventDetails.additional_info.places_for_people_limit}</span>
+												<input 
+													className="event-details-props-input"
+													id="event-details-number-of-participants-input"
+													type="number" 
+													max={100} 
+													min={1} 
+													value={count}
+													onChange={e => {
+														setCount(e.target.value)
+													}}
+													onBlur={e => {
+														if(e.target.value > 100){
+															e.target.value = 100
+															setCount(100)
+														}
+														else if(e.target.value <= 0){
+															e.target.value = 1
+															setCount(1)
+														}
+													}}
+												/>
 											</div>
 											<div className="event-details-price">
 												<span className="event-details-span">Cena:</span><br />
-												<span className="event-details-content-span orange">{eventDetails.additional_info.price} PLN</span>
+												<div className="cena-wrapper">
+													<input 
+														type="number" 
+														className="event-details-props-input"
+														id="event-details-price-input"
+														value={price}
+														onChange={e => {
+															setPrice(e.target.value)
+														}}
+														onBlur={e => {
+															if(e.target.value < 0){
+																setPrice(0)
+																e.target.value = 0
+														}}}
+													/>
+													<span className="zl">zł</span>
+												</div>
 											</div>
 										</div>
 									</div>
 									<hr className="event-details-line" />
 									<div className="event-details-long-desc-box">
 										<h3 className="event-details-long-desc-title">W skrócie</h3>
-										<p className="event-details-long-desc">{eventDetails.short_desc}</p>
+										<textarea
+												id="event-details-small-desc-input" 
+												className="event-details-props-input" 
+												maxLength={200} 
+												placeholder={eventDetails.short_desc}
+												value={shortDesc}
+												onChange={e => setShortDesc(e.target.value)}
+											/>
 									</div>
 									<hr className="event-details-line" />
 									<div className="event-details-localization-box">
 										<h3 className="event-details-long-desc-title"><Pin className="icon" /> Lokalizacja</h3>
-										<span className="event-details-localization">
-											{ eventDetails.flat_number ? `${eventDetails.city}, ${eventDetails.street} ${eventDetails.street_number}/${eventDetails.flat_number}` : `${eventDetails.city}, ${eventDetails.street} ${eventDetails.street_number}`}
-										</span>
-										<StaticMap 
-											lat={eventDetails.latitude}
-											lng={eventDetails.longitude}
-											city={eventDetails.city}
-											street={eventDetails.street}
-											streetNumber={eventDetails.street_number}
-											postial={eventDetails.postial}
-										/>
+										<div className="location-row edit-location-row">
+											<div className="time-input-container">
+												<span className="event-props-label">Wybierz miasto</span>
+												<div className="time-input-box">
+													<select
+														className="event-time-select"
+														id="eventDeatilsCitySelect"
+														value={city}
+														onChange={async (e) => {
+															const selectedCity = e.target.value;
+															setCity(selectedCity);
+														}}
+													>
+														<option value="">Wybierz</option>
+														<option value="Warszawa">Warszawa</option>
+														<option value="Sosnowiec">Sosnowiec</option>
+														<option value="Dąbrowa Górnicza">Dąbrowa Górnicza</option>
+														<option value="Katowice">Katowice</option>
+														<option value="Będzin">Będzin</option>
+														<option value="Bytom">Bytom</option>
+													</select>
+													<AngleDown className="event-time-select-arrow" />
+												</div>
+											</div>
+											<div className="street-input-container">
+												<span className="event-props-label">Ulica</span>
+												<div className="time-input-box">
+													<input
+														className="event-details-props-input"
+														id="eventDetailsStreetInput"
+														placeholder="Ulica"
+														value={street}
+														onChange={e => setStreet(e.target.value)}
+													/>
+												</div>
+											</div>
+											<div className="street-number-input-container">
+												<span className="event-props-label">Nr. ulicy</span>
+												<div className="time-input-box">
+													<input
+														type="text"
+														className="event-details-props-input"
+														id="eventDetailsStreetNumberInput"
+														placeholder="00"
+														value={streetNumber}
+														onChange={e => setStreetNumber(e.target.value)}
+													/>
+												</div>
+											</div>
+											<div className="flat-number-input-container">
+												<span className="event-props-label">Nr. lokalu</span>
+												<div className="time-input-box">
+													<input
+														type="text"
+														className="event-details-props-input"
+														id="eventDetailsFlatNumberInput"
+														placeholder="00"
+														value={flatNumber}
+														onChange={e => setFlatNumber(e.target.value)}
+													/>
+												</div>
+											</div>
+											<div className="postial-input-container">
+												<span className="event-props-label">Kod pocztowy</span>
+												<div className="time-input-box">
+													<input
+														type="text"
+														className="event-details-props-input"
+														id="eventDetailsPostialInput"
+														placeholder="00-000"
+														value={postial}
+														onChange={e => setPostial(e.target.value)}
+													/>
+												</div>
+											</div>
+										</div>
+										<div className="map-row">
+											<Map 
+												city={city} 
+												street={street} 
+												postial={postial} 
+												streetNumber={streetNumber}
+												setCity={setCity} 
+												setStreet={setStreet} 
+												setPostial={setPostial}
+												setStreetNumber={setStreetNumber}
+												initialLat={eventDetails.latitude}
+  											initialLng={eventDetails.longitude}
+											/>  
+										</div>
 									</div>
 								</div>
+								}
 							</div>
-							<div className="event-details-list-box event-important-details">
-								<h3 className="event-details-list-title">Zasady udziału i wskazówki dla uczestników</h3>
-								<ol className="event-details-list">
-									<li>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestiae, nihil!</li>
-									<li>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestiae, nihil!</li>
-									<li>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestiae, nihil!</li>
-									<li>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestiae, nihil!</li>
-									<li>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestiae, nihil!</li>
-									<li>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestiae, nihil!</li>
-									<li>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestiae, nihil!</li>
-								</ol>
-							</div>
+							{!isEditing ? 
+								<div className="event-details-list-box event-important-details">
+									<h3 className="event-details-list-title">Zasady udziału i wskazówki dla uczestników</h3>
+									<p className="event-details-long-desc">
+										{eventDetails.long_desc}
+									</p>
+								</div>
+								:
+								<div className="event-details-list-box event-important-details">
+									<h3 className="event-details-list-title">Zasady udziału i wskazówki dla uczestników</h3>
+									<textarea
+										id="event-details-big-desc-input" 
+										className="event-details-props-input" 
+										maxLength={400} 
+										placeholder={eventDetails.long_desc}
+										value={longDesc}
+										onChange={e => setLongDesc(e.target.value)}
+									/>
+								</div>
+							}
 						</div>
 						<div className="event-details-content-right">
-							<div className="event-details-list-box event-important-details">
-								<h3 className="event-details-list-title">Szczegóły organizacyjne</h3>
-								<div className="event-details-details">
-									<div className="event-details-detail">
-										<h4 className="event-details-detail-title">Kategoria:</h4>
-										<p className="event-details-detail-content">{eventDetails.category_name}</p>
-									</div>
-									<div className="event-details-detail">
-										<h4 className="event-details-detail-title">Poziom zaawansowania:</h4>
-										<p className="event-details-detail-content">{advancedLevel}</p>
-									</div>
-									<div className="event-details-detail">
-										<h4 className="event-details-detail-title">Grupa wiekowa:</h4>
-										<p className="event-details-detail-content">{eventDetails.additional_info.age_limit}</p>
-									</div>
-									<div className="event-details-detail">
-										<h4 className="event-details-detail-title">Dostępność wydarzenia:</h4>
-										<p className="event-details-detail-content">{eventDetails.public_event ? "Publiczne" : "Prywatne"}</p>
+							{!isEditing ?
+								<div className="event-details-list-box event-important-details">
+									<h3 className="event-details-list-title">Szczegóły organizacyjne</h3>
+									<div className="event-details-details">
+										<div className="event-details-detail">
+											<h4 className="event-details-detail-title">Kategoria:</h4>
+											<p className="event-details-detail-content">{eventDetails.category_name}</p>
+										</div>
+										<div className="event-details-detail">
+											<h4 className="event-details-detail-title">Poziom zaawansowania:</h4>
+											<p className="event-details-detail-content">{advanced_level}</p>
+										</div>
+										<div className="event-details-detail">
+											<h4 className="event-details-detail-title">Grupa wiekowa:</h4>
+											<p className="event-details-detail-content">{eventDetails.additional_info.age_limit}</p>
+										</div>
+										<div className="event-details-detail">
+											<h4 className="event-details-detail-title">Dostępność wydarzenia:</h4>
+											<p className="event-details-detail-content">{eventDetails.public_event ? "Publiczne" : "Prywatne"}</p>
+										</div>
 									</div>
 								</div>
-							</div>
+								:
+								<div className="event-details-list-box event-important-details">
+									<h3 className="event-details-list-title">Szczegóły organizacyjne</h3>
+									<div className="event-details-details">
+										<div className="event-details-detail">
+											<h4 className="event-details-detail-title">Kategoria:</h4>
+											<div className="select-wrapper">
+												<img src={footIcon} alt="Foot" className="foot-img" />
+												<select 
+													className="event-time-select" 
+													id="eventDetailsCategorySelect"
+													value={category}
+													onChange={e => setCategory(e.target.value)}
+												>
+													<option value="">Wybierz kategorię</option>
+													{categories.length > 0 ? (
+														categories.map(cat => (
+															<option key={cat.id} value={cat.id}>
+																{cat.name}
+															</option>
+														))
+													) : (
+														<option disabled>Ładowanie...</option>
+													)}
+												</select>
+												<AngleDown className="event-category-select-arrow" />
+											</div>
+										</div>
+										<div className="event-details-detail">
+											<h4 className="event-details-detail-title">Poziom zaawansowania:</h4>
+											<div className="ed-advanced-level-btns">
+												<button 
+													className={`ed-advanced-level-btn ${advancedLevel === "beginner" ? `ed-selected` : ""}`}
+													onClick={e => setAdvancedLevel("beginner")}
+												>
+													Początkujący
+												</button>
+												<button 
+													className={`ed-advanced-level-btn ${advancedLevel === "semi-advanced" ? `ed-selected` : ""}`}
+													onClick={e => setAdvancedLevel("semi-advanced")}
+												>
+													Średnio zaawansowany
+												</button>
+												<button 
+													className={`ed-advanced-level-btn ${advancedLevel === "advanced" ? `ed-selected` : ""}`}
+													onClick={e => setAdvancedLevel("advanced")}
+												>
+													Zaawansowany
+												</button>
+												<button 
+													className={`ed-advanced-level-btn ${advancedLevel === "none" ? `ed-selected` : ""}`}
+													onClick={e => setAdvancedLevel("none")}
+												>
+													Brak
+												</button>
+											</div>
+										</div>
+										<div className="event-details-detail">
+											<h4 className="event-details-detail-title">Grupa wiekowa:</h4>
+											<div className="ed-advanced-level-btns">
+												<button 
+													className={`ed-advanced-level-btn ${ageLimit === "<12" ? `ed-selected` : ""}`}
+													onClick={e => setAgeLimit("<12")}
+												>
+													&lt;12
+												</button>
+												<button 
+													className={`ed-advanced-level-btn ${ageLimit === "12 - 16" ? `ed-selected` : ""}`}
+													onClick={e => setAgeLimit("12 - 16")}
+												>
+													12 - 16
+												</button>
+											</div>
+										</div>
+										<div className="event-details-detail">
+											<h4 className="event-details-detail-title">Dostępność wydarzenia:</h4>
+											<div className="ed-advanced-level-btns">
+												<button 
+													className={`ed-advanced-level-btn ${isPublic ? `ed-selected` : ""}`}
+													onClick={e => setIsPublic(true)}
+												>
+													Publiczne
+												</button>
+												<button 
+													className={`ed-advanced-level-btn ${!isPublic ? `ed-selected` : ""}`}
+													onClick={e => setIsPublic(false)}
+												>
+													Prywatne
+												</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							}
 							<div className="event-details-list-box event-important-details">
 								<h3 className="event-details-list-title">Kadra wydarzenia</h3>
 								<div className="staff-box">
@@ -253,12 +687,44 @@ function EventDetails(){
 								<div className="event-details-special-guests-box">
 									<h3 className="event-details-long-desc-title"><Star className="icon" /> Goście specjalni</h3>
 									<div className="event-details-special-guests">
-										{eventDetails.additional_info.special_guests.map((guest, i) => (
-											<div key={guest.id} className="event-details-special-guest">
-												<span className="event-details-special-guests-enumerate">{i + 1}.</span>
-												<h4 className="event-details-special-guest-name">{guest.name} {guest.surname}</h4>
+										{!isEditing ? (
+											<div className="event-details-special-guests">
+												{eventDetails.additional_info.special_guests.map((guest, i) => (
+													<div key={guest.id || i} className="event-details-special-guest">
+														<span className="event-details-special-guests-enumerate">{i + 1}.</span>
+														<h4 className="event-details-special-guest-name">{guest.name} {guest.surname}</h4>
+													</div>
+												))}
 											</div>
-										))}
+										) : (
+											<div className="event-details-special-guests">
+												{specialGuests.map((guest, i) => (
+													<div key={i} className="event-details-special-guest">
+														<span className="event-details-special-guests-enumerate">{i + 1}.</span>
+														<input
+															type="text"
+															placeholder="Imię"
+															className="event-details-props-input"
+															value={guest.name}
+															onChange={(e) => handleGuestChange(i, "name", e.target.value)}
+														/>
+														<input
+															type="text"
+															placeholder="Nazwisko"
+															className="event-details-props-input"
+															value={guest.surname}
+															onChange={(e) => handleGuestChange(i, "surname", e.target.value)}
+														/>
+													</div>
+												))}
+												<button
+													className="add-special-guest"
+													onClick={addGuest}
+												>
+													+ Dodaj gościa specjalnego
+												</button>
+											</div>
+										)}
 									</div>
 								</div>
 							</div>

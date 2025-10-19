@@ -54,7 +54,7 @@ function AddEvent1() {
     }
   }, [isPremium, repeatable])
 
-  useEffect(() => {
+useEffect(() => {
   const getCategories = async () => {
     try {
       const res = await apiFetch(`${BASE_URL}${ENDPOINTS.eventCategoryList}`);
@@ -250,8 +250,6 @@ function AddEvent1() {
                   </div>
                 </div>
               </div>
-
-              {/* 🔹 tu wraca sekcja powtarzalności */}
               <div className="second-row">
                 {
                   isPremium ?
@@ -275,8 +273,6 @@ function AddEvent1() {
                   </div>
                 }
               </div>
-
-              {/* 🔹 TU była zniknięta sekcja — teraz przywrócona */}
               <div className="third-row">
                 {
                   repeatable ? 
