@@ -45,6 +45,7 @@ function AddEvent1() {
   const [postial, setPostial] = useState("");
   const [streetNumber, setStreetNumber] = useState("");
   const [flatNumber, setFlatNumber] = useState("");
+  const [error, setError] = useState("");
   const { eventData, setEventData } = useContext(EventContext);
   const navigate = useNavigate();
 
@@ -89,15 +90,21 @@ useEffect(() => {
                 "w sobotę"];
 
   const nextStage = () => {
+    setError("")
+    if(!date || !city || !street || !time){
+      setError("Wpisz informacje na temat daty i miejsca wydarzenia!");
+      return;
+    }
+
     setEventData({
       ...eventData,
-      title,
-      category,
-      shortDesc,
-      longDesc,
+      title: title || "Brak",
+      category: category || null,
+      shortDesc: shortDesc || "brak opisu",
+      longDesc: longDesc || "brak opisu",
       date,
-      time,
-      duration,
+      time: time || "00:00",
+      duration: duration || 60,
       city,
       street,
       postial,
@@ -412,6 +419,9 @@ useEffect(() => {
                 />  
               </div>
             </div>
+          </div>
+          <div className="error-display">
+            <span className="error">{error}</span>
           </div>
           <div className="next-btn-box">
             <button className="next-stage" onClick={nextStage}>Następny etap</button>

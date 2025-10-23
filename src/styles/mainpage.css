@@ -619,6 +619,7 @@ input[type="number"]::-webkit-outer-spin-button{
 #event-price-input{
     width: 198px;
     padding-right: 23px;
+    margin-bottom: 24px;
 }
 .event-price-input-box{
     position: relative;
@@ -630,7 +631,8 @@ input[type="number"]::-webkit-outer-spin-button{
     font-size: 18px;
 }
 #guest-name-input,
-#guest-surname-input{
+#guest-surname-input,
+#guest-nickname-input{
     width: 213px;
 }
 .enumeration{
@@ -655,6 +657,7 @@ input[type="number"]::-webkit-outer-spin-button{
 .guest-inputs{
     display: flex;
     justify-content: center;
+    gap: 32px;
     align-items: flex-end;
 }
 .event-input-box.opacity-down *{
@@ -1054,7 +1057,7 @@ input[type="number"]::-webkit-outer-spin-button{
 .event-details-special-guest{
     display: flex;
     gap: 4px;
-    border: 1px solid var(--primary-grey);
+    border: 1px solid #74747450;
     border-radius: 6px;
     padding: 4px 10px;
     margin-bottom: 8px;
@@ -1169,4 +1172,8 @@ input[type="number"]::-webkit-outer-spin-button{
 .ed-selected{
     background-color: var(--primary-orange);
     color: white;
+}
+.error-display{
+    color: rgb(243, 82, 82);
+    text-align: center;
 }

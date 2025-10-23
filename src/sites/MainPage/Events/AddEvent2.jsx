@@ -13,11 +13,10 @@ function AddEvent2(){
   const [count, setCount] = useState(1);
   const [ageLimit, setAgeLimit] = useState("<12");
   const [isPublic, setIsPublic] = useState(true);
-  const [isFree, setIsFree] = useState(false);
   const [price, setPrice] = useState(0);
   const [isPaymentInApp, setIsPaymentInApp] = useState(true);
   const isPremium = true;
-  const [specialGuests, setSpecialGuests] = useState([{name: "", surname: ""}]);
+  const [specialGuests, setSpecialGuests] = useState([{name: "", nickname: "", surname: ""}]);
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -27,13 +26,13 @@ function AddEvent2(){
 
   const addGuest = () => {
     const hasEmptyFields = specialGuests.some((guest) => (
-      guest.name.trim() === "" || guest.surname.trim() === ""
+      guest.name.trim() === "" || guest.surname.trim() === "" || guest.nickname.trim() === ""
     ))
 
     if(hasEmptyFields){
       return;
     }
-    setSpecialGuests(g => [...g, {name: "", surname: ""}])
+    setSpecialGuests(g => [...g, {name: "", nickname: "", surname: ""}])
   }
 
   const handleGuestChange = (index, field, value) => {
@@ -41,17 +40,6 @@ function AddEvent2(){
     updatedGuests[index][field] = value;
     setSpecialGuests(updatedGuests);
   }
-  
-
-  useEffect(() => {
-    if(isFree){
-      setPrice(0);
-      setIsPaymentInApp(false);
-    }
-    else if(!isFree){
-      setIsPaymentInApp(true)
-    }
-  }, [isFree]);
 
   const handleAddEvent = async () => {
     setError('');
@@ -64,7 +52,8 @@ function AddEvent2(){
       .filter(g => g.name.trim() && g.surname.trim())
       .map(g => ({
         name: g.name.trim(),
-        surname: g.surname.trim(),
+        nickname: g.nickname.trim(),
+        surname: g.surname.trim()
       }));
 
     try {
@@ -101,17 +90,16 @@ function AddEvent2(){
       const data = await response.json();
       console.log("Odpowiedź z backendu:", data);
 
-      if (!response.ok) {
+      if(!response.ok){
         console.error("Błąd podczas tworzenia eventu:", data);
-        setError(JSON.stringify(data));
+        setError(data.details);
         return;
       }
 
       navigate('/events')
-
-      console.log("Event utworzony pomyślnie");
-    } catch (err) {
-      console.error("Błąd sieci lub JSON:", err);
+    } 
+    catch(err){
+      console.error(err);
       setError("Błąd połączenia z serwerem");
     }
   };
@@ -256,63 +244,38 @@ function AddEvent2(){
               </div>
             </div>
             <div className="event-input-box">
-              <h2 className="event-input-box-title">
-                <span className="num-icon">11</span>
-                Wydarzenie płatne?
-              </h2>
-              <div className="repeat-q-box">
-                <div className="repeat-q-buttons">
-                  <button
-                    id="rb1"
-                    className={!isFree ? "rpt-selected" : ""}
-                    onClick={() => setIsFree(false)}
-                  >TAK
-                  </button>
-                  <button 
-                    id="rb2" 
-                    className={isFree ? "rpt-selected" : ""}
-                    onClick={() => setIsFree(true)}
-                  >NIE
-                  </button>
-                </div>
-                {!isFree ? 
-                <>
-                  <h2 className="event-input-box-title" style={{marginBottom: -8}}>Cena</h2>
-                  <div className="event-price-input-box">
-                    <input 
-                      type="number" 
-                      className="event-props-input"
-                      id="event-price-input"
-                      value={price}
-                      onChange={e => {
-                        setPrice(e.target.value)
-                      }}
-                      onBlur={e => {
-                        if(e.target.value < 0){
-                          setPrice(0)
-                          e.target.value = 0
-                      }}}
-                    />
-                    <span className="zl-text">zł</span>
-                  </div>
-                  <h2 className="event-input-box-title" style={{marginBottom: 0}}>Płatność w aplikacji?</h2>
-                  <div className="repeat-q-buttons">
-                    <button
-                      id="rb1"
-                      className={isPaymentInApp ? "rpt-selected" : ""}
-                      onClick={() => setIsPaymentInApp(true)}
-                    >TAK
-                    </button>
-                    <button 
-                      id="rb2" 
-                      className={!isPaymentInApp ? "rpt-selected" : ""}
-                      onClick={() => setIsPaymentInApp(false)}
-                    >NIE
-                    </button>
-                  </div>
-                </>
-                : null
-                }
+              <h2 className="event-input-box-title">Cena</h2>
+              <div className="event-price-input-box">
+                <input 
+                  type="number" 
+                  className="event-props-input"
+                  id="event-price-input"
+                  value={price}
+                  onChange={e => {
+                    setPrice(e.target.value)
+                  }}
+                  onBlur={e => {
+                    if(e.target.value < 0){
+                      setPrice(0)
+                      e.target.value = 0
+                  }}}
+                />
+                <span className="zl-text">zł</span>
+              </div>
+              <h2 className="event-input-box-title">Płatność w aplikacji?</h2>
+              <div className="repeat-q-buttons">
+                <button
+                  id="rb1"
+                  className={isPaymentInApp ? "rpt-selected" : ""}
+                  onClick={() => setIsPaymentInApp(true)}
+                >TAK
+                </button>
+                <button 
+                  id="rb2" 
+                  className={!isPaymentInApp ? "rpt-selected" : ""}
+                  onClick={() => setIsPaymentInApp(false)}
+                >NIE
+                </button>
               </div>
             </div>
             {isPremium ?
@@ -333,6 +296,14 @@ function AddEvent2(){
                         value={guest.name}
                         onChange={e => handleGuestChange(i, "name", e.target.value)}
                       />
+                      <input 
+                        type="text"
+                        className="event-props-input"
+                        id="guest-nickname-input"
+                        placeholder="Pseudonim"
+                        value={guest.nickname}
+                        onChange={e => handleGuestChange(i, "nickname", e.target.value)}
+                      /> 
                       <input 
                         type="text" 
                         className="event-props-input" 
@@ -365,6 +336,14 @@ function AddEvent2(){
                         onChange={e => handleGuestChange(i, "name", e.target.value)}
                       />
                       <input 
+                        type="text"
+                        className="event-props-input"
+                        id="guest-nickname-input"
+                        placeholder="Pseudonim"
+                        value={guest.nickname}
+                        onChange={e => handleGuestChange(i, "nickname", e.target.value)}
+                      />                      
+                      <input 
                         type="text" 
                         className="event-props-input" 
                         id="guest-surname-input" 
@@ -381,6 +360,9 @@ function AddEvent2(){
                 </div>
               </div>
             } 
+          </div>
+          <div className="error-display">
+            <span className="error">{error}</span>
           </div>
           <div className="next-btn-box">
             <button className="next-stage" onClick={handleAddEvent}>Stwórz event</button>
