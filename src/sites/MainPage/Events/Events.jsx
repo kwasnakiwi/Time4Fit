@@ -40,8 +40,8 @@ function Events(){
         <div className="main-events-container">
           <nav className="top-filters">
             <div className="event-type-buttons">
-              <button className="event-type-button event-type-button-selected">Jednorazowe</button>
-              <button className="event-type-button">Cykliczne</button>
+              <button className="event-type-button event-type-button-selected">Płatne</button>
+              <button className="event-type-button">Darmowe</button>
             </div>
             <div className="filters">
               <div className="selectt-wrapper">
@@ -113,7 +113,11 @@ function Events(){
                       </div>
                     </div>
                     <div className="event-content-right">
-                      <img src={eventImg} alt="event" />
+                      <div className="event-img-wrapper"> 
+                        <img src={eventImg} alt="event" />
+                        <span className="event-img-location"><PinMap className="img-location-pin icon" /> {event.city}, {event.street} {/*{event.street_number ? event.street_number : ""}{event.flat_number ? `/${event.flat_number}` : ""}*/}</span>
+                        <span className={`event-img-payable-status ${event.additional_info.price == 0 ? "green" : "red"}`}>{event.additional_info.price == 0 ? "Bezpłatny" : "Płatny"}</span>
+                      </div>
                     </div>
                   </div>
                   <div className="more-event-info">

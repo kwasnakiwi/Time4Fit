@@ -781,6 +781,41 @@ input[type="number"]::-webkit-outer-spin-button{
     justify-content: space-between;
     gap: 24px;
 }
+.event-img-wrapper{
+    position: relative;
+}
+.event-img-location{
+    display: flex;
+    white-space: nowrap;
+    justify-content: center;
+    gap: 2px;
+    font-size: 10px;
+    color: var(--text-secondery);
+    padding: 3px 8px;
+    border-radius: 15px;
+    background-color: #FFF3E6;
+    width: fit-content;
+    position: absolute;
+    top: 9px;
+    left: 10px;
+}
+.event-img-payable-status{
+    padding: 3px 8px;
+    border-radius: 15px;
+    width: fit-content;
+    font-size: 10px;
+    position: absolute;
+    top: 9px;
+    right: 10px;
+}
+.event-img-payable-status.green{
+    color: #2E7D32;
+    background-color: #E8F5E9;
+}
+.event-img-payable-status.red{
+    color: #B71C1C;
+    background-color: #FDECEA;
+}
 .event-content-left{
     width: 100%
 }
@@ -1205,6 +1240,13 @@ input[type="number"]::-webkit-outer-spin-button{
 .participant-table thead th{
     padding: 0;
 }
+.participant-table tbody tr {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1); 
+}
+
+.participant-table tbody tr:last-child {
+  border-bottom: none;
+}
 .participants-enumarate{
     font-weight: 600;
     font-size: 16px;
@@ -1297,4 +1339,79 @@ input[type="number"]::-webkit-outer-spin-button{
     background-color: #f7f7f7;
     border-radius: 8px;
     padding: 5px 20px;
+}
+.invitations{
+    display: grid;
+    grid-template-columns: repeat(2, minmax(450px, 700px));
+    justify-content: center;
+    gap: 18px 32px;
+    margin: 0 15%;
+}
+.invitation{
+    display: flex;
+    justify-content: center;
+    gap: 28px;
+    align-items: flex-end;
+    padding: 20px;
+    background-color: white;
+    width: fit-content;
+    margin: 0 auto;
+    border-radius: 14px;
+}
+.invitation-content{
+    display: flex;
+    flex-direction: column;
+}
+.invitation-first-row{
+    display: flex;
+    gap: 28px;
+    margin-bottom: 18px;
+}
+.invitation-second-row{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+.invitation-first-row-box-title{
+    color: var(--primary-grey);
+    font-size: 12px;
+    white-space: nowrap;
+}
+.invitation-first-row-box-content{
+    font-size: 14px;
+    white-space: nowrap;
+}
+.invitation-second-row-span{
+    font-weight: 600;
+    color: var(--text-secondery);
+    font-size: 12px;
+}
+.invitation-second-row-input{
+    padding: 4px 10px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--primary-orange);
+    max-width: 137px;
+    border-radius: 6px;
+    border: none;
+    outline: 1px solid #74747450
+}
+.invitation-second-row-button{
+    font-size: 14px;
+    padding: 6px 14px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+.invitation-second-row-button.green{
+    color: #2E7D32;
+    background-color: #E8F5E9;
+}
+.invitation-second-row-button.red{
+    color: #B71C1C;
+    background-color: #FDECEA;
+}
+.event-type-button.generate-btn{
+    background-color: var(--clr-secondary);
+    color: var(--primary-orange);
 }

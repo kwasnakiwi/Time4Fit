@@ -3,6 +3,7 @@ import { FaRegBell as Bell,
          FaAngleDown as AngleDown } from "react-icons/fa";
 import pfp from './../../../assets/images/pfp.png';
 import './../../../styles/mainpage.css';
+import { Link } from "react-router-dom";
 
 function NavBar(props) {
 
@@ -22,7 +23,7 @@ function NavBar(props) {
         <div className="route-box">
           <h5 className="route">{props.route ?? "-"}</h5>
           <h3 className="nav-title">
-            <span><LeftArrow className="icon"/></span>
+            <Link to={props.linkRoute ?? "#"}><span><LeftArrow className="icon"/></span></Link>
             {props.title ?? "-"}
           </h3>
         </div>

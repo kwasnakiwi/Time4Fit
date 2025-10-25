@@ -20,6 +20,7 @@ import footIcon from './../../../assets/images/foot.png';
 import leaveIcon1 from './../../../assets/images/leave1.png'
 import leaveIcon2 from './../../../assets/images/leave2.png'
 import { LocationContext } from "../../../utils/LocationContext.jsx";
+import { QRCodeCanvas } from "qrcode.react";
 
 function EventDetails(){
 	const { id } = useParams();
@@ -47,7 +48,72 @@ function EventDetails(){
 	const [ageLimit, setAgeLimit] = useState("");
 	const [isPublic, setIsPublic] = useState(true);
 	const [specialGuests, setSpecialGuests] = useState([{name: "", nickname: "", surname: ""}]);
-
+  const [invitations, setInvitations] = useState([
+  {
+    id: 1,
+    code: "INV-7A1B",
+    date_added: "2025-10-01",
+    is_one_use: true,
+    is_valid: true,
+    link: "https://twojadomena.pl/invite/INV-7A1B"
+  },
+  {
+    id: 2,
+    code: "INV-2Z9Q",
+    date_added: "2025-10-03",
+    is_one_use: false,
+    is_valid: true,
+    link: "https://twojadomena.pl/invite/INV-2Z9Q"
+  },
+  {
+    id: 3,
+    code: "INV-X4K3",
+    date_added: "2025-10-05",
+    is_one_use: true,
+    is_valid: false,
+    link: "https://twojadomena.pl/invite/INV-X4K3"
+  },
+  {
+    id: 4,
+    code: "INV-M9T2",
+    date_added: "2025-10-07",
+    is_one_use: false,
+    is_valid: true,
+    link: "https://twojadomena.pl/invite/INV-M9T2"
+  },
+  {
+    id: 5,
+    code: "INV-Q8R1",
+    date_added: "2025-10-09",
+    is_one_use: true,
+    is_valid: true,
+    link: "https://twojadomena.pl/invite/INV-Q8R1"
+  },
+  {
+    id: 6,
+    code: "INV-W6Y5",
+    date_added: "2025-10-12",
+    is_one_use: false,
+    is_valid: false,
+    link: "https://twojadomena.pl/invite/INV-W6Y5"
+  },
+  {
+    id: 7,
+    code: "INV-D5E2",
+    date_added: "2025-10-15",
+    is_one_use: true,
+    is_valid: true,
+    link: "https://twojadomena.pl/invite/INV-D5E2"
+  },
+  {
+    id: 8,
+    code: "INV-A9P7",
+    date_added: "2025-10-20",
+    is_one_use: false,
+    is_valid: true,
+    link: "https://twojadomena.pl/invite/INV-A9P7"
+  }
+]);
   const [participants, setParticipants] = useState([
   {
     id: 1,
@@ -253,70 +319,100 @@ function EventDetails(){
   }, [])
 
 	useEffect(() => {
-		const getEventDetails = async () => {
-			try{
-				const response = await apiFetch(`${BASE_URL}${ENDPOINTS.eventEvents}${id}/`);
-				const data = await response.json();
+    if(page === 'main'){
+      const getEventDetails = async () => {
+        try{
+          const response = await apiFetch(`${BASE_URL}${ENDPOINTS.eventEvents}${id}/`);
+          const data = await response.json();
 
-				if (!response.ok) {
-          throw new Error(data.details || "Błąd wczytywania eventu");
+          if (!response.ok) {
+            throw new Error(data.details || "Błąd wczytywania eventu");
+          }
+          
+          setEventDetails(data);
         }
-				
-				setEventDetails(data);
-			}
-			catch(err){
-				console.error(err);
-			}
-			finally{
-				setIsLoading(false)
-			}
-		}
+        catch(err){
+          console.error(err);
+        }
+        finally{
+          setIsLoading(false)
+        }
+      }
 
-		getEventDetails();
-	}, [id]);
+      getEventDetails();
+    }
+	}, [id, page]);
 
 	const eventParticipants = // eventDetails.event_participant_count ||
 														0;
 
 	useEffect(() => {
-    const getCategories = async () => {
-      try{
-        const res = await apiFetch(`${BASE_URL}${ENDPOINTS.eventCategoryList}`);
-        console.log("status:", res.status);
-        
-        const data = await res.json();
-        console.log("Dane kategorii:", data);
+    if(page === "main"){
+      const getCategories = async () => {
+        try{
+          const res = await apiFetch(`${BASE_URL}${ENDPOINTS.eventCategoryList}`);
+          console.log("status:", res.status);
+          
+          const data = await res.json();
+          console.log("Dane kategorii:", data);
 
-        setCategories(data.results || data || []);
-      } 
-    catch(err){
-        console.error(err);
-      }
-    };
-    getCategories();
-	}, [id]);
+          setCategories(data.results || data || []);
+        } 
+      catch(err){
+          console.error(err);
+        }
+      };
+      getCategories();
+    }
+	}, [id, page]);
 
   useEffect(() => {
     const getParticipantList = async () => {
-      try{
-        const response = await apiFetch(`${BASE_URL}/event/${id}/event-participant-list/`);
-        console.log("status:", response.status);
+      if(page === "list"){
+        try{
+          const response = await apiFetch(`${BASE_URL}/event/${id}/event-participant-list/`);
+          console.log("status:", response.status);
 
-        if(!response.ok){
-          return;
+          if(!response.ok){
+            return;
+          }
+
+          const data = await response.json();
+          console.log("dane listy uczestnikow:", data);
+
+          // setParticipants(data.results || []);
+          console.log(participants)
         }
-
-        const data = await response.json();
-        console.log("dane listy uczestnikow:", data);
-
-        console.log(participants)
+        catch(err){
+          console.error(err);
+        }
       }
-      catch(err){
-        console.error(err);
-      }
+      getParticipantList();
     }
-    getParticipantList();
-  }, [id]);
+  }, [id, page]);
+
+  useEffect(() => {
+    const getInvitations = async () => {
+      if(page === "invitations"){
+        try{
+          const response = await apiFetch(`${BASE_URL}${ENDPOINTS.eventEvents}${id}/invitations/`);
+          console.log("satus:", response.status);
+
+          if(!response.ok) return;
+
+          const data = await response.json();
+          console.log("dane zaproszeń:", data);
+
+          // setInvitations(data.results || []);
+          console.log(invitations);
+        }
+        catch(err){
+          console.error(err);
+        }
+      }
+      getInvitations();
+    }
+  }, [id, page])
 
 	const addGuest = () => {
     const hasEmptyFields = specialGuests.some((guest) => (
@@ -473,21 +569,48 @@ function EventDetails(){
 		if(specialGuests.length === 1 && specialGuests[0].name === "" && specialGuests[0].surname === "") {
 			setSpecialGuests(eventDetails.additional_info.special_guests || []);
 		}
-};
+  }
+
+  const hanldeAddInvitation = async () => {
+    try{
+      const response = await apiFetch(`${BASE_URL}${ENDPOINTS.eventEvents}${id}/invitations/`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          is_one_use: true,
+          is_active: true
+        })
+      });
+
+      if(!response.ok) return;
+
+      const data = await response.json();
+
+      console.log(data)
+    }
+    catch(err){
+      console.error(err);
+    }
+  }
+  
+  const formatDate = (dateStr) => {
+    const [year, month, day] = dateStr.split("-");
+    return `${day}.${month}.${year}`;
+  };
 
 	return(
 		<>
 			{showPopup && 
-      <div className="delete-event-popup">
-				<h1>Czy napewno chcesz usunąć to wydarzenie?</h1>
-				<p>Wszytskie informacje o nim zostaną usunięte i nie będzie można ich przywrócić</p>
-				<div className="delete-event-popup-btns">
-					<button className="delete-event-popup-cancel-btn event-type-button edit-event-btn" onClick={handleDeleteCancel} >Anuluj</button>
-					<button className="delete-event-popup-cancel-btn event-type-button delete-event-btn" onClick={handleDeleteConfirm}>Tak, usuń</button>
-				</div>
-			</div>
+        <div className="delete-event-popup">
+          <h1>Czy napewno chcesz usunąć to wydarzenie?</h1>
+          <p>Wszytskie informacje o nim zostaną usunięte i nie będzie można ich przywrócić</p>
+          <div className="delete-event-popup-btns">
+            <button className="delete-event-popup-cancel-btn event-type-button edit-event-btn" onClick={handleDeleteCancel} >Anuluj</button>
+            <button className="delete-event-popup-cancel-btn event-type-button delete-event-btn" onClick={handleDeleteConfirm}>Tak, usuń</button>
+          </div>
+        </div>
       }
-			<NavBar route='Eventy / Szczegóły Eventu' title='Szczegóły Eventu' />
+			<NavBar route='Eventy / Szczegóły Eventu' title='Szczegóły Eventu' linkRoute="/events"/>
 			<SideBar />
 			<main className="events-main">
         <div className="main-events-container">
@@ -522,20 +645,22 @@ function EventDetails(){
                 </button>
             </div>
 						<div className="edit-delete-btns">
-              {page !== "list" ?
-                !isEditing ?
-                  <>
-                    <button className="event-type-button delete-event-btn" onClick={handleDeleteClick}>Usuń wydarzenie</button>
-                    <button className="event-type-button edit-event-btn" onClick={handleStartEdit}>Edytuj wydarzenie</button>
-                  </>
-                  :
-                  <>
-                    <button className="event-type-button delete-event-btn" onClick={handleEditSave}>Zapisz</button>
-                    <button className="event-type-button edit-event-btn" onClick={handleEditCancel}>Anuluj</button>
-                  </>
-                  :null
-              }
-						</div>
+              {page === "main" && !isEditing && (
+                <>
+                  <button className="event-type-button delete-event-btn" onClick={handleDeleteClick}>Usuń wydarzenie</button>
+                  <button className="event-type-button edit-event-btn" onClick={handleStartEdit}>Edytuj wydarzenie</button>
+                </>
+              )}
+              {page === "main" && isEditing && (
+                <>
+                  <button className="event-type-button delete-event-btn" onClick={handleEditSave}>Zapisz</button>
+                  <button className="event-type-button edit-event-btn" onClick={handleEditCancel}>Anuluj</button>
+                </>
+              )}
+              {page === "invitations" && (
+                <button className="event-type-button generate-btn" onClick={hanldeAddInvitation} >Wygeneruj nowy kod</button>
+              )}
+            </div>
 					</header>
 					{page === "main" &&
             <div className="event-details-content">
@@ -1061,6 +1186,57 @@ function EventDetails(){
                     ))}
                   </tbody>
                 </table>
+              </div>
+            </div>
+          }
+          {page === "invitations" &&
+            <div className="invitations-container">
+              <div className="invitations">
+                {invitations.map((inv, i) => (
+                  <div key={i} className="invitation">
+                    <QRCodeCanvas 
+                      value={inv.link}
+                      size={120}
+                      bgColor="#ffffff"
+                      fgColor="#000000"
+                      level="H"
+                    />
+                    <div className="invitation-content">
+                      <div className="invitation-first-row">
+                        <div className="invitation-first-row-box">
+                          <span className="invitation-first-row-box-title">Nr. kodu</span><br />
+                          <span className="invitation-first-row-box-content">{inv.code}</span>
+                        </div>
+                        <div className="invitation-first-row-box">
+                          <span className="invitation-first-row-box-title">Data utworzenia</span><br />
+                          <span className="invitation-first-row-box-content">{formatDate(inv.date_added)}</span>
+                        </div>
+                        <div className="invitation-first-row-box">
+                          <span className="invitation-first-row-box-title">Utworzony przez</span><br />
+                          <span className="invitation-first-row-box-content">Andrzej Marek</span>
+                        </div>
+                      </div>
+                      <div className="invitation-second-row">
+                        <div className="invitation-second-row-link">
+                          <span className="invitation-second-row-span">Link zaproszeniowy</span><br />
+                          <input 
+                            type="text"
+                            readOnly
+                            value={inv.link}
+                            className="invitation-second-row-input"
+                          />
+                        </div>
+                        <div className="invitation-second-row-button-box">
+                          <button 
+                            className={`invitation-second-row-button ${inv.is_valid ? "red" : "green"}`}
+                          >
+                            {inv.is_valid ? "Dezaktywuj" : "Aktywuj"}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           }
