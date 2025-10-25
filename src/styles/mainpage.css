@@ -1177,3 +1177,124 @@ input[type="number"]::-webkit-outer-spin-button{
     color: rgb(243, 82, 82);
     text-align: center;
 }
+
+.participant-table {
+  border-collapse: collapse;
+  width: 100%;
+}
+.participant-table-wrapper {
+  padding: 20px 10px;
+  background-color: white;
+  border-radius: 10px;
+  margin: 0 5%;
+}
+.participant-list-user{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    max-width: 300px;
+    margin: 0 auto;
+}
+#participant-nr{
+    max-width: 68px;
+}
+#participant-user{
+    max-width: 379px;
+}
+.participant-table thead th{
+    padding: 0;
+}
+.participants-enumarate{
+    font-weight: 600;
+    font-size: 16px;
+}
+.participant-list-user-name{
+    font-weight: 500;
+    font-size: 20px;
+    margin: 0;
+    height: 25px;
+}
+.participant-list-user-date{
+    font-weight: 300;
+    font-size: 14px;
+    color: var(--primary-grey);
+    margin: 0;
+}
+.participant-list-user-text-cont{
+    width: 250px;
+}
+.contact-icon{
+    display: inline;
+    vertical-align: middle;
+    color: var(--text-secondery);
+    margin-right: 10px;
+    font-size: 18px;
+}
+.participant-list-contact-list{
+    list-style-type: none;
+    padding: 0;
+}
+.participant-list-contact-list li.orange-contact{
+    color: var(--primary-orange);
+}
+.participant-list-contact-list li{
+    color: var(--text-secondery);
+    font-size: 16px;
+}
+#participant-contact{
+    max-width: 388px;
+}
+.participant-paid-status{
+    font-weight: 500;
+    font-size: 16px;
+    padding: 4.5px 15px;
+    border-radius: 35px;
+}
+.participant-paid-status.green{
+    color: #2E7D32;
+    background-color: #E8F5E9;
+}
+.participant-paid-status.red{
+    background-color: #FDECEA;
+    color: #B71C1C;
+}
+#participant-paid-status{
+    max-width: 262px;
+}
+.check-mark{
+    color: #2E7D32;
+}
+.x-mark{
+    scale: 2;
+    color: #B71C1C;
+}
+.presence-status-box{
+    text-align: center;
+    padding: 5px;
+    border: 1px solid var(--primary-grey);
+    background-color: #f7f7f7;
+    width: 24px;
+    height: 24px;
+    margin: 0 auto;
+    border-radius: 5px;
+}
+#participant-presence{
+    max-width: 140px;
+}
+.icon2{
+    transform: translateY(3px);
+}
+.icon3{
+    transform: translateY(1.2px);
+}
+.participant-table thead th, .participant-table thead td{
+    font-size: 16px;
+    font-weight: normal;
+    color: var(--primary-grey);
+}
+.participant-table thead{
+    background-color: #f7f7f7;
+    border-radius: 8px;
+    padding: 5px 20px;
+}

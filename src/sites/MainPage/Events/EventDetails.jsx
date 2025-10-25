@@ -6,12 +6,19 @@ import SideBar from "../components/SideBar.jsx";
 import './../../../styles/mainpage.css'
 import { useNavigate, useParams } from "react-router-dom";
 import eventImg from '../../../assets/images/event.png'
-import { FaRegCalendar as Calendar, FaRegStar as Star, FaAngleDown as AngleDown } from "react-icons/fa";
-import { BiMap as Pin } from "react-icons/bi";
+import { FaRegCalendar as Calendar,
+         FaRegStar as Star, 
+         FaAngleDown as AngleDown,
+         FaEnvelope as Envelope, 
+         FaPhoneAlt as Phone,
+         FaCheck as CheckMark } from "react-icons/fa";
+import { BiMap as Pin, BiX as XMark} from "react-icons/bi";
 import StaticMap from "../components/StaticMap.jsx";
 import pfp from './../../../assets/images/staff-pfp.png'
 import Map from "../components/Map.jsx";
 import footIcon from './../../../assets/images/foot.png';
+import leaveIcon1 from './../../../assets/images/leave1.png'
+import leaveIcon2 from './../../../assets/images/leave2.png'
 import { LocationContext } from "../../../utils/LocationContext.jsx";
 
 function EventDetails(){
@@ -41,86 +48,201 @@ function EventDetails(){
 	const [isPublic, setIsPublic] = useState(true);
 	const [specialGuests, setSpecialGuests] = useState([{name: "", nickname: "", surname: ""}]);
 
-  const [participants, setParticipants] = useState([{
+  const [participants, setParticipants] = useState([
+  {
+    id: 1,
+    user: {
       id: 1,
-      user: {
-        id: 11,
-        email: "jan.kowalski@example.com",
-        profile: {
-          name: "Jan",
-          surname: "Kowalski",
-          phone_number: "+48 501 123 456",
-          profile_picture: "https://randomuser.me/api/portraits/men/32.jpg"
-        }
-      },
-      role: "participant",
-      paid_status: true,
-      presence: true
+      email: "jan.kowalski@example.com",
+      profile: {
+        name: "Jan",
+        surname: "Kowalski",
+        phone_number: "+48 501 123 456",
+        profile_picture: "https://randomuser.me/api/portraits/men/32.jpg"
+      }
     },
-    {
+    role: "participant",
+    paid_status: true,
+    presence: true
+  },
+  {
+    id: 2,
+    user: {
       id: 2,
-      user: {
-        id: 12,
-        email: "anna.nowak@example.com",
-        profile: {
-          name: "Anna",
-          surname: "Nowak",
-          phone_number: "+48 502 987 654",
-          profile_picture: "https://randomuser.me/api/portraits/women/68.jpg"
-        }
-      },
-      role: "participant",
-      paid_status: true,
-      presence: false
+      email: "anna.nowak@example.com",
+      profile: {
+        name: "Anna",
+        surname: "Nowak",
+        phone_number: "+48 502 987 654",
+        profile_picture: "https://randomuser.me/api/portraits/women/68.jpg"
+      }
     },
-    {
+    role: "participant",
+    paid_status: true,
+    presence: false
+  },
+  {
+    id: 3,
+    user: {
       id: 3,
-      user: {
-        id: 13,
-        email: "piotr.zielinski@example.com",
-        profile: {
-          name: "Piotr",
-          surname: "Zieliński",
-          phone_number: "+48 503 111 222",
-          profile_picture: "https://randomuser.me/api/portraits/men/41.jpg"
-        }
-      },
-      role: "organizer",
-      paid_status: false,
-      presence: true
+      email: "piotr.zielinski@example.com",
+      profile: {
+        name: "Piotr",
+        surname: "Zieliński",
+        phone_number: "+48 503 111 222",
+        profile_picture: "https://randomuser.me/api/portraits/men/41.jpg"
+      }
     },
-    {
+    role: "organizer",
+    paid_status: false,
+    presence: true
+  },
+  {
+    id: 4,
+    user: {
       id: 4,
-      user: {
-        id: 14,
-        email: "magda.kwiatkowska@example.com",
-        profile: {
-          name: "Magda",
-          surname: "Kwiatkowska",
-          phone_number: "+48 505 444 555",
-          profile_picture: "https://randomuser.me/api/portraits/women/59.jpg"
-        }
-      },
-      role: "participant",
-      paid_status: true,
-      presence: true
+      email: "magda.kwiatkowska@example.com",
+      profile: {
+        name: "Magda",
+        surname: "Kwiatkowska",
+        phone_number: "+48 505 444 555",
+        profile_picture: "https://randomuser.me/api/portraits/women/59.jpg"
+      }
     },
-    {
+    role: "participant",
+    paid_status: true,
+    presence: true
+  },
+  {
+    id: 5,
+    user: {
       id: 5,
-      user: {
-        id: 15,
-        email: "adam.nowicki@example.com",
-        profile: {
-          name: "Adam",
-          surname: "Nowicki",
-          phone_number: "+48 506 333 777",
-          profile_picture: "https://randomuser.me/api/portraits/men/64.jpg"
-        }
-      },
-      role: "participant",
-      paid_status: false,
-      presence: false
-    }]);
+      email: "adam.nowicki@example.com",
+      profile: {
+        name: "Adam",
+        surname: "Nowicki",
+        phone_number: "+48 506 333 777",
+        profile_picture: "https://randomuser.me/api/portraits/men/64.jpg"
+      }
+    },
+    role: "participant",
+    paid_status: false,
+    presence: false
+  },
+  {
+    id: 6,
+    user: {
+      id: 6,
+      email: "maria.wisniewska@example.com",
+      profile: {
+        name: "Maria",
+        surname: "Wiśniewska",
+        phone_number: "+48 507 888 999",
+        profile_picture: "https://randomuser.me/api/portraits/women/44.jpg"
+      }
+    },
+    role: "participant",
+    paid_status: true,
+    presence: true
+  },
+  {
+    id: 7,
+    user: {
+      id: 7,
+      email: "michal.wojcik@example.com",
+      profile: {
+        name: "Michał",
+        surname: "Wójcik",
+        phone_number: "+48 508 222 333",
+        profile_picture: "https://randomuser.me/api/portraits/men/12.jpg"
+      }
+    },
+    role: "participant",
+    paid_status: false,
+    presence: true
+  },
+  {
+    id: 8,
+    user: {
+      id: 8,
+      email: "karolina.lewandowska@example.com",
+      profile: {
+        name: "Karolina",
+        surname: "Lewandowska",
+        phone_number: "+48 509 444 555",
+        profile_picture: "https://randomuser.me/api/portraits/women/25.jpg"
+      }
+    },
+    role: "participant",
+    paid_status: true,
+    presence: false
+  },
+  {
+    id: 9,
+    user: {
+      id: 9,
+      email: "tomasz.kaczmarek@example.com",
+      profile: {
+        name: "Tomasz",
+        surname: "Kaczmarek",
+        phone_number: "+48 510 777 111",
+        profile_picture: "https://randomuser.me/api/portraits/men/70.jpg"
+      }
+    },
+    role: "participant",
+    paid_status: false,
+    presence: false
+  },
+  {
+    id: 10,
+    user: {
+      id: 10,
+      email: "katarzyna.dabrowska@example.com",
+      profile: {
+        name: "Katarzyna",
+        surname: "Dąbrowska",
+        phone_number: "+48 511 222 444",
+        profile_picture: "https://randomuser.me/api/portraits/women/14.jpg"
+      }
+    },
+    role: "participant",
+    paid_status: true,
+    presence: true
+  },
+  {
+    id: 11,
+    user: {
+      id: 11,
+      email: "pawel.mazur@example.com",
+      profile: {
+        name: "Paweł",
+        surname: "Mazur",
+        phone_number: "+48 512 333 888",
+        profile_picture: "https://randomuser.me/api/portraits/men/28.jpg"
+      }
+    },
+    role: "participant",
+    paid_status: true,
+    presence: false
+  },
+  {
+    id: 12,
+    user: {
+      id: 12,
+      email: "ewelina.olszewska@example.com",
+      profile: {
+        name: "Ewelina",
+        surname: "Olszewska",
+        phone_number: "+48 513 987 654",
+        profile_picture: "https://randomuser.me/api/portraits/women/39.jpg"
+      }
+    },
+    role: "participant",
+    paid_status: false,
+    presence: true
+  }
+]);
+
 
 	const navigate = useNavigate();
 
@@ -888,10 +1010,58 @@ function EventDetails(){
             </div>
           }
           {page === "list" &&
-            <div>
-              {participants.map((p, i) => (
-                <p key={p.id} >{p.user.email}</p>
-              ))}
+            <div className="participant-list-container">
+              <div className="participant-table-wrapper">
+                <table className="participant-table">
+                  <thead>
+                    <tr>
+                      <th id="participant-nr">Nr.</th>
+                      <th id="participant-user">Uczestnik</th>
+                      <td id="participant-contact">Kontakt</td>
+                      <td id="participant-paid-status">Zapłacone</td>
+                      <th id="participant-presence">Obecność</th>
+                      <th id="participant-actions">Akcje</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {participants.map((p, i) => (
+                      <tr key={i}>
+                        <th className="participants-enumarate">{p.user.id}.</th>
+                        <td>
+                          <div className="participant-list-user">
+                            <img src={pfp} style={{width: '48px', height: '48px', borderRadius: '100%'}} />
+                            <div className="participant-list-user-text-cont">
+                              <h3 className="participant-list-user-name">{p.user.profile.name} {p.user.profile.surname}</h3>
+                              <span className="participant-list-user-date">Dołączył/a 02-2025</span>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div className="participant-list-contact-box">
+                            <ul className="participant-list-contact-list">
+                              <li className="orange-contact"><Envelope className="contact-icon" />{p.user.email}</li>
+                              <li><Phone className="contact-icon" />{p.user.profile.phone_number}</li>
+                            </ul>
+                          </div>
+                        </td>
+                        <td>
+                          <span className={`participant-paid-status ${p.paid_status ? `green` : `red`}`} >
+                            {p.paid_status ? "Opłacone" : "Nieopłacone"}
+                          </span>
+                        </td>
+                        <td>
+                          <div className="presence-status-box">
+                            {p.presence ? <CheckMark className="check-mark icon2"/> : <XMark className="x-mark icon3" />}
+                          </div>
+                        </td>
+                        <th>
+                          {Math.floor(Math.random() * 2) + 1 === 1 ? <img src={leaveIcon1} /> : <img src={leaveIcon2} />}
+                        </th>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           }
 				</div>
