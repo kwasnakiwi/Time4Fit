@@ -1415,3 +1415,89 @@ input[type="number"]::-webkit-outer-spin-button{
     background-color: var(--clr-secondary);
     color: var(--primary-orange);
 }
+
+/* zaproszenie */
+
+.event-invitation img{
+    width: 690px;
+    height: 170px;
+    border-radius: 20.16px;
+}
+.event-invitation{
+    max-width: 690px;
+    box-shadow: 4px 4px 8px 0 rgba(0, 0, 0, 0.25);
+    border-radius: 20.16px;
+}
+.main-events-container.relative{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.event-invitation-content{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 17.28px 28.8px 44.2px;
+}
+.invitation-p{
+    margin: 0;
+    font-size: 20px;
+    color: black;
+}
+.event-invitation-title{
+    color: var(--text-secondery);
+    font-size: 34px;
+    font-weight: 600;
+    margin: 5.26px 0 0;
+}
+.event-invitation-autor, .event-invitation .event-info-title{
+    color: var(--primary-grey);
+    font-weight: 300;
+    font-size: 17px;
+}
+.event-invitation .event-info-value{
+    color: var(--primary-orange);
+    font-size: 17px;
+    font-weight: 500;
+}
+.event-invitation-autor a{
+    color: var(--primary-orange);
+    font-weight: 500;
+    text-decoration: underline;
+}
+.event-invitation .event-info-box{
+    margin-top: 34.56px;
+    margin-bottom: 43.2px;
+    gap: 46px;
+}
+.invitation-buttons{
+    display: flex;
+    justify-content: center;
+    gap: 17.28px;
+    width: 100%;
+}
+.invitation-btn{
+    color: white;
+    padding: 6.6px 45.76px;
+    border: none;
+    text-align: center;
+    border-radius: 7.2px;
+    font-size: 20px;
+    font-weight: 500;
+    cursor: pointer;
+}
+.invitation-btn.cancel{
+    background-color: #4a4a4a;
+    width: 25%;
+}
+.invitation-btn.accept{
+    background: var(--main-gradient);
+    width: 75%;
+}
+.event-info-value.invitation-span{
+    color: var(--primary-grey);
+}
+.event-info-value.invitation-span b{
+    color: var(--text-secondery);
+    font-weight: 500;
+}

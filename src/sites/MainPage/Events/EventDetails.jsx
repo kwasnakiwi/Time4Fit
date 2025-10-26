@@ -1154,7 +1154,7 @@ function EventDetails(){
                         <th className="participants-enumarate">{p.user.id}.</th>
                         <td>
                           <div className="participant-list-user">
-                            <img src={pfp} style={{width: '48px', height: '48px', borderRadius: '100%'}} />
+                            <img src={p.user.profile.profile_picture} style={{width: '48px', height: '48px', borderRadius: '100%'}} />
                             <div className="participant-list-user-text-cont">
                               <h3 className="participant-list-user-name">{p.user.profile.name} {p.user.profile.surname}</h3>
                               <span className="participant-list-user-date">Dołączył/a 02-2025</span>

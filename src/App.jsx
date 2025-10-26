@@ -11,6 +11,7 @@ import AddEvent1 from './sites/MainPage/Events/AddEvent1.jsx'
 import AddEvent2 from './sites/MainPage/Events/AddEvent2.jsx'
 import { EventProvider } from './utils/EventContext.jsx'
 import EventDetails from './sites/MainPage/Events/EventDetails.jsx'
+import EventInvitation from './sites/MainPage/Events/EventInvitation.jsx'
 
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
                 </EventProvider>
               }
             />
+            <Route path='/events/event-invitation' element={<EventInvitation />} />
           </Routes>
         </Router>
     </>
