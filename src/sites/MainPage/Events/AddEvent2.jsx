@@ -118,7 +118,7 @@ function AddEvent2(){
           <div className="event-inputs">
             <div className="event-input-box">
               <h2 className="event-input-box-title">
-                <span className="num-icon">7</span>
+                <span className="num-icon hom">7</span>
                 Poziom zaawansowania
               </h2>
               <div className="event-buttons">
@@ -154,7 +154,7 @@ function AddEvent2(){
             </div>
             <div className="event-input-box">
               <h2 className="event-input-box-title">
-                <span className="num-icon">8</span>
+                <span className="num-icon hom">8</span>
                 Ilość miejsc
               </h2>
               <div className="number-of-participants-input-box">
@@ -201,7 +201,7 @@ function AddEvent2(){
             </div>
             <div className="event-input-box">
               <h2 className="event-input-box-title">
-                <span className="num-icon">9</span>
+                <span className="num-icon hom">9</span>
                 Grupa wiekowa
               </h2>
               <div className="event-buttons">
@@ -223,7 +223,7 @@ function AddEvent2(){
             </div>
             <div className="event-input-box">
               <h2 className="event-input-box-title">
-                <span className="num-icon">10</span>
+                <span className="num-icon hom">10</span>
                 Wydarzenie publiczne?
               </h2>
               <div className="repeat-q-box">
@@ -244,7 +244,10 @@ function AddEvent2(){
               </div>
             </div>
             <div className="event-input-box">
-              <h2 className="event-input-box-title">Cena</h2>
+              <h2 className="event-input-box-title">
+                <span className="num-icon hom">11</span>
+                Cena
+              </h2>
               <div className="event-price-input-box">
                 <input 
                   type="number" 
@@ -281,13 +284,13 @@ function AddEvent2(){
             {isPremium ?
               <div className="event-input-box">
                 <h2 className="event-input-box-title">
-                  <span className="num-icon">12</span>
+                  <span className="num-icon hom">12</span>
                   Gość specjalny
                 </h2>
                 <div className="special-guests">
                   {specialGuests.map((guest, i) => (
                     <div key={i} className="guest-inputs">
-                      <span className="enumeration">{`${i + 1}.`}</span>
+                      <span className="enumeration hom">{`${i + 1}.`}</span>
                       <input 
                         type="text" 
                         className="event-props-input" 
@@ -320,7 +323,7 @@ function AddEvent2(){
               : 
               <div className="event-input-box opacity-down">
                 <h2 className="event-input-box-title">
-                  <span className="num-icon">12</span>
+                  <span className="num-icon hom">12</span>
                   Gość specjalny
                 </h2>
                 <div className="special-guests">

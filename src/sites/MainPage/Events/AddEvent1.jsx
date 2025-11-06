@@ -129,7 +129,7 @@ useEffect(() => {
             <div className="box-for-2-boxes">
               <div className="event-input-box">
                 <h2 className="event-input-box-title">
-                  <span className="num-icon">1</span>
+                  <span className="num-icon hom">1</span>
                   Tytuł wydarzenia
                 </h2>
                 <input 
@@ -143,7 +143,7 @@ useEffect(() => {
               </div>
               <div className="event-input-box">
                 <h2 className="event-input-box-title">
-                  <span className="num-icon">2</span>
+                  <span className="num-icon hom">2</span>
                   Kategoria
                 </h2>
                 <div className="select-wrapper">
@@ -171,9 +171,9 @@ useEffect(() => {
             </div>
             <div className="event-input-box">
               <h2 className="event-input-box-title">
-                <span className="num-icon">3</span>
+                <span className="num-icon hom">3</span>
                 Mały opis
-                <span className="info-icon">&#9432;</span>
+                <span className="info-icon hom">&#9432;</span>
               </h2>
               <textarea
                 id="event-small-desc-input" 
@@ -186,9 +186,9 @@ useEffect(() => {
             </div>
             <div className="event-input-box">
               <h2 className="event-input-box-title">
-                <span className="num-icon">4</span>
+                <span className="num-icon hom">4</span>
                 Duży opis
-                <span className="info-icon">&#9432;</span>
+                <span className="info-icon hom">&#9432;</span>
               </h2>
               <textarea
                 id="event-big-desc-input" 
@@ -201,14 +201,14 @@ useEffect(() => {
             </div>
             <div className="event-input-box">
               <h2 className="event-input-box-title">
-                <span className="num-icon">5</span>
+                <span className="num-icon hom">5</span>
                 Data wydarzenia
               </h2>
               <div className="first-row">
-                <div className="time-input-container">
+                <div className="duration-input-container dic">
                   <span className="event-props-label">Czas trwania</span>
-                  <div className="time-input-box">
-                    <Clock className="event-icon icon" />
+                  <div className="duration-input-box">
+                    <Clock className="event-icon icon hom" />
                     <select 
                       className="event-time-select" 
                       id="eventTimeSelect"
@@ -224,10 +224,10 @@ useEffect(() => {
                     <AngleDown className="event-time-select-arrow" />
                   </div>
                 </div>
-                <div className="date-input-container">
+                <div className="date-input-container daic">
                   <span className="event-props-label">Data wydarzenia</span>
                   <div className="time-input-box">
-                    <Calendar className="event-icon icon" />
+                    <Calendar className="event-icon icon hom" />
                     <input
                       type={showFormatted ? "text" : "date"}
                       value={showFormatted ? formatted.toString().slice(0, 1).toUpperCase() + formatted.toString().slice(1) : date}
@@ -244,7 +244,7 @@ useEffect(() => {
                     />
                   </div>
                 </div>
-                <div className="time-input-container">
+                <div className="time-input-container tic">
                   <span className="event-props-label">Godzina</span>
                   <div className="time-input-box">
                     <input 
@@ -257,7 +257,7 @@ useEffect(() => {
                   </div>
                 </div>
               </div>
-              <div className="second-row">
+              {/* <div className="second-row">
                 {
                   isPremium ?
                   <div className="repeat-q-box">
@@ -321,16 +321,16 @@ useEffect(() => {
                   :
                   null
                 }
-              </div>
+              </div> */}
             </div>
 
             <div className="event-input-box">
               <h2 className="event-input-box-title">
-                <span className="num-icon">6</span>
+                <span className="num-icon hom">6</span>
                 Lokalizacja wydarzenia
               </h2>
               <div className="location-row">
-                <div className="time-input-container">
+                <div className="time-input-container tiic">
                   <span className="event-props-label">Wybierz miasto</span>
                   <div className="time-input-box">
                     <select
@@ -354,7 +354,7 @@ useEffect(() => {
                     <AngleDown className="event-time-select-arrow" />
                   </div>
                 </div>
-                <div className="street-input-container">
+                <div className="street-input-container sic">
                   <span className="event-props-label">Ulica</span>
                   <div className="time-input-box">
                     <input
@@ -366,7 +366,7 @@ useEffect(() => {
                     />
                   </div>
                 </div>
-                <div className="street-number-input-container">
+                <div className="street-number-input-container snic">
                   <span className="event-props-label">Nr. ulicy</span>
                   <div className="time-input-box">
                     <input
@@ -379,7 +379,7 @@ useEffect(() => {
                     />
                   </div>
                 </div>
-                <div className="flat-number-input-container">
+                <div className="flat-number-input-container hom">
                   <span className="event-props-label">Nr. lokalu</span>
                   <div className="time-input-box">
                     <input
@@ -392,7 +392,7 @@ useEffect(() => {
                     />
                   </div>
                 </div>
-                <div className="postial-input-container">
+                <div className="postial-input-container pic">
                   <span className="event-props-label">Kod pocztowy</span>
                   <div className="time-input-box">
                     <input

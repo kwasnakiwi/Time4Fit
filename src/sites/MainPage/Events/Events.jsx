@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import eventImg from '../../../assets/images/event.png'
 function Events(){
   const [events, setEvents] = useState([])
+  const [showFilters, setShowFilters] = useState(false);
 
   useEffect(() => {
     const getEvents = async () => {
@@ -31,6 +32,10 @@ function Events(){
 
     getEvents();
   }, [])
+
+  const handleFiltersApply = () => {
+    setShowFilters(false);
+  }
 
   return(
     <>
@@ -61,7 +66,102 @@ function Events(){
                 </select>
                 <AngleDown className="icon"/>
               </div>
-              <button className="filter-button" id="settings-button"><Settings /></button>
+              <div className="filter-window">
+                <button 
+                  className="filter-button" 
+                  id="settings-button" 
+                  onClick={e => setShowFilters(!showFilters)}
+                >
+                  <Settings />
+                </button>
+                {showFilters &&
+                  <>
+                    <div className="filters-window">
+                      <h3>Filtry</h3>
+                      <div className="filters-window-field">
+                        <span>Filtr 1</span><br />
+                        <div className="filters-window-select-wrapper">
+                          <select id="filters-window-select1">
+                            <option value="1">Opcja</option>
+                            <option value="2">Opcja</option>
+                            <option value="3">Opcja</option>
+                          </select>
+                          <AngleDown className="filters-window-arrow" />
+                        </div>
+                      </div>
+                      <div className="filters-window-field">
+                        <span>Filtr 2</span>
+                        <div className="time-selects">
+                          <div className="filters-window-select-wrapper">
+                            <select id="filters-window-time-select1">
+                              <option value="1">15:00</option>
+                              <option value="2">12:00</option>
+                              <option value="3">14:00</option>
+                            </select>
+                            <AngleDown className="filters-window-arrow" />
+                          </div>
+                          <span className="dash">—</span>
+                          <div className="filters-window-select-wrapper">
+                            <select id="filters-window-time-select2">
+                              <option value="1">22:00</option>
+                              <option value="2">21:00</option>
+                              <option value="3">20:00</option>
+                            </select>
+                            <AngleDown className="filters-window-arrow" />
+                          </div>
+                        </div>
+                      </div>
+                      <div className="filters-window-field">
+                        <span>Filtr 3</span><br />
+                        <div className="filters-window-select-wrapper">
+                          <select id="filters-window-select3">
+                            <option value="1">Opcja</option>
+                            <option value="2">Opcja</option>
+                            <option value="3">Opcja</option>
+                          </select>
+                          <AngleDown className="filters-window-arrow" />
+                        </div>
+                      </div>
+                      <div className="filters-window-field">
+                        <span>Filtr 4</span><br />
+                        <div className="filters-window-select-wrapper">
+                          <select id="filters-window-select4">
+                            <option value="1">Opcja</option>
+                            <option value="2">Opcja</option>
+                            <option value="3">Opcja</option>
+                          </select>
+                          <AngleDown className="filters-window-arrow" />
+                        </div>
+                      </div>
+                      <div className="filters-window-field">
+                        <span>Filtr 5</span><br />
+                        <div className="filters-window-select-wrapper">
+                          <select id="filters-window-select5">
+                            <option value="1">Opcja</option>
+                            <option value="2">Opcja</option>
+                            <option value="3">Opcja</option>
+                          </select>
+                          <AngleDown className="filters-window-arrow" />
+                        </div>
+                      </div>
+                      <div className="filters-window-buttons">
+                        <button 
+                          className="filters-btn cancel" 
+                          onClick={e => setShowFilters(false)}
+                        >
+                          Anuluj
+                        </button>
+                        <button 
+                          className="filters-btn apply"
+                          onClick={handleFiltersApply}
+                        >
+                          Zastosuj
+                        </button>
+                      </div>
+                    </div>
+                  </>
+                }
+              </div>
               <div className="selectt-wrapper">
                 <input type="text" className="search-input" id="search-input" placeholder="Wyszukaj wydarzenia..." />
                 <Search id="search-icon" className="icon"/>

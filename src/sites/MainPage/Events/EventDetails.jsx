@@ -21,6 +21,8 @@ import leaveIcon1 from './../../../assets/images/leave1.png'
 import leaveIcon2 from './../../../assets/images/leave2.png'
 import { LocationContext } from "../../../utils/LocationContext.jsx";
 import { QRCodeCanvas } from "qrcode.react";
+import plus from "./../../../assets/images/+.png"
+import { CgPlayButtonO } from "react-icons/cg";
 
 function EventDetails(){
 	const { id } = useParams();
@@ -47,7 +49,10 @@ function EventDetails(){
 	const [advancedLevel, setAdvancedLevel] = useState("");
 	const [ageLimit, setAgeLimit] = useState("");
 	const [isPublic, setIsPublic] = useState(true);
+  const [showGenerateCodePopup, setShowGenerateCodePopup] = useState(false);
 	const [specialGuests, setSpecialGuests] = useState([{name: "", nickname: "", surname: ""}]);
+  const [isCodeOneUse, setIsCodeOneUse] = useState(true);
+  const [isCodeValid, setIsCodeValid] = useState(true);
   const [invitations, setInvitations] = useState([
   {
     id: 1,
@@ -416,7 +421,7 @@ function EventDetails(){
 
 	const addGuest = () => {
     const hasEmptyFields = specialGuests.some((guest) => (
-      guest.name.trim() === "" || guest.surname.trim() === "" || guest.nickname.trim() === ""
+      guest.name.trim() === "" || guest.surname.trim() === ""
     ))
 
     if(hasEmptyFields){
@@ -571,14 +576,18 @@ function EventDetails(){
 		}
   }
 
-  const hanldeAddInvitation = async () => {
+  const handleClickGenerateCode = () => {
+    setShowGenerateCodePopup(true);
+  }
+
+  const handleAddInvitation = async () => {
     try{
       const response = await apiFetch(`${BASE_URL}${ENDPOINTS.eventEvents}${id}/invitations/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          is_one_use: true,
-          is_active: true
+          is_one_use: isCodeOneUse,
+          is_active: isCodeValid
         })
       });
 
@@ -591,6 +600,8 @@ function EventDetails(){
     catch(err){
       console.error(err);
     }
+
+    setShowGenerateCodePopup(false)
   }
   
   const formatDate = (dateStr) => {
@@ -658,7 +669,7 @@ function EventDetails(){
                 </>
               )}
               {page === "invitations" && (
-                <button className="event-type-button generate-btn" onClick={hanldeAddInvitation} >Wygeneruj nowy kod</button>
+                <button className="event-type-button generate-btn" onClick={handleClickGenerateCode}>Wygeneruj nowy kod</button>
               )}
             </div>
 					</header>
@@ -1190,55 +1201,126 @@ function EventDetails(){
             </div>
           }
           {page === "invitations" &&
-            <div className="invitations-container">
-              <div className="invitations">
-                {invitations.map((inv, i) => (
-                  <div key={i} className="invitation">
-                    <QRCodeCanvas 
-                      value={inv.link}
-                      size={120}
-                      bgColor="#ffffff"
-                      fgColor="#000000"
-                      level="H"
-                    />
-                    <div className="invitation-content">
-                      <div className="invitation-first-row">
-                        <div className="invitation-first-row-box">
-                          <span className="invitation-first-row-box-title">Nr. kodu</span><br />
-                          <span className="invitation-first-row-box-content">{inv.code}</span>
-                        </div>
-                        <div className="invitation-first-row-box">
-                          <span className="invitation-first-row-box-title">Data utworzenia</span><br />
-                          <span className="invitation-first-row-box-content">{formatDate(inv.date_added)}</span>
-                        </div>
-                        <div className="invitation-first-row-box">
-                          <span className="invitation-first-row-box-title">Utworzony przez</span><br />
-                          <span className="invitation-first-row-box-content">Andrzej Marek</span>
+            <>
+              {showGenerateCodePopup &&
+                <>
+                  <div className="code-popup-overlay" onClick={() => setShowGenerateCodePopup(false)}></div>
+                  <div className="code-popup">
+                    <div className="code-popup-heading">
+                      <h3>Generowanie kodu</h3>
+                      <p>Wygeneruj kod zaproszeniowy</p>
+                      <XMark 
+                        className="code-x" 
+                        style={{cursor: "pointer"}} 
+                        onClick={e => setShowGenerateCodePopup(false)}
+                      />
+                    </div>
+                    <div className="code-content">
+                      <span className="settings-text"><img src={plus} alt="settings" /> Ustawienia zaproszenia</span>
+                      <div className="code-switch">
+                        <span>Kod jednorazowy</span>
+                        <div className="switches">
+                          <button 
+                            className={`switch-button ${isCodeOneUse ? 'code-selected' : ''} s1`}
+                            onClick={e => setIsCodeOneUse(true)}
+                          >
+                            TAK
+                          </button>
+                          <button 
+                            className={`switch-button ${!isCodeOneUse ? 'code-selected' : ''} s2`}
+                            onClick={e => setIsCodeOneUse(false)}
+                          >
+                            NIE
+                          </button>
                         </div>
                       </div>
-                      <div className="invitation-second-row">
-                        <div className="invitation-second-row-link">
-                          <span className="invitation-second-row-span">Link zaproszeniowy</span><br />
-                          <input 
-                            type="text"
-                            readOnly
-                            value={inv.link}
-                            className="invitation-second-row-input"
-                          />
-                        </div>
-                        <div className="invitation-second-row-button-box">
+                      <div className="code-switch">
+                        <span>Kod jest aktywny?</span>
+                        <div className="switches">
                           <button 
-                            className={`invitation-second-row-button ${inv.is_valid ? "red" : "green"}`}
+                            className={`switch-button ${isCodeValid ? 'code-selected' : ''} s1`}
+                            onClick={e => setIsCodeValid(true)}
                           >
-                            {inv.is_valid ? "Dezaktywuj" : "Aktywuj"}
+                            TAK
+                          </button>
+                          <button 
+                            className={`switch-button ${!isCodeValid ? 'code-selected' : ''} s2`}
+                            onClick={e => setIsCodeValid(false)}
+                          >
+                            NIE
                           </button>
                         </div>
                       </div>
                     </div>
+                    <hr className="code-popup-line" />
+                    <div className="code-popup-btns">
+                      <button 
+                        className="code-popup-btn cancel"
+                        onClick={e => setShowGenerateCodePopup(false)}
+                      >
+                          Anuluj
+                      </button>
+                      <button 
+                        className="code-popup-btn add"
+                        onClick={handleAddInvitation}
+                      >
+                          Dodaj
+                      </button>
+                    </div>
                   </div>
-                ))}
+                </>
+              }
+              <div className="invitations-container">
+                <div className="invitations">
+                  {invitations.map((inv, i) => (
+                    <div key={i} className="invitation">
+                      <QRCodeCanvas 
+                        value={inv.link}
+                        size={120}
+                        bgColor="#ffffff"
+                        fgColor="#000000"
+                        level="H"
+                      />
+                      <div className="invitation-content">
+                        <div className="invitation-first-row">
+                          <div className="invitation-first-row-box">
+                            <span className="invitation-first-row-box-title">Nr. kodu</span><br />
+                            <span className="invitation-first-row-box-content">{inv.code}</span>
+                          </div>
+                          <div className="invitation-first-row-box">
+                            <span className="invitation-first-row-box-title">Data utworzenia</span><br />
+                            <span className="invitation-first-row-box-content">{formatDate(inv.date_added)}</span>
+                          </div>
+                          <div className="invitation-first-row-box">
+                            <span className="invitation-first-row-box-title">Utworzony przez</span><br />
+                            <span className="invitation-first-row-box-content">Andrzej Marek</span>
+                          </div>
+                        </div>
+                        <div className="invitation-second-row">
+                          <div className="invitation-second-row-link">
+                            <span className="invitation-second-row-span">Link zaproszeniowy</span><br />
+                            <input 
+                              type="text"
+                              readOnly
+                              value={inv.link}
+                              className="invitation-second-row-input"
+                            />
+                          </div>
+                          <div className="invitation-second-row-button-box">
+                            <button 
+                              className={`invitation-second-row-button ${inv.is_valid ? "red" : "green"}`}
+                            >
+                              {inv.is_valid ? "Dezaktywuj" : "Aktywuj"}
+                            </button>
+                            <button className="invitation-second-row-button share">Udostępnij</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
+            </>
           }
 				</div>
 			</main>

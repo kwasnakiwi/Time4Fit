@@ -1,8 +1,10 @@
 import { FaRegBell as Bell,
          FaArrowLeft as LeftArrow,
-         FaAngleDown as AngleDown } from "react-icons/fa";
+         FaAngleDown as AngleDown,
+         FaBars as Hamburger } from "react-icons/fa";
 import pfp from './../../../assets/images/pfp.png';
-import './../../../styles/mainpage.css';
+import mobileLogo from './../../../assets/images/mobile-logo.png';
+import './../../../styles/navbar.css';
 import { Link } from "react-router-dom";
 
 function NavBar(props) {
@@ -38,6 +40,27 @@ function NavBar(props) {
             <h4 className="name-data-text">Użytkownik</h4>
           </div>
           <AngleDown className="icon" />
+        </div>
+      </nav>
+
+      {/* mobile */}
+      <nav className="mobile-nav">
+        <div className="row-sidebar">
+          <Hamburger className="hamburger" />
+          <img className="mob-logo" src={mobileLogo} alt="4 FIT" />
+          <div className="notification-profile">
+            <Bell 
+              onMouseEnter={handleBellHover}
+              className="mob-bell-icon"
+            />
+            <img src={pfp} alt="profile picture" />
+          </div>
+        </div>
+        <div className="mob-navbar">
+          <div className="mob-route-box">
+            <h5 className="mob-route">{props.route ?? "-"}</h5>
+            <h3 className="mob-nav-title">{props.title ?? "-"}</h3>
+          </div>
         </div>
       </nav>
     </>
