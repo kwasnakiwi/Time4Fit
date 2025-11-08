@@ -59,7 +59,10 @@ function NavBar(props) {
         <div className="mob-navbar">
           <div className="mob-route-box">
             <h5 className="mob-route">{props.route ?? "-"}</h5>
-            <h3 className="mob-nav-title">{props.title ?? "-"}</h3>
+            <h3 className="mob-nav-title">
+              <Link to={props.linkRoute ?? "#"}><span><LeftArrow className="icon"/></span></Link>
+              {props.title ?? "-"}
+            </h3>
           </div>
         </div>
       </nav>

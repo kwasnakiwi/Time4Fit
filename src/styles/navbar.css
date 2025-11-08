@@ -33,7 +33,7 @@
     font-weight: normal;
     margin: 0;
 }
-.nav-title span svg{
+.nav-title span svg, .mob-nav-title span svg{
     color: var(--primary-grey);
     width: 15px;
     height: 30px;

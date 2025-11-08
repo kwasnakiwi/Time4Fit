@@ -49,7 +49,7 @@ function Events(){
               <button className="event-type-button">Darmowe</button>
             </div>
             <div className="filters">
-              <div className="selectt-wrapper">
+              <div className="selectt-wrapper hom2">
                 <select id="filter-cat-select" className="filter-cat-select">
                   <option>Kategoria</option>
                   <option>Sport</option>
@@ -58,7 +58,7 @@ function Events(){
                 </select>
                 <AngleDown className="icon"/>
               </div>
-              <div className="selectt-wrapper">
+              <div className="selectt-wrapper hom2">
                 <select id="filter-time-select" className="filter-time-select">
                   <option>W tym tygodniu</option>
                   <option>Dzisiaj</option>
@@ -163,10 +163,10 @@ function Events(){
                 }
               </div>
               <div className="selectt-wrapper">
-                <input type="text" className="search-input" id="search-input" placeholder="Wyszukaj wydarzenia..." />
+                <input type="text" className="search-input" id="search-input" placeholder="Wyszukaj..." />
                 <Search id="search-icon" className="icon"/>
               </div>
-              <button id="map-icon" className="filter-button"><PinMap />Mapa wydarzeń</button>
+              <button id="map-icon" className="filter-button hom2"><PinMap />Mapa wydarzeń</button>
             </div>
           </nav>
           <div className="events">
@@ -233,7 +233,7 @@ function Events(){
                       />
                       <span className="quantity-of-people">{event.event_participant_count} / {event.additional_info.places_for_people_limit}</span>
                     </div>
-                    <Link className="more-bout-event" to={`/events/${event.id}`}>Zobacz szczegóły ↗</Link>
+                    <Link className="more-bout-event" to={`/events/${event.id}`}>Zobacz szczegóły <span className="hom">↗</span></Link>
                   </div>
                 </div>
               );
