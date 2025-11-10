@@ -1273,51 +1273,68 @@ function EventDetails(){
               <div className="invitations-container">
                 <div className="invitations">
                   {invitations.map((inv, i) => (
-                    <div key={i} className="invitation">
-                      <QRCodeCanvas 
-                        value={inv.link}
-                        size={120}
-                        bgColor="#ffffff"
-                        fgColor="#000000"
-                        level="H"
-                      />
-                      <div className="invitation-content">
-                        <div className="invitation-first-row">
-                          <div className="invitation-first-row-box">
-                            <span className="invitation-first-row-box-title">Nr. kodu</span><br />
-                            <span className="invitation-first-row-box-content">{inv.code}</span>
+                    <div key={i}  className="invitation-box">
+                      <div className="invitation">
+                        <QRCodeCanvas 
+                          value={inv.link}
+                          size={120}
+                          bgColor="#ffffff"
+                          fgColor="#000000"
+                          level="H"
+                        />
+                        <div className="invitation-content">
+                          <div className="invitation-first-row hom3">
+                            <div className="invitation-first-row-box">
+                              <span className="invitation-first-row-box-title">Nr. kodu</span><br />
+                              <span className="invitation-first-row-box-content">{inv.code}</span>
+                            </div>
+                            <div className="invitation-first-row-box">
+                              <span className="invitation-first-row-box-title">Data utworzenia</span><br />
+                              <span className="invitation-first-row-box-content">{formatDate(inv.date_added)}</span>
+                            </div>
+                            <div className="invitation-first-row-box">
+                              <span className="invitation-first-row-box-title">Utworzony przez</span><br />
+                              <span className="invitation-first-row-box-content">Andrzej Marek</span>
+                            </div>
                           </div>
-                          <div className="invitation-first-row-box">
-                            <span className="invitation-first-row-box-title">Data utworzenia</span><br />
-                            <span className="invitation-first-row-box-content">{formatDate(inv.date_added)}</span>
-                          </div>
-                          <div className="invitation-first-row-box">
-                            <span className="invitation-first-row-box-title">Utworzony przez</span><br />
-                            <span className="invitation-first-row-box-content">Andrzej Marek</span>
+                          <div className="invitation-second-row">
+                            <div className="invitation-second-row-link">
+                              <span className="invitation-second-row-span">Link zaproszeniowy</span><br />
+                              <input 
+                                type="text"
+                                readOnly
+                                value={inv.link}
+                                className="invitation-second-row-input"
+                              />
+                            </div>
+                            <div className="invitation-second-row-button-box">
+                              <button 
+                                className={`invitation-second-row-button ${inv.is_valid ? "red" : "green"}`}
+                              >
+                                {inv.is_valid ? "Dezaktywuj" : "Aktywuj"}
+                              </button>
+                              <button className="invitation-second-row-button share">Udostępnij</button>
+                            </div>
                           </div>
                         </div>
-                        <div className="invitation-second-row">
-                          <div className="invitation-second-row-link">
-                            <span className="invitation-second-row-span">Link zaproszeniowy</span><br />
-                            <input 
-                              type="text"
-                              readOnly
-                              value={inv.link}
-                              className="invitation-second-row-input"
-                            />
-                          </div>
-                          <div className="invitation-second-row-button-box">
-                            <button 
-                              className={`invitation-second-row-button ${inv.is_valid ? "red" : "green"}`}
-                            >
-                              {inv.is_valid ? "Dezaktywuj" : "Aktywuj"}
-                            </button>
-                            <button className="invitation-second-row-button share">Udostępnij</button>
-                          </div>
+                      </div>
+                      <div className="invitation-first-row som2">
+                        <div className="invitation-first-row-box">
+                          <span className="invitation-first-row-box-title">Nr. kodu</span><br />
+                          <span className="invitation-first-row-box-content">{inv.code}</span>
+                        </div>
+                        <div className="invitation-first-row-box">
+                          <span className="invitation-first-row-box-title">Data utworzenia</span><br />
+                          <span className="invitation-first-row-box-content">{formatDate(inv.date_added)}</span>
+                        </div>
+                        <div className="invitation-first-row-box">
+                          <span className="invitation-first-row-box-title">Utworzony przez</span><br />
+                          <span className="invitation-first-row-box-content">Andrzej Marek</span>
                         </div>
                       </div>
                     </div>
                   ))}
+                  <div className="generate-code-plus" onClick={handleClickGenerateCode}>+</div>
                 </div>
               </div>
             </>
