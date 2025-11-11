@@ -4,11 +4,12 @@ import { Icon } from "leaflet";
 import locIcon from "./../../../assets/images/location-pin.png";
 import "./../../../styles/mainpage.css";
 import "leaflet/dist/leaflet.css";
-import { LocationContext } from "../../../utils/LocationContext";
+import { LocationContext } from "./../../../utils/LocationContext";
 
 const customMarker = new Icon({
   iconUrl: locIcon,
   iconSize: [38, 38],
+  iconAnchor: [19, 38],
 });
 
 function Map({
@@ -108,7 +109,6 @@ function Map({
         <Popup autoOpen>
           {street || "Brak ulicy"} {streetNumber ? ` ${streetNumber}` : ""}, {city || "Brak miasta"} <br />
           Kod: {postial || "brak"} <br />
-          Lat: {position[0].toFixed(5)}, Lng: {position[1].toFixed(5)}
         </Popup>
       </Marker>
     ) : null;

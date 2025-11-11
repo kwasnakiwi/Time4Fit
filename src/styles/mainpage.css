@@ -40,11 +40,11 @@ body{
 .steps {
   display: flex;
   align-items: center;
-  justify-content: space-between; /* kroki rozłożą się automatycznie */
+  justify-content: space-between;
   margin-top: 20px;
   width: 100%;
-  max-width: 800px; /* ogranicza rozciąganie na dużych ekranach */
-  margin-inline: auto; /* centrowanie poziome */
+  max-width: 800px;
+  margin-inline: auto;
   position: relative;
 }
 

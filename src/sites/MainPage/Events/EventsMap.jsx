@@ -46,11 +46,12 @@ function EventsMap(){
   const customMarker = new Icon({
     iconUrl: locIcon,
     iconSize: [38, 38],
+    iconAnchor: [19, 38],
   });
 
   return(
     <>
-      <NavBar route="Eventy" title="Eventy"/>
+      <NavBar route="Eventy" title="Eventy" linkRoute="/events"/>
       <SideBar />
       <main className="events-main">
         <div className="main-events-container">

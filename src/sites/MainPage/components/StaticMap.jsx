@@ -8,6 +8,7 @@ import "leaflet/dist/leaflet.css";
 const customMarker = new Icon({
   iconUrl: locIcon,
   iconSize: [38, 38],
+  iconAnchor: [19, 38],
 });
 
 function StaticMap({ lat, lng, city, street, postial, streetNumber }) {
@@ -25,12 +26,11 @@ function StaticMap({ lat, lng, city, street, postial, streetNumber }) {
       center={position}
       zoom={16}
       className="map"
-      scrollWheelZoom={false}
-      dragging={false}
-      doubleClickZoom={false}
-      zoomControl={false}
+      scrollWheelZoom={true}
+      dragging={true}
+      doubleClickZoom={true}
+      zoomControl={true}
       attributionControl={false}
-      style={{ pointerEvents: "none" }}
     >
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -43,7 +43,6 @@ function StaticMap({ lat, lng, city, street, postial, streetNumber }) {
             {street || "Brak ulicy"}{" "}
             {streetNumber ? `${streetNumber}` : ""}, {city || "Brak miasta"} <br />
             Kod: {postial || "brak"} <br />
-            Lat: {lat.toFixed(5)}, Lng: {lng.toFixed(5)}
           </Popup>
         </Marker>
       )}
