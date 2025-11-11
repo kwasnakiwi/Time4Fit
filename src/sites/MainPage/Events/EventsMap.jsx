@@ -185,18 +185,29 @@ function EventsMap(){
             <MapContainer 
               center={[52.237049, 21.017532]}
               zoom={7}
+              minZoom={3}
+              maxZoom={18}
               scrollWheelZoom={true}
               style={{ width: "100%", height: "100%", borderRadius: "10px" }}
+              maxBounds={[
+                [-90, -180],
+                [90, 180]
+              ]}
+              maxBoundsViscosity={1.0}
             >
               <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                noWrap={true}
               />
              <MarkerClusterGroup
+              animateAddingMarkers={true}
+              spiderfyOnEveryClick={true}
+              showCoverageOnHover={false}
               iconCreateFunction={(cluster) => {
                 const count = cluster.getChildCount();
                 return L.divIcon({
-                  html: `<div class="custom-cluster">${count}</div>`,
+                  html: `<div class="custom-cluster animated">${count}</div>`,
                   className: 'my-cluster-icon',
                   iconSize: L.point(40, 40, true),
                 });

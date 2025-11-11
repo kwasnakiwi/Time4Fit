@@ -25,16 +25,24 @@ function StaticMap({ lat, lng, city, street, postial, streetNumber }) {
     <MapContainer
       center={position}
       zoom={16}
+      minZoom={3}
+      maxZoom={18}
       className="map"
       scrollWheelZoom={true}
       dragging={true}
       doubleClickZoom={true}
       zoomControl={true}
       attributionControl={false}
+      maxBounds={[
+        [-90, -180],
+        [90, 180]
+      ]}
+      maxBoundsViscosity={1.0}
     >
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> contributors'
+        noWrap={true}
       />
 
       {lat && lng && (

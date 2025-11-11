@@ -55,7 +55,6 @@ body{
   justify-content: center;
   position: relative;
   z-index: 1;
-  cursor: pointer;
 }
 
 .step span {
@@ -1540,8 +1539,8 @@ input[type="number"]::-webkit-outer-spin-button{
   position: absolute;
   inset: 0;
   background: rgba(255, 255, 255, 0.1); 
-  backdrop-filter: blur(1.5px); 
-  -webkit-backdrop-filter: blur(1.5px);
+  backdrop-filter: blur(3px); 
+  -webkit-backdrop-filter: blur(3px);
   z-index: 1110;
 }
 
@@ -1669,6 +1668,11 @@ input[type="number"]::-webkit-outer-spin-button{
     align-items: center;
     justify-content: center;
 }
+.leaflet-marker-icon,
+.leaflet-marker-shadow {
+  transition: transform 0.3s ease-in-out;
+}
+
 
 
 /* media */
@@ -1695,7 +1699,9 @@ input[type="number"]::-webkit-outer-spin-button{
     #event-date-input{
         width: auto;
     }
-    
+    .event-details-content{
+        grid-template-columns: 1fr;
+    }
 }
 @media (max-width: 1190px) {
     .hom2{
@@ -1918,4 +1924,9 @@ input[type="number"]::-webkit-outer-spin-button{
   .step:not(:last-child)::after {
     height: 4px;
   }
+}
+@media (max-width: 438px) {
+    .invitation{
+        align-items: center;
+    }
 }

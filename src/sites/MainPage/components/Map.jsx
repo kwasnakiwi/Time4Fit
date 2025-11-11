@@ -129,14 +129,22 @@ function Map({
     <MapContainer
       center={[52.2297, 21.0122]} // zawsze start z Warszawy, bez zmiany
       zoom={16}
+      minZoom={3}
+      maxZoom={18}
       className="map"
       scrollWheelZoom
       doubleClickZoom
       dragging
+      maxBounds={[
+        [-90, -180],
+        [90, 180]
+      ]}
+      maxBoundsViscosity={1.0}
     >
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> contributors'
+        noWrap={true}
       />
       <LocationMarker />
       <RecenterMap position={position} />
