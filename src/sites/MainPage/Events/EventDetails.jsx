@@ -386,14 +386,14 @@ function EventDetails(){
           console.log("dane listy uczestnikow:", data);
 
           // setParticipants(data.results || []);
-          console.log(participants)
+          console.log("participants", participants)
         }
         catch(err){
           console.error(err);
         }
       }
-      getParticipantList();
     }
+    getParticipantList();
   }, [id, page]);
 
   useEffect(() => {
@@ -415,8 +415,8 @@ function EventDetails(){
           console.error(err);
         }
       }
-      getInvitations();
     }
+    getInvitations();
   }, [id, page])
 
 	const addGuest = () => {

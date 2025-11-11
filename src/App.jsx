@@ -12,6 +12,7 @@ import AddEvent2 from './sites/MainPage/Events/AddEvent2.jsx'
 import { EventProvider } from './utils/EventContext.jsx'
 import EventDetails from './sites/MainPage/Events/EventDetails.jsx'
 import EventInvitation from './sites/MainPage/Events/EventInvitation.jsx'
+import EventsMap from './sites/MainPage/Events/EventsMap.jsx'
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
             <Route path='/forgot-password/verify' element={<ForgotPasswordVerify />} />
             <Route path='/forgot-password/change-password' element={<ChangePassword />} />npm run d
             <Route path='/events' element={<Events />} />
+            <Route path='/events/events-map' element={<EventsMap />} />
             <Route path="/events/:id" element={<EventDetails />} />
             <Route
               path="/events/add-event/*"
