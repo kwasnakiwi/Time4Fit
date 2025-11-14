@@ -59,10 +59,18 @@ function NavBar(props) {
         <div className="mob-navbar">
           <div className="mob-route-box">
             <h5 className="mob-route">{props.route ?? "-"}</h5>
-            <h3 className="mob-nav-title">
-              <Link to={props.linkRoute ?? "#"}><span><LeftArrow className="icon"/></span></Link>
-              {props.title ?? "-"}
-            </h3>
+            <div className="mob-navbar-content">
+              <h3 className="mob-nav-title">
+                <Link to={props.linkRoute ?? "#"}><span><LeftArrow className="icon"/></span></Link>
+                {props.title ?? "-"}
+              </h3>
+              {props.page === "main" &&
+                <div className="nav-operate-buttons">
+                  <button className="nav-operate-btn delete" onClick={props.firstFunction ?? ""}>{props.firstBtnText ?? "-"}</button>
+                  <button className="nav-operate-btn edit" onClick={props.secondFunction ?? ""}>{props.secondBtnText ?? "-"}</button>
+                </div>
+              }
+            </div>
           </div>
         </div>
       </nav>

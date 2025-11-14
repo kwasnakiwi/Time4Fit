@@ -194,6 +194,10 @@
 .hamburger{
     font-size: 25px;
 }
+.mob-navbar-content{
+    display: flex;
+    justify-content: space-between;
+}
 /* media */
 
 @media (max-width: 660px) {

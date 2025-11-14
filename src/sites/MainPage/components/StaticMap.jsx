@@ -50,7 +50,6 @@ function StaticMap({ lat, lng, city, street, postial, streetNumber }) {
           <Popup>
             {street || "Brak ulicy"}{" "}
             {streetNumber ? `${streetNumber}` : ""}, {city || "Brak miasta"} <br />
-            Kod: {postial || "brak"} <br />
           </Popup>
         </Marker>
       )}

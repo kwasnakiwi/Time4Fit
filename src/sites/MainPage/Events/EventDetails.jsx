@@ -616,19 +616,28 @@ function EventDetails(){
           <h1>Czy napewno chcesz usunąć to wydarzenie?</h1>
           <p>Wszytskie informacje o nim zostaną usunięte i nie będzie można ich przywrócić</p>
           <div className="delete-event-popup-btns">
-            <button className="delete-event-popup-cancel-btn event-type-button edit-event-btn" onClick={handleDeleteCancel} >Anuluj</button>
-            <button className="delete-event-popup-cancel-btn event-type-button delete-event-btn" onClick={handleDeleteConfirm}>Tak, usuń</button>
+            <button className="delete-event-popup-cancel-btn event-type-button edit-event-btn ed" onClick={handleDeleteCancel} >Anuluj</button>
+            <button className="delete-event-popup-cancel-btn event-type-button delete-event-btn ed" onClick={handleDeleteConfirm}>Tak, usuń</button>
           </div>
         </div>
       }
-			<NavBar route='Eventy / Szczegóły Eventu' title='Szczegóły Eventu' linkRoute="/events"/>
+			<NavBar 
+        route='Eventy / Szczegóły Eventu' 
+        title='Szczegóły Eventu' 
+        linkRoute="/events" 
+        firstFunction={!isEditing ? handleDeleteClick : handleEditCancel} 
+        secondFunction={!isEditing ? handleStartEdit : handleEditSave}
+        firstBtnText={!isEditing ? "Usuń" : "Anuluj"}
+        secondBtnText={!isEditing ? "Edytuj" : "Zapisz"}
+        page={page}
+      />
 			<SideBar />
 			<main className="events-main">
         <div className="main-events-container">
 					<header className="top-filters">
 					  <div className="event-type-buttons">
               <button 
-                className={`event-type-button ${page === "main" ? 'event-type-button-selected' : ""}`}
+                className={`event-type-button ed ${page === "main" ? 'event-type-button-selected' : ""}`}
                 onClick={e => {
                   setPage("main");
                   localStorage.setItem("page", "main");
@@ -637,7 +646,7 @@ function EventDetails(){
                 Wydarzenie
               </button>
               <button 
-                className={`event-type-button ${page === "list" ? 'event-type-button-selected' : ""}`}
+                className={`event-type-button ed ${page === "list" ? 'event-type-button-selected' : ""}`}
                 onClick={e => {
                   setPage("list");
                   localStorage.setItem("page", "list");
@@ -646,7 +655,7 @@ function EventDetails(){
                 Lista uczestników
               </button>
 							<button 
-                className={`event-type-button ${page === "invitations" ? 'event-type-button-selected' : ""}`}
+                className={`event-type-button ed ${page === "invitations" ? 'event-type-button-selected' : ""}`}
                 onClick={e => {
                   setPage("invitations");
                   localStorage.setItem("page", "invitations");
@@ -658,14 +667,14 @@ function EventDetails(){
 						<div className="edit-delete-btns">
               {page === "main" && !isEditing && (
                 <>
-                  <button className="event-type-button delete-event-btn" onClick={handleDeleteClick}>Usuń wydarzenie</button>
-                  <button className="event-type-button edit-event-btn" onClick={handleStartEdit}>Edytuj wydarzenie</button>
+                  <button className="event-type-button ed delete-event-btn" onClick={handleDeleteClick}>Usuń wydarzenie</button>
+                  <button className="event-type-button ed edit-event-btn" onClick={handleStartEdit}>Edytuj wydarzenie</button>
                 </>
               )}
               {page === "main" && isEditing && (
                 <>
-                  <button className="event-type-button delete-event-btn" onClick={handleEditSave}>Zapisz</button>
-                  <button className="event-type-button edit-event-btn" onClick={handleEditCancel}>Anuluj</button>
+                  <button className="event-type-button ed delete-event-btn" onClick={handleEditSave}>Zapisz</button>
+                  <button className="event-type-button ed edit-event-btn" onClick={handleEditCancel}>Anuluj</button>
                 </>
               )}
               {page === "invitations" && (
@@ -690,6 +699,7 @@ function EventDetails(){
                             <span className="event-details-span">Miejsca:</span><br />
                             <span className="event-details-content-span">{eventParticipants} / {eventDetails.additional_info.places_for_people_limit}</span>
                           </div>
+                          <hr className="people-line-price som-line" />
                           <div className="event-details-price">
                             <span className="event-details-span">Cena:</span><br />
                             <span className="event-details-content-span orange">{eventDetails.additional_info.price} PLN</span>
@@ -701,7 +711,7 @@ function EventDetails(){
                         <h3 className="event-details-long-desc-title">W skrócie</h3>
                         <p className="event-details-long-desc">{eventDetails.short_desc}</p>
                       </div>
-                      <hr className="event-details-line" />
+                      <hr className="event-details-line hom" />
                       <div className="event-details-localization-box">
                         <h3 className="event-details-long-desc-title"><Pin className="icon" /> Lokalizacja</h3>
                         <span className="event-details-localization">
@@ -901,14 +911,14 @@ function EventDetails(){
                   }
                 </div>
                 {!isEditing ? 
-                  <div className="event-details-list-box event-important-details">
+                  <div className="event-details-list-box event-important-details hom-desc">
                     <h3 className="event-details-list-title">Zasady udziału i wskazówki dla uczestników</h3>
                     <p className="event-details-long-desc">
                       {eventDetails.long_desc}
                     </p>
                   </div>
                   :
-                  <div className="event-details-list-box event-important-details">
+                  <div className="event-details-list-box event-important-details hom-desc">
                     <h3 className="event-details-list-title">Zasady udziału i wskazówki dla uczestników</h3>
                     <textarea
                       id="event-details-big-desc-input" 
@@ -1142,6 +1152,26 @@ function EventDetails(){
                     </div>
                   </div>
                 </div>
+                {!isEditing ? 
+                  <div className="event-details-list-box event-important-details som-desc">
+                    <h3 className="event-details-list-title">Zasady udziału i wskazówki dla uczestników</h3>
+                    <p className="event-details-long-desc">
+                      {eventDetails.long_desc}
+                    </p>
+                  </div>
+                  :
+                  <div className="event-details-list-box event-important-details som-desc">
+                    <h3 className="event-details-list-title">Zasady udziału i wskazówki dla uczestników</h3>
+                    <textarea
+                      id="event-details-big-desc-input" 
+                      className="event-details-props-input" 
+                      maxLength={400} 
+                      placeholder={eventDetails.long_desc}
+                      value={longDesc}
+                      onChange={e => setLongDesc(e.target.value)}
+                    />
+                  </div>
+                }
               </div>
             </div>
           }

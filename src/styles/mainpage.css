@@ -593,7 +593,7 @@ input[type="number"]::-webkit-outer-spin-button{
     justify-content: center;
     gap: 14px;
 }
-.event-type-button{
+.event-type-button, .nav-operate-btn{
     padding: 6px 30px;
     font-size: 14px;
     cursor: pointer;
@@ -815,12 +815,12 @@ input[type="number"]::-webkit-outer-spin-button{
     font-size: 12px;
     font-weight: 600;
 }
-.delete-event-btn{
+.delete-event-btn, .nav-operate-btn.delete{
     background-color: #FDECEA;
     color: #B71C1C;
     padding: 6px 14px;
 }
-.edit-event-btn{
+.edit-event-btn, .nav-operate-btn.edit{
     background-color: var(--clr-secondary);
     color: var(--primary-orange);
     padding: 6px 14px;
@@ -1673,8 +1673,12 @@ input[type="number"]::-webkit-outer-spin-button{
   transition: transform 0.3s ease-in-out;
 }
 
-
-
+.som-desc{
+    display: none;
+}
+.som-line{
+    display: none;
+}
 /* media */
 
 @media (max-width: 1405px) {
@@ -1700,7 +1704,17 @@ input[type="number"]::-webkit-outer-spin-button{
         width: auto;
     }
     .event-details-content{
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(500px, calc(100% - 100px));
+        margin: 18px 5%;
+    }
+    .event-details-localization-box .map {
+        max-width: none;
+    }
+    .hom-desc{
+        display: none;
+    }
+    .som-desc{
+        display: block;
     }
 }
 @media (max-width: 1190px) {
@@ -1723,6 +1737,20 @@ input[type="number"]::-webkit-outer-spin-button{
     }
     .guest-inputs{
         gap: 10px;
+    }
+}
+@media (max-width: 975px) {
+    .event-type-button.ed{
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+    .event-type-buttons:has(.event-type-button.ed),
+    .edit-delete-btns:has(.event-type-button.ed){
+        gap: 2px;
+        flex-wrap: wrap;
+    }
+    .top-filters:has(.event-type-buttons:has(.event-type-button.ed)){
+        margin: 0;
     }
 }
 @media (max-width: 860px) {
@@ -1907,6 +1935,34 @@ input[type="number"]::-webkit-outer-spin-button{
         color: white;
         background: var(--main-gradient);
         border-radius: 7.2px;
+    }
+    .edit-delete-btns{
+        display: none;
+    }
+    .event-details-content{
+        grid-template-columns: minmax(350px, 100%);
+    }
+    .event-details-title-box{
+        display: block;
+    }
+    .people-price{
+        justify-content: space-evenly;
+        margin-top: 20px;
+    }
+    .people-line-price{
+        margin: 0;
+        border-color: #74747430;
+    }
+    .event-details-price, .event-details-places{
+        display: block;
+        text-align: center;
+    }
+    .event-details-line{
+        border-color: #74747430;
+        background-color: transparent;
+    }
+    .som-line{
+        display: block;
     }
 }
 @media (max-width: 600px) {

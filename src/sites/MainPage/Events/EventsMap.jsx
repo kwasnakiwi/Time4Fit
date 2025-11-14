@@ -2,26 +2,15 @@ import { useEffect, useState } from "react";
 import NavBar from "../components/NavBar.jsx";
 import SideBar from "../components/SideBar.jsx";
 import "./../../../styles/mainpage.css";
-import {
-  FaAngleDown as AngleDown,
-  FaSlidersH as Settings,
-  FaSearch as Search,
-} from "react-icons/fa";
+import { FaAngleDown as AngleDown, FaSlidersH as Settings, FaSearch as Search } from "react-icons/fa";
 import locIcon from "./../../../assets/images/location-pin.png";
-import {
-  MapContainer,
-  TileLayer,
-  Marker,
-  Popup,
-} from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { Icon } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { apiFetch } from "../../../interceptor/interceptor.jsx";
 import { BASE_URL, ENDPOINTS } from "../../../utils/Endopoints.jsx";
 import MarkerClusterGroup from "react-leaflet-markercluster";
 import "leaflet.markercluster/dist/MarkerCluster.css";
-import "leaflet.markercluster/dist/MarkerCluster.Default.css";
-
 import { useNavigate } from "react-router-dom";
 
 function EventsMap() {
@@ -30,20 +19,34 @@ function EventsMap() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const getEventsMapInfo = async () => {
-      try {
-        const response = await apiFetch(
-          `${BASE_URL}${ENDPOINTS.eventEvents}events_on_map/`
-        );
-        const data = await response.json();
-        console.log("eventy na mapie", data);
-        setEvents(data);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    getEventsMapInfo();
-  }, []);
+  const getEventsMapInfo = async () => {
+    try {
+      const response = await apiFetch(`${BASE_URL}${ENDPOINTS.eventEvents}events_on_map/`);
+      const baseData = await response.json();
+
+      const detailedData = await Promise.all( 
+        baseData.map(async (event) => {
+          try {
+            const res = await apiFetch(`${BASE_URL}${ENDPOINTS.eventEvents}${event.id}/`);
+            const details = await res.json();
+            return { ...event, ...details }; // łącz dane (pozycja + info)
+          } catch (err) {
+            console.error(`Błąd pobierania szczegółów dla eventu ${event.id}`, err);
+            return event; // zwróć podstawowe dane, jeśli szczegóły się nie pobiorą
+          }
+        })
+      );
+
+      console.log("Eventy z danymi:", detailedData);
+      setEvents(detailedData);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  getEventsMapInfo();
+}, []);
+
 
   const handleFiltersApply = () => {
     setShowFilters(false);
@@ -202,12 +205,19 @@ function EventsMap() {
           <div className="events-map-container">
             <MapContainer
               center={[52.237049, 21.017532]}
+              minZoom={3}
               zoom={7}
               style={{ width: "100%", height: "100%", borderRadius: "10px" }}
+              maxBounds={[
+                [-90, -180],
+                [90, 180]
+              ]}
+              maxBoundsViscosity={1.0}
             >
               <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                noWrap
               />
 
               <MarkerClusterGroup 
@@ -228,7 +238,9 @@ function EventsMap() {
                     position={[event.latitude, event.longitude]}
                     icon={customMarker}
                   >
-                    <Popup>{event.title}</Popup>
+                    <Popup>
+                      <strong>{event.title}</strong><br />
+                    </Popup>
                   </Marker>
                 ))}
               </MarkerClusterGroup>
