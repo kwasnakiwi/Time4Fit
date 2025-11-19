@@ -1128,133 +1128,128 @@ input[type="number"]::-webkit-outer-spin-button{
     text-align: center;
 }
 
-.participant-table {
-  border-collapse: collapse;
-  width: 100%;
-}
-.participant-table-wrapper {
-  padding: 20px 10px;
-  background-color: white;
-  border-radius: 10px;
-  margin: 0 5%;
-}
-.participant-list-user{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 20px;
-    max-width: 300px;
-    margin: 0 auto;
-}
-#participant-nr{
-    max-width: 68px;
-}
-#participant-user{
-    max-width: 379px;
-}
-.participant-table thead th{
-    padding: 0;
-}
-.participant-table tbody tr {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1); 
-}
+/* list */
 
-.participant-table tbody tr:last-child {
-  border-bottom: none;
+.participant-list-container{
+    display: grid;
+    margin: 0 10%;
+    background-color: white;
+    padding: 20px 10px;
+    border-radius: 14px;
 }
-.participants-enumarate{
-    font-weight: 600;
+.list-header, .participant-row{
+    display: grid;
+    grid-template-columns: 60px 0.8fr 1.2fr 180px 120px 120px;
+    align-items: center;
+}
+.participant-row{
+    grid-auto-rows: minmax(70px, 90px);
+}
+.list-header{
+    padding: 5px 0;
+    background-color: #f7f7f7;
+    margin-bottom: 20px;
+    border-radius: 8px;
+}
+.list-header-title{
     font-size: 16px;
-}
-.participant-list-user-name{
-    font-weight: 500;
-    font-size: 20px;
-    margin: 0;
-    height: 25px;
-}
-.participant-list-user-date{
-    font-weight: 300;
-    font-size: 14px;
     color: var(--primary-grey);
+    font-weight: normal;
     margin: 0;
 }
-.participant-list-user-text-cont{
-    width: 250px;
+#pr-user, #pr-id, #pr-presence, #pr-actions{
+    justify-self: center;
 }
-.contact-icon{
+#pr-user{
+    margin-left: -150px;
+}
+.pr-user{
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+.pr-pfp{
+    width: 48px;
+    height: 48px;
+    border-radius: 100%;
+}
+.pr-user-name{
+    margin: 0;
+    font-size: 20px;
+    font-weight: 500;
+}
+.pr-user-join-date{
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--primary-grey);
+}
+.pr-enumerate{
+    color: var(--text-secondery);
+    font-size: 16px;
+    font-weight: 500;
+}
+.pr-enumerate-box{
+    justify-self: center;
+}
+.pr-contact p{
     display: inline;
     vertical-align: middle;
+    font-size: 16px;
+}
+.contact-icon{
     color: var(--text-secondery);
-    margin-right: 10px;
-    font-size: 18px;
 }
-.participant-list-contact-list{
-    list-style-type: none;
-    padding: 0;
-}
-.participant-list-contact-list li.orange-contact{
+.pr-email{
     color: var(--primary-orange);
+    white-space: nowrap;
 }
-.participant-list-contact-list li{
-    color: var(--text-secondery);
-    font-size: 16px;
-}
-#participant-contact{
-    max-width: 388px;
-}
-.participant-paid-status{
-    font-weight: 500;
-    font-size: 16px;
+.pay-status-box span{
     padding: 4.5px 15px;
+    font-size: 16px;
+    font-weight: 500;
     border-radius: 35px;
 }
-.participant-paid-status.green{
+.pay-status-box.green span{
     color: #2E7D32;
     background-color: #E8F5E9;
 }
-.participant-paid-status.red{
+.pay-status-box.red span{
+    color: #B71C1C;
     background-color: #FDECEA;
-    color: #B71C1C;
 }
-#participant-paid-status{
-    max-width: 262px;
+.pr-presence{
+    justify-self: center;
 }
-.check-mark{
-    color: #2E7D32;
-}
-.x-mark{
-    scale: 2;
-    color: #B71C1C;
-}
-.presence-status-box{
-    text-align: center;
-    padding: 5px;
-    border: 1px solid var(--primary-grey);
+.presence-box{
+    width: 30px;
+    height: 25px;
     background-color: #f7f7f7;
-    width: 24px;
-    height: 24px;
-    margin: 0 auto;
+    border: 1px solid var(--primary-grey);
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border-radius: 5px;
 }
-#participant-presence{
-    max-width: 140px;
+.presence-icon{
+    transform: translateY(15%);
 }
-.icon2{
-    transform: translateY(3px);
+.presence-icon.xmark{
+    font-size: 30px;
+    color: #B71C1C;
 }
-.icon3{
-    transform: translateY(1.2px);
+.presence-icon.checkmark{
+    color: #2E7D32;
 }
-.participant-table thead th, .participant-table thead td{
-    font-size: 16px;
-    font-weight: normal;
-    color: var(--primary-grey);
+.pr-actions{
+    justify-self: center;
 }
-.participant-table thead{
-    background-color: #f7f7f7;
-    border-radius: 8px;
-    padding: 5px 20px;
+.pr-list-line{
+    width: 100%;
+    border: 1px solid #74747425;
 }
+
+/* invitations */
+
 .invitations{
     display: grid;
     grid-template-columns: repeat(2, minmax(400px, 600px));
@@ -1679,6 +1674,9 @@ input[type="number"]::-webkit-outer-spin-button{
 .som-line{
     display: none;
 }
+.hom5{
+    display: none;
+}
 /* media */
 
 @media (max-width: 1405px) {
@@ -1687,6 +1685,12 @@ input[type="number"]::-webkit-outer-spin-button{
     }
     .event-info-box{
         flex-wrap: wrap;
+    }
+    .participant-list-container{
+        margin: 0 10px;
+    }
+    .participant-row, .list-header{
+        grid-template-columns: 60px 0.8fr 1.2fr 120px 80px 80px;
     }
 }
 @media (max-width: 1370px) {
@@ -1737,6 +1741,86 @@ input[type="number"]::-webkit-outer-spin-button{
     }
     .guest-inputs{
         gap: 10px;
+    }
+    .list-header{
+        display: none;
+    }
+    .participant-list-container{
+        background-color: transparent;
+    }
+    .participant-row{
+        background-color: white;
+        border-radius: 14px;
+    }
+    .participant-list-container .participant-row:not(:last-child){
+        margin-bottom: 13px;
+    }
+    .participant-row{
+        display: flex;
+        height: clamp(70px, 120px, 150px);
+        justify-content: space-between;
+        padding: 0 10px;
+        flex-wrap: wrap;
+    }
+    .pr-contact{
+        display: none;
+    }
+    .hom5{
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        gap: 8px;
+    }
+    .hom5 > div{
+        width: 100%;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+    .participant-row > .pr-enumerate-box, 
+    .participant-row > .pr-user,
+    .participant-row > .pr-contact,
+    .participant-row > .pr-pay-status,
+    .participant-row > .pr-presence,
+    .participant-row > .pr-actions,
+    .participant-row > .hom5 > div > .pr-enumerate-box{
+        display: none;
+    }
+    .hom5 > div{
+        display: flex;
+        align-items: center;
+        gap: 8px 10px;
+    }
+    .hom5 > .pr-contact{
+        display: none;
+    }
+    .pay-status-box span{
+        width: 150px;
+        display: block;
+        text-align: center;
+        border-radius: 8px;
+    }
+    .hom5 > .pr-enumerate{
+        display: flex;
+        align-items: center;
+    }
+    .hom5 > div > .pr-user{
+        order: 1;
+    }
+    .hom5 > div > .pr-actions{
+        order: 2;
+    }
+    .hom5 > div > .pr-presence{
+        order: 4;
+    }
+    .hom5 > div > .pr-pay-status{
+        order: 3;
+    }
+    .action{
+        width: 25px;
+        height: 25px;
+    }
+    .pr-list-line{
+        display: none;
     }
 }
 @media (max-width: 975px) {

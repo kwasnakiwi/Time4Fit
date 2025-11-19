@@ -1177,64 +1177,96 @@ function EventDetails(){
           }
           {page === "list" &&
             <div className="participant-list-container">
-              <div className="participant-table-wrapper">
-                <table className="participant-table">
-                  <thead>
-                    <tr>
-                      <th id="participant-nr">Nr.</th>
-                      <th id="participant-user">Uczestnik</th>
-                      <td id="participant-contact">Kontakt</td>
-                      <td id="participant-paid-status">Zapłacone</td>
-                      <th id="participant-presence">Obecność</th>
-                      <th id="participant-actions">Akcje</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {participants.map((p, i) => (
-                      <tr key={i}>
-                        <th className="participants-enumarate">{p.user.id}.</th>
-                        <td>
-                          <div className="participant-list-user">
-                            <img src={p.user.profile.profile_picture} style={{width: '48px', height: '48px', borderRadius: '100%'}} />
-                            <div className="participant-list-user-text-cont">
-                              <h3 className="participant-list-user-name">{p.user.profile.name} {p.user.profile.surname}</h3>
-                              <span className="participant-list-user-date">Dołączył/a 02-2025</span>
-                            </div>
-                          </div>
-                        </td>
-                        <td>
-                          <div className="participant-list-contact-box">
-                            <ul className="participant-list-contact-list">
-                              <li className="orange-contact"><Envelope className="contact-icon" />{p.user.email}</li>
-                              <li><Phone className="contact-icon" />{p.user.profile.phone_number}</li>
-                            </ul>
-                          </div>
-                        </td>
-                        <td>
-                          <span className={`participant-paid-status ${p.paid_status ? `green` : `red`}`} >
-                            {p.paid_status ? "Opłacone" : "Nieopłacone"}
-                          </span>
-                        </td>
-                        <td>
-                          <div className="presence-status-box">
-                            {p.presence ? <CheckMark className="check-mark icon2"/> : <XMark className="x-mark icon3" />}
-                          </div>
-                        </td>
-                        <th>
-                          {Math.floor(Math.random() * 2) + 1 === 1 ? <img src={leaveIcon1} /> : <img src={leaveIcon2} />}
-                        </th>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+              <div className="list-header">
+                <h3 id="pr-id" className="list-header-title">Nr.</h3>
+                <h3 id="pr-user" className="list-header-title">Uczestnik</h3>
+                <h3 className="list-header-title">Kontakt</h3>
+                <h3 className="list-header-title">Zapłacone</h3>
+                <h3 id="pr-presence" className="list-header-title">Obecność</h3>
+                <h3 id="pr-actions" className="list-header-title">Akcje</h3>
               </div>
+              {participants.map((p, i) => (
+                <>
+                  <div key={i} className="participant-row">
+                    
+                    <div className="hom5">
+                      <span className="pr-enumerate">{i + 1}.</span>
+                      <div>
+                        <div className="pr-enumerate-box">
+                          <span className="pr-enumerate">{i + 1}.</span>
+                        </div>
+                        <div className="pr-user">
+                          <img className="pr-pfp" src={p.user.profile.profile_picture} alt="Zdjęcie profilowe" />
+                          <div className="pr-user-details">
+                            <h4 className="pr-user-name"><span>{p.user.profile.name}</span> <span>{p.user.profile.surname}</span></h4>
+                            <span className="pr-user-join-date">Dołączył/a: 02-2025</span>
+                          </div>
+                        </div>
+                        <div className="pr-contact">
+                          <p className="pr-email"><Envelope className="contact-icon"/> {p.user.email}</p><br />
+                          <p className="pr-tel"><Phone className="contact-icon"/> {p.user.profile.phone_number}</p>
+                        </div>
+                        <div className="pr-pay-status">
+                          <div className={`pay-status-box ${p.paid_status ? 'green' : 'red'}`}>
+                            <span>{p.paid_status ? 'Opłacone' : 'Nieopłacone'}</span>
+                          </div>
+                        </div>
+                        <div className="pr-presence">
+                          <div className={`presence-box ${p.presence ? 'green' : 'red'}`}>
+                            <span>{p.presence ? <CheckMark className="presence-icon checkmark" /> : <XMark className="presence-icon xmark" />}</span>
+                          </div>
+                        </div>
+                        <div className="pr-actions">
+                          <img 
+                            src={Math.floor(Math.random() * 2) + 1 == 1 ? leaveIcon1 : leaveIcon2} 
+                            alt="Akcja" 
+                            className="action" 
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="pr-enumerate-box">
+                      <span className="pr-enumerate">{i + 1}.</span>
+                    </div>
+                    <div className="pr-user">
+                      <img className="pr-pfp" src={p.user.profile.profile_picture} alt="Zdjęcie profilowe" />
+                      <div className="pr-user-details">
+                        <h4 className="pr-user-name"><span>{p.user.profile.name}</span> <span>{p.user.profile.surname}</span></h4>
+                        <span className="pr-user-join-date">Dołączył/a: 02-2025</span>
+                      </div>
+                    </div>
+                    <div className="pr-contact">
+                      <p className="pr-email"><Envelope className="contact-icon"/> {p.user.email}</p><br />
+                      <p className="pr-tel"><Phone className="contact-icon"/> {p.user.profile.phone_number}</p>
+                    </div>
+                    <div className="pr-pay-status">
+                      <div className={`pay-status-box ${p.paid_status ? 'green' : 'red'}`}>
+                        <span>{p.paid_status ? 'Opłacone' : 'Nieopłacone'}</span>
+                      </div>
+                    </div>
+                    <div className="pr-presence">
+                      <div className={`presence-box ${p.presence ? 'green' : 'red'}`}>
+                        <span>{p.presence ? <CheckMark className="presence-icon checkmark" /> : <XMark className="presence-icon xmark" />}</span>
+                      </div>
+                    </div>
+                    <div className="pr-actions">
+                      <img 
+                        src={Math.floor(Math.random() * 2) + 1 == 1 ? leaveIcon1 : leaveIcon2} 
+                        alt="Akcja" 
+                        className="action" 
+                      />
+                    </div>
+                  </div>
+                  <hr className="pr-list-line"/>
+                </>
+              ))}
             </div>
           }
           {page === "invitations" &&
             <>
               {showGenerateCodePopup &&
                 <>
-                  <div className="code-popup-overlay" onClick={() => setShowGenerateCodePopup(false)}></div>
+                  <div className="code-popup-overlay" onClick={() => setShowGenerateCodePopup(false)} />
                   <div className="code-popup">
                     <div className="code-popup-heading">
                       <h3>Generowanie kodu</h3>
