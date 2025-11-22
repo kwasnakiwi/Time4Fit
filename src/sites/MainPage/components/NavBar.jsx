@@ -29,18 +29,22 @@ function NavBar(props) {
             {props.title ?? "-"}
           </h3>
         </div>
-        <Bell 
-          className="notification-icon"
-          onMouseEnter={handleBellHover}
-        />
-        <div className="profile-box">
-          <img src={pfp} alt="Profile" />
-          <div className="name-data">
-            <h4 className="name-data-text bold">Andrzej Marek</h4>
-            <h4 className="name-data-text">Użytkownik</h4>
+        {props.isProfileVisible &&
+          <Bell 
+            className="notification-icon"
+            onMouseEnter={handleBellHover}
+          />
+        } 
+        {props.isProfileVisible &&
+          <div className="profile-box">
+            <img src={pfp} alt="Profile" />
+            <div className="name-data">
+              <h4 className="name-data-text bold">Andrzej Marek</h4>
+              <h4 className="name-data-text">Użytkownik</h4>
+            </div>
+            <AngleDown className="icon" />
           </div>
-          <AngleDown className="icon" />
-        </div>
+        }
       </nav>
 
       {/* mobile */}

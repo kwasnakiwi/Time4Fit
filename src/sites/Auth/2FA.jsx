@@ -23,7 +23,7 @@ function TwoFA(){
     }
 
     try{
-      const response = await apiFetch(`${BASE_URL}${ENDPOINTS.otpVerify}`, {
+      const response = await fetch(`${BASE_URL}${ENDPOINTS.otpVerify}`, {
         method: "POST",
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({challenge_id, purpose, code}),

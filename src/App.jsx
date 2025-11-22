@@ -13,6 +13,7 @@ import { EventProvider } from './utils/EventContext.jsx'
 import EventDetails from './sites/MainPage/Events/EventDetails.jsx'
 import EventInvitation from './sites/MainPage/Events/EventInvitation.jsx'
 import EventsMap from './sites/MainPage/Events/EventsMap.jsx'
+import HomePage from './sites/MainPage/Home/HomePage.jsx'
 
 
 function App() {
@@ -42,6 +43,7 @@ function App() {
               }
             />
             <Route path='/events/event-invitation' element={<EventInvitation />} />
+            <Route path='/home-page' element={<HomePage />} />
           </Routes>
         </Router>
     </>

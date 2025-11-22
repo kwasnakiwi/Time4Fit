@@ -5,6 +5,10 @@
     --clr-secondary: #FFE6D0;
     --text-secondery: #1E2A38;
     --primary-grey: #747474;
+    --clr-red: #b71c1c;
+    --bg-red: #fdecea;
+    --clr-green: #2e7d32;
+    --bg-green: #e8f5e9;
 }
 
 *{
@@ -719,13 +723,14 @@ input[type="number"]::-webkit-outer-spin-button{
     right: 10px;
 }
 .event-img-payable-status.green{
-    color: #2E7D32;
-    background-color: #E8F5E9;
+    color: var(--clr-green);
+    background-color: var(--bg-green);
 }
 .event-img-payable-status.red{
-    color: #B71C1C;
-    background-color: #FDECEA;
+    color: var(--clr-red);
+    background-color: var(--bg-red);
 }
+
 .event-content-left{
     width: calc(100% - 20px);
 }
@@ -816,8 +821,8 @@ input[type="number"]::-webkit-outer-spin-button{
     font-weight: 600;
 }
 .delete-event-btn, .nav-operate-btn.delete{
-    background-color: #FDECEA;
-    color: #B71C1C;
+    background-color: var(--bg-red);
+    color: var(--clr-red);
     padding: 6px 14px;
 }
 .edit-event-btn, .nav-operate-btn.edit{
@@ -1210,12 +1215,12 @@ input[type="number"]::-webkit-outer-spin-button{
     border-radius: 35px;
 }
 .pay-status-box.green span{
-    color: #2E7D32;
-    background-color: #E8F5E9;
+    color: var(--clr-green);
+    background-color: var(--bg-green);
 }
 .pay-status-box.red span{
-    color: #B71C1C;
-    background-color: #FDECEA;
+    color: var(--clr-red);
+    background-color: var(--bg-red);
 }
 .pr-presence{
     justify-self: center;
@@ -1235,10 +1240,10 @@ input[type="number"]::-webkit-outer-spin-button{
 }
 .presence-icon.xmark{
     font-size: 30px;
-    color: #B71C1C;
+    color: var(--clr-red);
 }
 .presence-icon.checkmark{
-    color: #2E7D32;
+    color: var(--clr-green);
 }
 .pr-actions{
     justify-self: center;
@@ -1322,12 +1327,12 @@ input[type="number"]::-webkit-outer-spin-button{
     width: 120px;
 }
 .invitation-second-row-button.green{
-    color: #2E7D32;
-    background-color: #E8F5E9;
+    color: var(--clr-green);
+    background-color: var(--bg-green);
 }
 .invitation-second-row-button.red{
-    color: #B71C1C;
-    background-color: #FDECEA;
+    color: var(--clr-red);
+    background-color: var(--bg-red);
 }
 .event-type-button.generate-btn{
     background-color: var(--clr-secondary);
@@ -1757,7 +1762,7 @@ input[type="number"]::-webkit-outer-spin-button{
     }
     .participant-row{
         display: flex;
-        height: clamp(70px, 120px, 150px);
+        height: clamp(70px, 120px, 180px);
         justify-content: space-between;
         padding: 0 10px;
         flex-wrap: wrap;
