@@ -2,7 +2,7 @@ import NavBar from "../components/NavBar.jsx";
 import SideBar from "../components/SideBar.jsx";
 import { useState, useEffect, useContext } from "react";
 import './../../../styles/homepage.css'
-import { FaSearch as Search, FaArrowRight as Arrow } from "react-icons/fa";
+import { FaSearch as Search, FaArrowRight as Arrow, FaRegClock as Clock } from "react-icons/fa";
 import { useNavigate, Link } from "react-router-dom";
 import category from './../../../assets/images/category.png';
 import finalCategory from './../../../assets/images/last-category.png';
@@ -17,10 +17,15 @@ import ac1 from './../../../assets/images/ac1.png';
 import ac2 from './../../../assets/images/ac2.png';
 import ac3 from './../../../assets/images/ac3.png';
 import ac4 from './../../../assets/images/ac4.png';
+import { DayPicker } from "react-day-picker";
+import { pl } from "date-fns/locale";
+import "react-day-picker/style.css";
+import Calendar from "../components/Calendar.jsx";
 
 function HomePage() {
   const isLoggedIn = true;
   const navigate = useNavigate();
+  const [selected, setSelected] = useState();
 
   return(
     <>
@@ -135,6 +140,44 @@ function HomePage() {
                   <img src={rec3} alt="zdj" />
                   Twój plan treningowy
                 </h2>
+                <div className="training-plan-content">
+                  <Calendar selected={selected} onSelect={setSelected} />
+                  <div className="training-plan-items-box">
+                    <h3 className="training-plan-items-date">Wtorek, 25 Październik 2025</h3>
+                    <div className="training-plan-items">
+                      <div className="training-plan-item">
+                        <div className="training-plan-item-left">
+                          <h4 className="training-plan-item-title">Joga dla zdrowia</h4>
+                          <span className="training-plan-item-date">
+                            <Clock className="tpi-clock" />
+                            <i>14:30</i>
+                          </span>
+                        </div>
+                        <Link to='' className="tp-to-event-btn">Przejdź do wydarzenia</Link>
+                      </div>
+                      <div className="training-plan-item">
+                        <div className="training-plan-item-left">
+                          <h4 className="training-plan-item-title">Joga dla zdrowia</h4>
+                          <span className="training-plan-item-date">
+                            <Clock className="tpi-clock" />
+                            <i>14:30</i>
+                          </span>
+                        </div>
+                        <Link to='' className="tp-to-event-btn">Przejdź do wydarzenia</Link>
+                      </div>
+                      <div className="training-plan-item">
+                        <div className="training-plan-item-left">
+                          <h4 className="training-plan-item-title">Joga dla zdrowia</h4>
+                          <span className="training-plan-item-date">
+                            <Clock className="tpi-clock" />
+                            <i>14:30</i>
+                          </span>
+                        </div>
+                        <Link to='' className="tp-to-event-btn">Przejdź do wydarzenia</Link>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             }
             <div className="recomended-places-container" style={{gridArea: 'places'}}>

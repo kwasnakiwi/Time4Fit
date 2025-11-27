@@ -3,7 +3,7 @@ import NavBar from "../components/NavBar.jsx";
 import SideBar from "../components/SideBar.jsx";
 import "./../../../styles/mainpage.css";
 import { FaAngleDown as AngleDown, FaSlidersH as Settings, FaSearch as Search } from "react-icons/fa";
-import locIcon from "./../../../assets/images/location-pin.png";
+import locIcon from "./../../../assets/images/real-loc-pin.png";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { Icon } from "leaflet";
 import "leaflet/dist/leaflet.css";
@@ -12,6 +12,7 @@ import { BASE_URL, ENDPOINTS } from "../../../utils/Endopoints.jsx";
 import MarkerClusterGroup from "react-leaflet-markercluster";
 import "leaflet.markercluster/dist/MarkerCluster.css";
 import { useNavigate } from "react-router-dom";
+import eventImg from './../../../assets/images/event-joga-default.png';
 
 function EventsMap() {
   const [showFilters, setShowFilters] = useState(false);
@@ -19,33 +20,33 @@ function EventsMap() {
   const navigate = useNavigate();
 
   useEffect(() => {
-  const getEventsMapInfo = async () => {
-    try {
-      const response = await apiFetch(`${BASE_URL}${ENDPOINTS.eventEvents}events_on_map/`);
-      const baseData = await response.json();
+    const getEventsMapInfo = async () => {
+      try {
+        const response = await apiFetch(`${BASE_URL}${ENDPOINTS.eventEvents}events_on_map/`);
+        const baseData = await response.json();
 
-      const detailedData = await Promise.all( 
-        baseData.map(async (event) => {
-          try {
-            const res = await apiFetch(`${BASE_URL}${ENDPOINTS.eventEvents}${event.id}/`);
-            const details = await res.json();
-            return { ...event, ...details }; // łącz dane (pozycja + info)
-          } catch (err) {
-            console.error(`Błąd pobierania szczegółów dla eventu ${event.id}`, err);
-            return event; // zwróć podstawowe dane, jeśli szczegóły się nie pobiorą
-          }
-        })
-      );
+        const detailedData = await Promise.all( 
+          baseData.map(async (event) => {
+            try {
+              const res = await apiFetch(`${BASE_URL}${ENDPOINTS.eventEvents}${event.id}/`);
+              const details = await res.json();
+              return { ...event, ...details }; // łącz dane (pozycja + info)
+            } 
+            catch (err) {
+              console.error(`Błąd pobierania szczegółów dla eventu ${event.id}`, err);
+              return event; // zwróć podstawowe dane, jeśli szczegóły się nie pobiorą
+            }
+          })
+        );
 
-      console.log("Eventy z danymi:", detailedData);
-      setEvents(detailedData);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  getEventsMapInfo();
-}, []);
+        console.log("Eventy z danymi:", detailedData);
+        setEvents(detailedData);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    getEventsMapInfo();
+  }, []);
 
 
   const handleFiltersApply = () => {
@@ -54,8 +55,8 @@ function EventsMap() {
 
   const customMarker = new Icon({
     iconUrl: locIcon,
-    iconSize: [38, 38],
-    iconAnchor: [19, 38],
+    iconSize: [30, 38],
+    iconAnchor: [15, 38]
   });
 
   return (
@@ -232,17 +233,65 @@ function EventsMap() {
                   });
                 }}
               >
-                {events.map((event) => (
-                  <Marker
-                    key={event.id}
-                    position={[event.latitude, event.longitude]}
-                    icon={customMarker}
-                  >
-                    <Popup>
-                      <strong>{event.title}</strong><br />
-                    </Popup>
-                  </Marker>
-                ))}
+                {events.map((ev, i) => {
+                  const formattedDate = new Intl.DateTimeFormat("pl-PL", {
+                    weekday: "long",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric"
+                  }).format(new Date(ev.date_time_event));
+
+                  const levels = {
+                    beginner: "Początkujący",
+                    'semi-advanced': "Średniozaawansowany",
+                    advanced: "Zaawansowany",
+                    none: "Brak"
+                  };
+                  const advancedLevel = levels[ev.additional_info.advanced_level];
+
+                  return(
+                    <Marker
+                      key={i}
+                      position={[ev.latitude, ev.longitude]}
+                      icon={customMarker}
+                    >
+                      <Popup maxWidth={1000}>
+                        <div className="event-on-map-popup">
+                          <div className="ev-popup-first-row">
+                            <img src={eventImg} alt="Zdjęcie wydarzenia" />
+                            <div className="ev-popup-informations">
+                              <span className="ev-popup-date">{formattedDate.slice(0, 1).toUpperCase() + formattedDate.slice(1)}</span>
+                              <span className="ev-popup-title">{ev.title}</span>
+                              <span className="ev-popup-address">
+                                ul. {ev.street} {ev.street_number ? `${ev.flat_number ? `${ev.street_number}/${ev.flat_number}` : `${ev.street_number}`}` : ''}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="ev-popup-second-row">
+                            <div className="ev-popup-item">
+                              <span className="ev-popup-item-name">Kategoria:</span><br />
+                              <span className="ev-popup-item-value">{ev.category || "Joga"}</span>
+                            </div>
+                            <div className="ev-popup-item">
+                              <span className="ev-popup-item-name">Grupa wiekowa:</span><br />
+                              <span className="ev-popup-item-value">{ev.additional_info.age_limit}</span>
+                            </div>
+                            <div className="ev-popup-item">
+                              <span className="ev-popup-item-name">Poziom zaawansowania:</span><br />
+                              <span className="ev-popup-item-value">{advancedLevel}</span>
+                            </div>
+                          </div>
+                          <div className="ev-popup-third-row">
+                            <button className="ev-popup-btn orange" onClick={() => navigate(`/events/${ev.id}`)}>Zobacz szczegóły</button>
+                            <button className="ev-popup-btn">Obserwuj</button>
+                          </div>
+                        </div>
+                      </Popup>
+                    </Marker>
+                  )
+                })}
               </MarkerClusterGroup>
             </MapContainer>
           </div>

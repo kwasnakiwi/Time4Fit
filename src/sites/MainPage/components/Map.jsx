@@ -1,15 +1,15 @@
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents, useMap } from "react-leaflet";
 import { useState, useEffect, useContext, useRef } from "react";
 import { Icon } from "leaflet";
-import locIcon from "./../../../assets/images/location-pin.png";
+import locIcon from "./../../../assets/images/real-loc-pin.png";
 import "./../../../styles/mainpage.css";
 import "leaflet/dist/leaflet.css";
 import { LocationContext } from "./../../../utils/LocationContext";
 
 const customMarker = new Icon({
   iconUrl: locIcon,
-  iconSize: [38, 38],
-  iconAnchor: [19, 38],
+  iconSize: [30, 38],
+  iconAnchor: [15, 38]
 });
 
 function Map({
@@ -107,7 +107,7 @@ function Map({
     return position ? (
       <Marker ref={markerRef} position={position} icon={customMarker}>
         <Popup autoOpen>
-          {street || "Brak ulicy"} {streetNumber ? ` ${streetNumber}` : ""}, {city || "Brak miasta"} <br />
+          {street || ""} {streetNumber ? ` ${streetNumber}` : ""}, {city || "Brak miasta"} <br />
           Kod: {postial || "brak"} <br />
         </Popup>
       </Marker>
@@ -119,7 +119,7 @@ function Map({
     const map = useMap();
     useEffect(() => {
       if (position) {
-        map.flyTo(position, 16, { animate: true, duration: 0. });
+        map.flyTo(position, 16, { animate: true, duration: 0.3 });
       }
     }, [position, map]);
     return null;

@@ -1,14 +1,14 @@
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { useEffect } from "react";
 import { Icon } from "leaflet";
-import locIcon from "./../../../assets/images/location-pin.png";
+import locIcon from "./../../../assets/images/real-loc-pin.png";
 import "./../../../styles/mainpage.css";
 import "leaflet/dist/leaflet.css";
 
 const customMarker = new Icon({
   iconUrl: locIcon,
-  iconSize: [38, 38],
-  iconAnchor: [19, 38],
+  iconSize: [30, 38],
+  iconAnchor: [15, 38]
 });
 
 function StaticMap({ lat, lng, city, street, postial, streetNumber }) {
@@ -17,7 +17,7 @@ function StaticMap({ lat, lng, city, street, postial, streetNumber }) {
 
   useEffect(() => {
     if (!lat || !lng) {
-      console.warn("⚠️ Brak współrzędnych dla mapy statycznej");
+      console.warn("Brak współrzędnych dla mapy statycznej");
     }
   }, [lat, lng]);
 
