@@ -1,6 +1,7 @@
 import NavBar from "../components/NavBar.jsx";
 import SideBar from "../components/SideBar.jsx";
 import Map from "./../components/Map.jsx";
+import Error from "../components/popups/Error.jsx";
 import { useState, useEffect, useContext } from "react";
 import './../../../styles/mainpage.css'
 import footIcon from './../../../assets/images/foot.png'
@@ -46,6 +47,7 @@ function AddEvent1() {
   const [streetNumber, setStreetNumber] = useState("");
   const [flatNumber, setFlatNumber] = useState("");
   const [error, setError] = useState("");
+  const [showErrorPopup, setShowErrorPopup] = useState(false);
   const { eventData, setEventData } = useContext(EventContext);
   const navigate = useNavigate();
 
@@ -92,6 +94,7 @@ useEffect(() => {
   const nextStage = () => {
     setError("")
     if(!date || !city || !street || !time){
+      setShowErrorPopup(true);
       setError("Wpisz informacje na temat daty i miejsca wydarzenia!");
       return;
     }
@@ -420,9 +423,16 @@ useEffect(() => {
               </div>
             </div>
           </div>
-          <div className="error-display">
+          {/* <div className="error-display">
             <span className="error">{error}</span>
-          </div>
+          </div> */}
+          {showErrorPopup && 
+            <Error 
+              content={error} 
+              showInfoPopup={showErrorPopup} 
+              setShowInfoPopup={setShowErrorPopup}
+            />
+          }
           <div className="next-btn-box">
             <button className="next-stage" onClick={nextStage}>Następny etap</button>
           </div>

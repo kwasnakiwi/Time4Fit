@@ -88,6 +88,7 @@
     display: flex;
     justify-content: center;
     gap: 8px;
+    cursor: pointer;
 }
 .profile-box img{
     min-width: 50px;
@@ -198,6 +199,16 @@
     display: flex;
     justify-content: space-between;
 }
+
+/*profile popup*/
+
+.profile-box-container{
+    position: relative;
+}
+.profile-popup{
+    position: absolute;
+}
+
 /* media */
 
 @media (max-width: 660px) {

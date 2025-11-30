@@ -5,10 +5,10 @@ import { FaRegBell as Bell,
 import pfp from './../../../assets/images/pfp.png';
 import mobileLogo from './../../../assets/images/mobile-logo.png';
 import './../../../styles/navbar.css';
-import { Link } from "react-router-dom";
+import { Link, useNavigation } from "react-router-dom";
+import { useState } from "react";
 
 function NavBar(props) {
-
   const handleBellHover = (e) => {
     const bell = e.currentTarget;
     bell.classList.add("animated-bell");
@@ -36,14 +36,16 @@ function NavBar(props) {
           />
         } 
         {props.isProfileVisible &&
-          <div className="profile-box">
-            <img src={pfp} alt="Profile" />
-            <div className="name-data">
-              <h4 className="name-data-text bold">Andrzej Marek</h4>
-              <h4 className="name-data-text">Użytkownik</h4>
+          <Link to={'/profil'} style={{color: "black", textDecoration: 'none'}}><div className="profile-box-container">
+            <div className="profile-box" onClick={() => setShowPopup(!showPopup)}>
+              <img src={pfp} alt="Profile" />
+              <div className="name-data">
+                <h4 className="name-data-text bold">Andrzej Marek</h4>
+                <h4 className="name-data-text">Użytkownik</h4>
+              </div>
+              <AngleDown className="icon" />
             </div>
-            <AngleDown className="icon" />
-          </div>
+          </div></Link>
         }
       </nav>
 

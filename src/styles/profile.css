@@ -1,0 +1,222 @@
+:root{
+    --main-gradient: 
+        linear-gradient(90deg, #E96D00 0%, #F98017 39%, #F59745 100%);
+    --purple-gradient:
+        linear-gradient(90deg, #CA00E9 12%, #F917F6 76%, #DE45F5 100%);
+    --blue-gradient: 
+        linear-gradient(90deg, #0052E9 0%, #1766F9 39%, #4582F5 100%);
+    --green-gradient: 
+        linear-gradient(90deg, #13E900 0%, #22F917 39%, #53F545 100%);
+    --primary-orange: #E96D00;
+    --clr-secondary: #FFE6D0;
+    --text-secondery: #1E2A38;
+    --primary-grey: #747474;
+    --clr-red: #b71c1c;
+    --bg-red: #fdecea;
+    --clr-green: #2e7d32;
+    --bg-green: #e8f5e9;
+    --clr-red2: #E80101;
+    --bg-red2: #FFD0D0;
+}
+.profile-main{
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-auto-rows: 88px;
+    grid-template-areas: 
+        "main classes type"
+        "main rating joined";
+    gap: 20px;
+}
+.profile-panel{
+    background-color: white;
+    box-shadow: 2px 2px 4px 0 rgba(0, 0, 0, 0.25);
+    border-radius: 14px;
+    padding: 20px;
+    transition: 300ms;
+}
+/* .profile-panel::-webkit-scrollbar{
+    width: 4px;
+}
+.profile-panel::-webkit-scrollbar-track{
+    background: var(--primary-grey);
+    border-radius: 10px;
+}
+.profile-panel::-webkit-scrollbar-thumb{
+    background: var(--main-gradient);
+    border-radius: 10px;
+} */
+.profile-second{
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    grid-template-rows: 263px 425px;
+    grid-template-areas: 
+        "desc list"
+        "awards events";
+    gap: 20px;
+}
+.profile{
+    padding: 10px 20px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+}
+.profile-pr-panel-1row{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+.pfp-site{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+}
+.pfp-site img{
+    height: 79px;
+}
+.pfp-site-name{
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0;
+}
+.pfp-site-work{
+    font-size: 18px;
+    font-weight: 500;
+}
+.profile-pr-panel-btns{
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+}
+.pr-panel-btn{
+    border-radius: 6px;
+    font-size: 18px;
+    border: none;
+    width: 44px;
+    height: 30px;
+    cursor: pointer;
+}
+.pr-panel-btn.report{
+    color: var(--clr-red2);
+    background-color: var(--bg-red2);
+}
+.pr-panel-btn.views{
+    color: var(--primary-orange);
+    background-color: var(--clr-secondary);
+}
+.profile-pr-panel-2row{
+    display: flex;
+    align-items: center;
+    gap: 12%;
+    margin-top: 18px;
+}
+.pr-panel-contact-item{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+}
+.pr-panel-contact-icon{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    border-radius: 6px;
+}
+.pr-panel-contact-icon svg{
+    font-size: 20px;
+}
+.pr-panel-contact-icon#blue{
+    background-color: #E8EAF5;
+    color: #425EE9;
+}
+.pr-panel-contact-icon#cyan{
+    background-color: #E1F9FF;
+    color: #42CBE9;
+}
+.contact-text-title{
+    color: var(--primary-grey);
+    font-size: 14px;
+}
+.contact-text-value{
+    font-size: 16px;
+    font-weight: 500;
+}
+.profile-panel.achievement{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 24px;
+}
+.ach-box{
+    width: 35px;
+    height: 35px;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.ach-box#blue{
+    background-color: #E3F2FD;
+}
+.ach-box#purple{
+    background-color: #F3E5F5;
+}
+.ach-box#gold{
+    background-color: #FFF8E1;
+}
+.ach-box#green{
+    background-color: #E8F5E9;
+}
+.profile-panel.achievement .contact-text-value{
+    font-weight: 600;
+    color: black;
+}
+.profile-panel .recomendation-title{
+    font-weight: 500;
+    color: black;
+    margin-bottom: 16px;
+}
+.profile-desc{
+    color: black;
+    font-size: 16px;
+    font-weight: 300;
+    margin: 0;
+}
+.profile-list li{
+    font-size: 16px;
+    font-weight: 300;
+}
+.profile-list li::marker{
+    font-size: 12px;
+}
+.cer-title{
+    margin: 0;
+    margin-top: 8px;
+    font-size: 18px;
+    font-weight: 600;
+}
+.cer-name{
+    font-size: 18px;
+    font-weight: 500;
+    margin: 4px 0;
+}
+.cer-place-info{
+    font-size: 16px;
+    margin-bottom: 4px;
+    font-weight: 300;
+}
+.cer-more-info{
+    color: var(--primary-grey);
+    font-size: 16px;
+}
+.cer-img{
+    margin: 16px 0;
+}
+.certificates-line{
+    border: 1px solid #74747450;
+}
+.profile-panel .recomended-events{
+    max-height: calc(425px - 67px - 16px);
+}
