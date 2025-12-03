@@ -12,7 +12,7 @@ function EventInvitation(){
 
   return(
     <>
-      <NavBar route='Eventy / Szczegóły Eventu / Zaproszenie do eventu' title='Zaproszenie do eventu' linkRoute="/events"/>
+      <NavBar route='Eventy / Szczegóły Eventu / Zaproszenie do eventu' title='Zaproszenie do eventu' linkRoute="/eventy"/>
 			<SideBar />
 			<main className="events-main">
         <div className="main-events-container relative">

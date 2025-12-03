@@ -61,7 +61,7 @@ function EventsMap() {
 
   return (
     <>
-      <NavBar route="Eventy" title="Eventy" linkRoute="/events" />
+      <NavBar route="Eventy" title="Eventy" linkRoute="/eventy" />
       <SideBar />
       <main className="events-main">
         <div className="main-events-container">

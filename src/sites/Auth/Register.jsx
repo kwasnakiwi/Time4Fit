@@ -60,7 +60,7 @@ function Register(){
       localStorage.setItem("challenge_id", challenge_id);
       localStorage.setItem("purpose", purpose);
 
-      navigate('/login');
+      navigate('/logowanie');
     }
     catch(err){
       setError("Błąd przy rejestracji");

@@ -15,39 +15,42 @@ import EventInvitation from './sites/MainPage/Events/EventInvitation.jsx'
 import EventsMap from './sites/MainPage/Events/EventsMap.jsx'
 import HomePage from './sites/MainPage/Home/HomePage.jsx'
 import Profile from './sites/MainPage/Profile/Profile.jsx'
+import ToTimeForBiz from './sites/MainPage/Loadings/ToTimeForBiz.jsx'
+import ToTimeForFit from './sites/MainPage/Loadings/ToTimeForFit.jsx'
 
 
 function App() {
 
   return (
     <>
-        <Router>
-          <Routes>
-            <Route path='/' element={<SingUp />} />
-            <Route path='/register' element={<Register />} />
-            <Route path='/forgot-password' element={<ForgotPassword />} />
-            <Route path='/login' element={<TwoFA />} />
-            <Route path='/forgot-password/verify' element={<ForgotPasswordVerify />} />
-            <Route path='/forgot-password/change-password' element={<ChangePassword />} />npm run d
-            <Route path='/events' element={<Events />} />
-            <Route path='/events/events-map' element={<EventsMap />} />
-            <Route path="/events/:id" element={<EventDetails />} />
-            <Route
-              path="/events/add-event/*"
-              element={
-                <EventProvider>
-                  <Routes>
-                    <Route path="" element={<AddEvent1 />} />
-                    <Route path="2" element={<AddEvent2 />} />
-                  </Routes>
-                </EventProvider>
-              }
-            />
-            <Route path='/events/event-invitation' element={<EventInvitation />} />
-            <Route path='/home-page' element={<HomePage />} />
-            <Route path='/profil' element={<Profile />} />
-          </Routes>
-        </Router>
+      <Router>
+        <Routes>
+          <Route path='/' element={<SingUp />} />
+          <Route path='/rejestracja' element={<Register />} />
+          <Route path='/zapomnialem-hasla' element={<ForgotPassword />} />
+          <Route path='/logowanie' element={<TwoFA />} />
+          <Route path='/zapomnialem-hasla/weryfikacja' element={<ForgotPasswordVerify />} />
+          <Route path='/zapomnialem-hasla/zmiana-hasla' element={<ChangePassword />} />npm run d
+          <Route path='/eventy' element={<Events />} />
+          <Route path='/events/events-map' element={<EventsMap />} />
+          <Route path="/events/:id" element={<EventDetails />} />
+          <Route
+            path="/events/add-event/*"
+            element={
+              <EventProvider>
+                <Routes>
+                  <Route path="" element={<AddEvent1 />} />
+                  <Route path="2" element={<AddEvent2 />} />
+                </Routes>
+              </EventProvider>
+            }
+          />
+          <Route path='/events/event-invitation' element={<EventInvitation />} />
+          <Route path='/home-page' element={<HomePage />} />
+          <Route path='/profil' element={<Profile />} />
+          <Route path='/test' element={<ToTimeForBiz />} />
+        </Routes>
+      </Router>
     </>
   )
 }

@@ -46,7 +46,7 @@ function ForgotPassword(){
       localStorage.setItem('challenge_id', challenge_id);
       localStorage.setItem('purpose', purpose);
 
-      navigate('/forgot-password/verify');
+      navigate('/zapomnialem-hasla/weryfikacja');
     }
     catch(err){
       setError(err);

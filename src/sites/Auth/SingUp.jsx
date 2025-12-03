@@ -47,7 +47,7 @@ function SignUp() {
       localStorage.setItem('purpose', String(purpose));
       localStorage.setItem('challenge_id', String(challengeId));
 
-      navigate('/login');
+      navigate('/logowanie');
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Nieznany błąd logowania.';
       setError(message);
@@ -64,7 +64,7 @@ function SignUp() {
         <div className="panel">
           <div className="panel-top">
             <img src={logo} alt="App Logo" />
-            <Link to='/register'><button className="change-sign-up">Rejestracja</button></Link>
+            <Link to='/rejestracja'><button className="change-sign-up">Rejestracja</button></Link>
           </div>
 
           <h1 className="title">Logowanie</h1>

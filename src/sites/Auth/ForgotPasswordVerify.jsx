@@ -48,7 +48,7 @@ function ForgotPasswordVerify(){
 
       localStorage.setItem('reset_ticket_id', reset_ticket_id);
 
-      navigate('/forgot-password/change-password');
+      navigate('/zapomnialem-hasla/zmiana-hasla');
     }
     catch(err){
       setError(err)

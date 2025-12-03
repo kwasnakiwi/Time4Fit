@@ -9,7 +9,117 @@ import { BiMap as PinMap } from "react-icons/bi";
 import { Link, useNavigate } from "react-router-dom";
 import eventImg from '../../../assets/images/event.png'
 function Events(){
-  const [events, setEvents] = useState([])
+  const [events, setEvents] = useState([
+  {
+    id: 1,
+    title: "Trening biegowy – Przygotowanie do 5 km",
+    short_desc:
+      "Dołącz do wspólnego treningu biegowego, podczas którego popracujesz nad techniką, oddechem i wytrzymałością.",
+    category_name: "Bieganie",
+    date_time_event: "2025-02-05T17:00:00",
+    city: "Katowice",
+    street: "Kościuszki",
+    additional_info: {
+      age_limit: "16+",
+      advanced_level: "semi-advanced", 
+      price: 0,
+      places_for_people_limit: 20,
+    },
+    event_participant_count: 7,
+    event_img: '/src/assets/images/ev1.png'
+  },
+  {
+    id: 2,
+    title: "Fitness funkcjonalny w plenerze",
+    short_desc:
+      "Zajęcia ogólnorozwojowe oparte na naturalnych wzorcach ruchu – cardio + siła.",
+    category_name: "Fitness",
+    date_time_event: "2025-02-06T18:30:00",
+    city: "Sosnowiec",
+    street: "Główna",
+    additional_info: {
+      age_limit: "18+",
+      advanced_level: "none", 
+      price: 20,
+      places_for_people_limit: 25,
+    },
+    event_participant_count: 10,
+    event_img: '/src/assets/images/ev2.png'
+  },
+  {
+    id: 3,
+    title: "Trening siłowy z własną masą ciała",
+    short_desc:
+      "Dynamiczne ćwiczenia typu push-up, plank, przysiady i podskoki.",
+    category_name: "Trening siłowy",
+    date_time_event: "2025-02-07T19:00:00",
+    city: "Katowice",
+    street: "Chorzowska",
+    additional_info: {
+      age_limit: "18+",
+      advanced_level: "beginner", 
+      price: 0,
+      places_for_people_limit: 18,
+    },
+    event_participant_count: 4,
+    event_img: '/src/assets/images/ev3.png'
+  },
+  {
+    id: 4,
+    title: "Jazda na rolkach – technika i koordynacja",
+    short_desc:
+      "Nauka równowagi, hamowania i płynnej jazdy na rolkach.",
+    category_name: "Sporty wrotkarskie",
+    date_time_event: "2025-02-08T15:00:00",
+    city: "Bytom",
+    street: "Parkowa",
+    additional_info: {
+      age_limit: "12+",
+      advanced_level: "beginner",
+      price: 0,
+      places_for_people_limit: 15,
+    },
+    event_participant_count: 6,
+    event_img: '/src/assets/images/ev4.png'
+  },
+  {
+    id: 5,
+    title: "Piłka nożna – sparing amatorski",
+    short_desc:
+      "Luźny mecz dla miłośników piłki. Integracja + zabawa + proste schematy.",
+    category_name: "Piłka nożna",
+    date_time_event: "2025-02-09T20:00:00",
+    city: "Katowice",
+    street: "Sportowa",
+    additional_info: {
+      age_limit: "16+",
+      advanced_level: "advanced", 
+      price: 0,
+      places_for_people_limit: 22,
+    },
+    event_participant_count: 12,
+    event_img: '/src/assets/images/ev5.png'
+  },
+  {
+    id: 6,
+    title: "Trening rowerowy MTB – podstawy",
+    short_desc:
+      "Wprowadzenie do jazdy terenowej, zakręty i pokonywanie przeszkód.",
+    category_name: "Kolarstwo górskie",
+    date_time_event: "2025-02-10T10:00:00",
+    city: "Dąbrowa Górnicza",
+    street: "Leśna",
+    additional_info: {
+      age_limit: "18+",
+      advanced_level: "beginner",
+      price: 30,
+      places_for_people_limit: 12,
+    },
+    event_participant_count: 3,
+    event_img: '/src/assets/images/ev6.png'
+  },
+]);
+
   const [showFilters, setShowFilters] = useState(false);
   const navigate = useNavigate();
 
@@ -23,7 +133,7 @@ function Events(){
             throw new Error(data.details || "błąd");
           }
 
-          setEvents((data.results || data || []).sort((a, b) => a.id - b.id));
+          // setEvents((data.results || data || []).sort((a, b) => a.id - b.id));
           console.log(data.results)
         }
         catch(err){
@@ -215,7 +325,7 @@ function Events(){
                     </div>
                     <div className="event-content-right">
                       <div className="event-img-wrapper"> 
-                        <img src={eventImg} alt="event" />
+                        <img src={event.event_img} alt="event" />
                         <span className="event-img-location"><PinMap className="img-location-pin icon" /> {event.city}, {event.street} {/*{event.street_number ? event.street_number : ""}{event.flat_number ? `/${event.flat_number}` : ""}*/}</span>
                         <span className={`event-img-payable-status ${event.additional_info.price == 0 ? "green" : "red"}`}>{event.additional_info.price == 0 ? "Bezpłatny" : "Płatny"}</span>
                       </div>

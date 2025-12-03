@@ -491,7 +491,7 @@ function EventDetails(){
 			setShowPopup(false);
 		}
 
-		navigate('/events');
+		navigate('/eventy');
 	};
 
 	const handleDeleteCancel = () => {
@@ -624,7 +624,7 @@ function EventDetails(){
 			<NavBar 
         route='Eventy / Szczegóły Eventu' 
         title='Szczegóły Eventu' 
-        linkRoute="/events" 
+        linkRoute="/eventy" 
         firstFunction={!isEditing ? handleDeleteClick : handleEditCancel} 
         secondFunction={!isEditing ? handleStartEdit : handleEditSave}
         firstBtnText={!isEditing ? "Usuń" : "Anuluj"}

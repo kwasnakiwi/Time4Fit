@@ -96,7 +96,7 @@ function AddEvent2(){
         return;
       }
 
-      navigate('/events')
+      navigate('/eventy')
     } 
     catch(err){
       console.error(err);
