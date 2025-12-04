@@ -52,7 +52,7 @@ function TwoFA(){
       localStorage.setItem("refresh", refresh);
       localStorage.setItem("access", access);
 
-      navigate('/home-page');
+      navigate('/strona-glowna');
     }
     catch(err){
       setError(err.message || "Błąd logowania");

@@ -115,7 +115,7 @@ useEffect(() => {
       flatNumber,
     });
 
-    navigate('/events/add-event/2/');
+    navigate('/eventy/dodawanie-eventu/2/');
   }
 
   return (

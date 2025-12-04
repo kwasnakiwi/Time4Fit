@@ -30,12 +30,12 @@ function App() {
           <Route path='/zapomnialem-hasla' element={<ForgotPassword />} />
           <Route path='/logowanie' element={<TwoFA />} />
           <Route path='/zapomnialem-hasla/weryfikacja' element={<ForgotPasswordVerify />} />
-          <Route path='/zapomnialem-hasla/zmiana-hasla' element={<ChangePassword />} />npm run d
+          <Route path='/zapomnialem-hasla/zmiana-hasla' element={<ChangePassword />} />
           <Route path='/eventy' element={<Events />} />
-          <Route path='/events/events-map' element={<EventsMap />} />
-          <Route path="/events/:id" element={<EventDetails />} />
+          <Route path='/eventy/mapa-eventow' element={<EventsMap />} />
+          <Route path="/eventy/:id" element={<EventDetails />} />
           <Route
-            path="/events/add-event/*"
+            path="/eventy/dodawanie-eventu/*"
             element={
               <EventProvider>
                 <Routes>
@@ -45,8 +45,8 @@ function App() {
               </EventProvider>
             }
           />
-          <Route path='/events/event-invitation' element={<EventInvitation />} />
-          <Route path='/home-page' element={<HomePage />} />
+          <Route path='/eventy/zaproszenie' element={<EventInvitation />} />
+          <Route path='/strona-glowna' element={<HomePage />} />
           <Route path='/profil' element={<Profile />} />
           <Route path='/test' element={<ToTimeForBiz />} />
         </Routes>

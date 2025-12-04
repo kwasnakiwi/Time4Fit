@@ -284,7 +284,7 @@ function EventsMap() {
                             </div>
                           </div>
                           <div className="ev-popup-third-row">
-                            <button className="ev-popup-btn orange" onClick={() => navigate(`/events/${ev.id}`)}>Zobacz szczegóły</button>
+                            <button className="ev-popup-btn orange" onClick={() => navigate(`/eventy/${ev.id}`)}>Zobacz szczegóły</button>
                             <button className="ev-popup-btn">Obserwuj</button>
                           </div>
                         </div>

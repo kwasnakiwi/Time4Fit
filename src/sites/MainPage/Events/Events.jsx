@@ -277,7 +277,7 @@ function Events(){
                 <input type="text" className="search-input" id="search-input" placeholder="Wyszukaj..." />
                 <Search id="search-icon" className="icon"/>
               </div>
-              <button id="map-icon" className="filter-button hom2" onClick={() => navigate('/events/events-map')}><PinMap />Mapa wydarzeń</button>
+              <button id="map-icon" className="filter-button hom2" onClick={() => navigate('/eventy/mapa-eventow')}><PinMap />Mapa wydarzeń</button>
             </div>
           </nav>
           <div className="events">
@@ -344,7 +344,7 @@ function Events(){
                       />
                       <span className="quantity-of-people">{event.event_participant_count} / {event.additional_info.places_for_people_limit}</span>
                     </div>
-                    <Link className="more-bout-event" to={`/events/${event.id}`}>Zobacz szczegóły <span className="hom">↗</span></Link>
+                    <Link className="more-bout-event" to={`/eventy/${event.id}`}>Zobacz szczegóły <span className="hom">↗</span></Link>
                   </div>
                 </div>
               );
