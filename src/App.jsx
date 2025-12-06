@@ -14,9 +14,10 @@ import EventDetails from './sites/MainPage/Events/EventDetails.jsx'
 import EventInvitation from './sites/MainPage/Events/EventInvitation.jsx'
 import EventsMap from './sites/MainPage/Events/EventsMap.jsx'
 import HomePage from './sites/MainPage/Home/HomePage.jsx'
-import Profile from './sites/MainPage/Profile/Profile.jsx'
+import PublicProfile from './sites/MainPage/Profile/PublicProfile.jsx'
 import ToTimeForBiz from './sites/MainPage/Loadings/ToTimeForBiz.jsx'
 import ToTimeForFit from './sites/MainPage/Loadings/ToTimeForFit.jsx'
+import EditProfile from './sites/MainPage/Profile/EditProfile.jsx'
 
 
 function App() {
@@ -47,7 +48,8 @@ function App() {
           />
           <Route path='/eventy/zaproszenie' element={<EventInvitation />} />
           <Route path='/strona-glowna' element={<HomePage />} />
-          <Route path='/profil' element={<Profile />} />
+          <Route path='/profil' element={<PublicProfile />} />
+          <Route path='/profil/edycja' element={<EditProfile />} />
           <Route path='/test' element={<ToTimeForBiz />} />
         </Routes>
       </Router>

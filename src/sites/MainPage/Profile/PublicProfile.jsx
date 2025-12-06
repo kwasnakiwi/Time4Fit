@@ -22,10 +22,10 @@ import { FaRegFlag as Flag,
          FaPhoneAlt as Phone,
          FaArrowRight as Arrow } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import Warning from "../components/popups/Warning";
-import Error from "../components/popups/Error";
+import Warning from "../components/popups/Warning.jsx";
+import Error from "../components/popups/Error.jsx";
 
-function Profile(){
+function PublicProfile(){
   const [showPopup, setShowPopup] = useState(true);
 
   return(
@@ -288,4 +288,4 @@ function Profile(){
   )
 }
 
-export default Profile
+export default PublicProfile

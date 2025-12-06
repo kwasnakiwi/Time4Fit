@@ -220,3 +220,135 @@
 .profile-panel .recomended-events{
     max-height: calc(425px - 67px - 16px);
 }
+
+/* edit */
+
+.home-page-container.profile-edit-container{
+  display: grid;
+  grid-template-columns: 292px auto;
+	gap: 20px;
+  /*nesting*/
+	.profile{
+		padding-left: 0;
+	}
+	.profile-edit-side{
+    background-color: white;
+		margin-top: 10px;
+		margin-left: 10px;
+		border-radius: 14px;
+		position: relative;
+	}
+  .profile-main{
+    grid-auto-rows: 68px;
+    .pfp-site{
+      img{
+        height: 61px;
+      }
+      .pfp-site-name{
+        font-size: 18.57px;
+      }
+      .pfp-site-work{
+        font-size: 13.93px;
+      }
+    }
+    .pr-panel-btn{
+      font-size: 14px;
+      width: 30px;
+      height: 23px;
+    }
+    .pr-panel-contact-icon, .ach-box{
+      width: 26px;
+      height: 26px;
+      svg{
+        font-size: 14px;
+      }
+      img{
+        height: 14px;
+      }
+    }
+    .pr-panel-contact-text{
+      .contact-text-title{
+        font-size: 10.83px;
+      }
+      .contact-text-value{
+        font-size: 12.38px;
+      }
+    }
+    .pr-panel-contact-item{
+      gap: 19px;
+    }
+  }
+  .profile-second{
+    grid-template-areas: 
+        "desc list"
+        "awards awards";
+    grid-template-rows: 203.5px 525px;
+    .pr-events{
+        display: none;
+    }
+    .recomendation-title{
+			font-size: 13.93px;
+			margin-bottom: 10px;
+			#pr1, #pr2{
+				width: 15.47px;
+			}
+			#pr3{
+				width: 10.05px;
+			}
+    }
+		.profile-desc{
+			font-size: 12.38px;
+			background-color: #FBFBFC;
+			border: 1px solid #C5C3C375;
+			border-radius: 8px;
+			padding: 10px;
+		}
+		.profile-list{
+			background-color: #FBFBFC;
+			border: 1px solid #C5C3C375;
+			border-radius: 8px;
+			margin: 0;
+			padding: 10px 10px 10px 30px;
+			li{
+				font-size: 12.38px;
+			}
+		}
+		.cer-title, .cer-name{
+			font-size: 13.92px;
+		}
+		.cer-place-info, .cer-more-info{
+			font-size: 12.37px;
+		}
+		.cer-img{
+			width: 119.14px;
+		}
+		.profile-panel{
+			position: relative;
+			.edit-pr-action-btn{
+				font-size: 14px;
+				font-weight: 300;
+				color: var(--primary-grey);
+				background-color: transparent;
+				padding: 2.5px 10.85px;
+				border: 1px solid #C5C3C3;
+				border-radius: 12px;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				gap: 10px;
+				position: absolute;
+				top: 15.47px;
+				right: 15.47px;
+				cursor: pointer;
+				img{
+					width: 9px;
+					height: 9px;
+				}
+				#act2{
+					width: 12px;
+					height: 12px;
+				}
+			}
+		}
+  }
+}
