@@ -1,0 +1,209 @@
+:root{
+    --main-gradient: 
+        linear-gradient(90deg, #E96D00 0%, #F98017 39%, #F59745 100%);
+    --purple-gradient:
+        linear-gradient(90deg, #CA00E9 12%, #F917F6 76%, #DE45F5 100%);
+    --blue-gradient: 
+        linear-gradient(90deg, #0052E9 0%, #1766F9 39%, #4582F5 100%);
+    --green-gradient: 
+        linear-gradient(90deg, #13E900 0%, #22F917 39%, #53F545 100%);
+    --primary-orange: #E96D00;
+    --clr-secondary: #FFE6D0;
+    --text-secondery: #1E2A38;
+    --primary-grey: #747474;
+    --clr-red: #b71c1c;
+    --bg-red: #fdecea;
+    --clr-green: #2e7d32;
+    --bg-green: #e8f5e9;
+    --clr-red2: #E80101;
+    --bg-red2: #FFD0D0;
+}
+
+.cal-filters-box{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px;
+}
+.cal-filters-selects{
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    width: 100%;
+    max-width: 454px;
+}
+.cal-select{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.cal-filter-wrapper{
+    position: relative;
+    width: 100%;
+    max-width: 218px;
+}
+.cal-filter-select{
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--primary-grey);
+    border: 1px solid var(--primary-grey);
+    border-radius: 10px;
+    padding: 7.5px 30px 7.5px 15px;
+    width: 100%;
+    max-width: 218px;
+    appearance: none;
+    cursor: pointer;
+}
+.cal-filter-select:focus{
+    box-shadow: none;
+    outline: none;
+}
+.cal-filter-wrapper .icon{
+    position: absolute;
+    right: 10px;
+    top: 20%;
+}
+.cal-select-btn{
+    background-color: var(--clr-secondary);
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--primary-grey);
+    border: none;
+    padding: 8px 20px;
+    cursor: pointer;
+    &:hover{ background-color: #E96D0075; }
+    &.selected{
+        background-color: var(--primary-orange);
+        color: white;
+        font-weight: 500;
+        border-radius: 10px;
+        scale: 1.05;
+    }
+}
+.cal-select-btn:first-child{
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+.cal-select-btn:last-child{
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+.calendar-box{
+    background-color: white;
+    margin: 0 20px;
+    border-radius: 14px;
+}
+.calendar-head{
+    text-align: center;
+    padding: 10px;
+}
+.cal-day-name{
+    background-color: #f7f7f7;
+    border-radius: 8px;
+    margin: 0;
+    margin-bottom: 5px;
+    color: var(--primary-orange);
+    font-size: 16px;
+    font-weight: 500;
+}
+.cal-day-num{
+    width: 30px;
+    height: 30px;
+    background: var(--main-gradient);
+    color: white;
+    font-size: 20px;
+    font-weight: 500;
+    margin: 0 auto;
+    border-radius: 100%;
+    text-align: center;
+}
+.day-grid-wrapper {
+  height: 600px;              /* widoczny obszar */
+  overflow-y: auto;
+  appearance: none;           /* SCROLL */
+  border-radius: 12px;
+  background: #fff;
+  scrollbar-width: none;
+}
+
+.day-grid {
+  display: flex;
+  min-height: calc(24 * 68px); /* pełna doba */
+}
+
+/* LEWA KOLUMNA – GODZINY */
+.time-column {
+  width: 68px;
+  border-right: 1px solid #eee;
+}
+
+.time-label {
+  height: 68px;
+  font-size: 12px;
+  color: #888;
+  padding-top: 4px;
+  text-align: right;
+  padding-right: 8px;
+  box-sizing: border-box;
+}
+
+/* PRAWA CZĘŚĆ – SIATKA */
+.grid-area {
+  position: relative;
+  flex: 1;
+  background: white;
+}
+
+/* LINIE GODZIN */
+.hour-row {
+  height: 68px;
+  border-bottom: 1px dashed #e6e6e6;
+  box-sizing: border-box;
+}
+.day-grid-wrapper {
+  height: 600px;
+  overflow-y: auto;
+  background: #fff;
+  border-radius: 12px;
+}
+
+.day-grid {
+  display: flex;
+  min-height: calc(24 * 68px);
+}
+
+/* GODZINY */
+.time-column {
+  width: 68px;
+  border-right: 1px solid #eee;
+}
+
+.time-label {
+  height: 68px;
+  font-size: 12px;
+  color: #888;
+  padding-top: 4px;
+  text-align: right;
+  padding-right: 8px;
+}
+
+/* SIATKA */
+.grid-area {
+  position: relative;
+  flex: 1;
+}
+
+/* POZIOME */
+.hour-row {
+  height: 68px;
+  border-bottom: 1px dashed #e6e6e6;
+}
+
+/* PIONOWE */
+.vertical-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: #eee;
+}

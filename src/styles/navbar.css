@@ -146,7 +146,19 @@
     background-clip: text;
     color: transparent; */
 }
-
+.sideicon-wrapper{
+    position: relative;
+    &:has(.sidebar-selected)::after{
+        content: "";
+        height: 22px;
+        width: 4px;
+        background: var(--main-gradient);
+        position: absolute;
+        right: -80%;
+        top: 25%;
+        border-radius: 3px 0 0 3px;
+    }
+}
 /* mobile */
 .mobile-nav{
     display: none;

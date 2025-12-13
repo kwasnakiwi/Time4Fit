@@ -36,7 +36,7 @@ function NavBar(props) {
           />
         } 
         {props.isProfileVisible &&
-          <Link to={'/profil'} style={{color: "black", textDecoration: 'none'}}><div className="profile-box-container">
+          <Link to={'/profil/edycja'} style={{color: "black", textDecoration: 'none'}}><div className="profile-box-container">
             <div className="profile-box" onClick={() => setShowPopup(!showPopup)}>
               <img src={pfp} alt="Profile" />
               <div className="name-data">

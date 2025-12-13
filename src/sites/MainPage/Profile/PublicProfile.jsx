@@ -1,7 +1,5 @@
-import { useState } from "react";
 import NavBar from "../components/NavBar";
 import SideBar from "../components/SideBar";
-import Success from "../components/popups/Success";
 import './../../../styles/profile.css';
 import pfp from './../../../assets/images/pfp2.png';
 import ach1 from './../../../assets/images/ach1.png';
@@ -22,15 +20,11 @@ import { FaRegFlag as Flag,
          FaPhoneAlt as Phone,
          FaArrowRight as Arrow } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import Warning from "../components/popups/Warning.jsx";
-import Error from "../components/popups/Error.jsx";
 
 function PublicProfile(){
-  const [showPopup, setShowPopup] = useState(true);
-
   return(
     <>
-      <NavBar title="Profil" route="Ustawienia konta / Profil" linkRoute="/home-page"/>
+      <NavBar title="Profil" route="Ustawienia konta / Profil" linkRoute="/strona-glowna" isProfileVisible/>
       <SideBar />
       <main className="home-page-container">
         <div className="profile">

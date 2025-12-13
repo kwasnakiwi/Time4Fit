@@ -133,7 +133,7 @@ function Events(){
             throw new Error(data.details || "błąd");
           }
 
-          // setEvents((data.results || data || []).sort((a, b) => a.id - b.id));
+          setEvents((data.results || data || []).sort((a, b) => a.id - b.id));
           console.log(data.results)
         }
         catch(err){

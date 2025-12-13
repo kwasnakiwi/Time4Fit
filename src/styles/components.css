@@ -7,6 +7,8 @@
         linear-gradient(90deg, #0052E9 0%, #1766F9 39%, #4582F5 100%);
     --green-gradient: 
         linear-gradient(90deg, #13E900 0%, #22F917 39%, #53F545 100%);
+    --biz-gradient: 
+        linear-gradient(90deg, #17978B 0%, #2BAF9B 39%, #61D4C0 100%);
     --primary-orange: #E96D00;
     --clr-secondary: #FFE6D0;
     --text-secondery: #1E2A38;
@@ -17,6 +19,7 @@
     --bg-green: #e8f5e9;
     --clr-red2: #E80101;
     --bg-red2: #FFD0D0;
+    --clr-biz: #E0F5EF;
 }
 
 /*popups*/
@@ -107,11 +110,19 @@
     margin: 0;
     font-size: 18px;
     font-weight: 600;
+    &.biz{
+        color: transparent;
+        background: var(--biz-gradient);
+        background-clip: text;
+    }
 }
 .pr-side-part-title-box{
     background-color: #FEAE6825;
     border-radius: 4px;
     padding: 7px 0 7px 20px;
+    &:has(.biz){
+        background-color: var(--clr-biz);
+    }
 }
 .pr-side-part-list{
     padding: 0;

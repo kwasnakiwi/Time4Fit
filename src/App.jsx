@@ -18,6 +18,7 @@ import PublicProfile from './sites/MainPage/Profile/PublicProfile.jsx'
 import ToTimeForBiz from './sites/MainPage/Loadings/ToTimeForBiz.jsx'
 import ToTimeForFit from './sites/MainPage/Loadings/ToTimeForFit.jsx'
 import EditProfile from './sites/MainPage/Profile/EditProfile.jsx'
+import Calendar from './sites/MainPage/Calendar/Calendar.jsx'
 
 
 function App() {
@@ -50,7 +51,8 @@ function App() {
           <Route path='/strona-glowna' element={<HomePage />} />
           <Route path='/profil' element={<PublicProfile />} />
           <Route path='/profil/edycja' element={<EditProfile />} />
-          <Route path='/test' element={<ToTimeForBiz />} />
+          <Route path='/test' element={<ToTimeForFit />} />
+          <Route path='/kalendarz' element={<Calendar />} />
         </Routes>
       </Router>
     </>

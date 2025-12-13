@@ -17,6 +17,8 @@ import clPrSide2 from './../../../assets/images/cl-pr-side2.png';
 import clPrSide3 from './../../../assets/images/cl-pr-side3.png';
 import clPrSide4 from './../../../assets/images/cl-pr-side4.png';
 import clPrSide5 from './../../../assets/images/cl-pr-side5.png';
+import clPrSide6 from './../../../assets/images/cl-pr-side6.png';
+import clPrSide7 from './../../../assets/images/cl-pr-side7.png';
 import pfp from './../../../assets/images/pfp2.png';
 import ach1 from './../../../assets/images/ach1.png';
 import ach2 from './../../../assets/images/ach2.png';
@@ -25,15 +27,15 @@ import ach4 from './../../../assets/images/ach4.png';
 import pr1 from './../../../assets/images/pr-icon1.png';
 import pr2 from './../../../assets/images/pr-icon2.png';
 import pr3 from './../../../assets/images/pr-icon3.png';
-import pr4 from './../../../assets/images/pr-icon4.png';
 import certificate from './../../../assets/images/certificate.png';
-import recClock from './../../../assets/images/rec-clock.png';
-import recLoc from './../../../assets/images/rec-loc.png';
-import recPeople from './../../../assets/images/rec-people.png';
 import editIcon from './../../../assets/images/edit-icon.png';
 import addIcon from './../../../assets/images/add-icon.png';
 import circlePfp from './../../../assets/images/circle-pfp.png';
 import editIcon2 from './../../../assets/images/edit-icon2.png';
+import placeChoice1 from './../../../assets/images/p-choice1.png';
+import placeChoice2 from './../../../assets/images/p-choice2.png';
+import orPlaceChoice1 from './../../../assets/images/or-p-choice1.png';
+import orPlaceChoice2 from './../../../assets/images/or-p-choice2.png';
 
 import { FaRegFlag as Flag,
          FaRegEye as Eye,
@@ -41,15 +43,17 @@ import { FaRegFlag as Flag,
          FaPhoneAlt as Phone,
          FaArrowRight as Arrow } from "react-icons/fa";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 function EditProfile(){
-  const [selected, setSelected] = useState("profile");
-
+  const [selected, setSelected] = useState("data");
+  const [placeType, setPlaceType] = useState(null);
+  const navigate = useNavigate();
+  
   return(
     <>
-      <NavBar title="Profil" route="Ustawienia konta / Profil" linkRoute="/strona-glowna"/>
+      <NavBar title="Ustawienia konta" route="Ustawienia konta" linkRoute="/strona-glowna"/>
       <SideBar />
       <main className="home-page-container profile-edit-container">
         <div className="profile-edit-side">
@@ -96,15 +100,15 @@ function EditProfile(){
                 <h2 className="pr-side-part-title">Tworzenie</h2>
               </div>
               <ul className="pr-side-part-list">
-                <li className={selected == "place" ? "pr-side-selected" : ""}>
+                <li className={selected == "place" ? "pr-side-selected" : ""} onClick={() => setSelected("place")}>
                   <div style={{width: "20px", height: "20px"}}>
-                    <img src={selected == "place" ? clPrSide1 : prSide6} />
+                    <img src={selected == "place" ? clPrSide6 : prSide6} />
                   </div>
                   Placówka
                 </li>
-                <li className={selected == "event" ? "pr-side-selected" : ""}>
+                <li className={selected == "event" ? "pr-side-selected" : ""} onClick={() => setSelected("event")}>
                   <div style={{width: "20px", height: "20px"}}>
-                    <img src={selected == "event" ? clPrSide1 : prSide7} />
+                    <img src={selected == "event" ? clPrSide7 : prSide7} />
                   </div>
                   Eventy
                 </li>
@@ -112,8 +116,22 @@ function EditProfile(){
             </section>
             <section className="pr-side-part">
               <div className="pr-side-part-title-box">
-                <h2 className="pr-side-part-title">Funkcje premium</h2>
+                <h2 className="pr-side-part-title biz">Funkcje biznes</h2>
               </div>
+               <ul className="pr-side-part-list">
+                <li className={selected == "place" ? "" : ""}>
+                  <div style={{width: "20px", height: "20px"}}>
+                    <img src={selected == "place" ? clPrSide6 : prSide6} />
+                  </div>
+                  Jestem trenerem
+                </li>
+                <li onClick={() => setSelected("place")}>
+                  <div style={{width: "20px", height: "20px"}}>
+                    <img src={selected == "event" ? clPrSide7 : prSide7} />
+                  </div>
+                  Jestem placówką
+                </li>
+              </ul>
             </section>
           </nav>
         </div>
@@ -304,6 +322,52 @@ function EditProfile(){
                 </button>
               </div>
             </section>
+          </div>
+        }
+        {selected == "place" &&
+          <div className="place-create-box">
+            <div className="cp-title-box">
+              <h2 className="cp-title">Twoje miejsce, Twoje zasady</h2>
+              <p className="cp-desc">
+                Wybierz, w jaki sposób chcesz dodać swoją placówkę — 
+                tylko oznacz ją na mapie lub zyskaj pełne możliwości 
+                zarządzania nią i wydarzeniami.
+              </p>
+            </div>
+            <div className="place-choice-box">
+              <div 
+                className={`place-choice ${placeType == "first" ? "selected" : placeType ? "disabled" : ""}`}
+                onClick={() => setPlaceType("first")}
+              >
+                <h3 className="place-choice-title">Pokaż się na mapie</h3>
+                <img 
+                  src={placeType == "first" ? orPlaceChoice1 : placeType ? placeChoice1 : orPlaceChoice1} 
+                  className="place-choice-img" 
+                />
+                <p className="place-choice-desc">
+                  Oznacz swoją lokalizację, aby inni mogli łatwo Cię znaleźć.
+                  Idealne, jeśli chcesz po prostu zaznaczyć obecność swojej 
+                  placówki bez dodatkowych funkcji zarządzania.
+                </p>
+                <span className="place-choice-price">Wstępny koszt 29 PLN</span>
+              </div>
+              <div 
+                className={`place-choice ${placeType == "second" ? "selected" : placeType ? "disabled" : ""}`}
+                onClick={() => setPlaceType("second")}
+              >
+                <h3 className="place-choice-title">Prowadź, planuj i działaj</h3>
+                <img 
+                  src={placeType == "second" ? orPlaceChoice2 : placeType ? placeChoice2 : orPlaceChoice2} 
+                  className="place-choice-img" 
+                />
+                <p className="place-choice-desc">
+                  Zyskaj pełną kontrolę — twórz wydarzenia, przypisuj trenerów,
+                  edytuj informacje i obserwuj aktywność. Dostępne funkcje 
+                  zależą od wybranego planu.
+                </p>
+                <span className="place-choice-price">Wstępny koszt 119 PLN</span>
+              </div>
+            </div>
           </div>
         }
       </main>
