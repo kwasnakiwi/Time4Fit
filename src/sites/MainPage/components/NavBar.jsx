@@ -29,13 +29,13 @@ function NavBar(props) {
             {props.title ?? "-"}
           </h3>
         </div>
-        {props.isProfileVisible &&
+        {!props.isNotProfileVisible &&
           <Bell 
             className="notification-icon"
             onMouseEnter={handleBellHover}
           />
         } 
-        {props.isProfileVisible &&
+        {!props.isNotProfileVisible &&
           <Link to={'/profil/edycja'} style={{color: "black", textDecoration: 'none'}}><div className="profile-box-container">
             <div className="profile-box" onClick={() => setShowPopup(!showPopup)}>
               <img src={pfp} alt="Profile" />

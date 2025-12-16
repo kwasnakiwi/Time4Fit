@@ -487,11 +487,19 @@
   gap: 24px;
   padding: 20px 20px 30px;
   background-color: white;
-  border: 1px solid #1E2A3850;
+  border: 6px solid transparent;
   border-radius: 14px;
   cursor: pointer;
   box-shadow: 4px 4px 8px 0 rgba(0, 0, 0, 0.25);
   position: relative;
+  outline: 1px solid #1E2A3850;
+  transition:
+    border 300ms ease,
+    background 300ms ease,
+    box-shadow 300ms ease,
+    opacity 300ms ease,
+    transform 300ms ease;
+
   &.disabled{
     opacity: 0.5;
     box-shadow: none;
@@ -500,10 +508,19 @@
     background:
       linear-gradient(white, white) padding-box,
       var(--main-gradient) border-box;
+    outline: none;
     border: 6px solid transparent;
     border-radius: 14px;
+    transform: translateY(-4px);
+  }
+  &:not(.disabled):hover {
+    transform: translateY(-2px);
+    box-shadow: 6px 6px 14px rgba(0,0,0,0.25);
   }
 }
+
+
+
 .place-choice-title{
   color: var(--text-secondery);
   font-size: 18px;
@@ -520,4 +537,23 @@
   font-size: 18px;
   color: var(--text-secondery);
   font-weight: 600;
+}
+.cp-ns-btn{
+  font-size: 16px;
+  font-weight: 500;
+  color: white;
+  background: var(--main-gradient);
+  padding: 3px 29px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  &:disabled{
+    opacity: 0.5;
+    cursor: default;
+  }
+}
+.cp-next-stage-btn-box{
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 30px;
 }

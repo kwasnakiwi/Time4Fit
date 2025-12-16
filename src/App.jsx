@@ -19,6 +19,7 @@ import ToTimeForBiz from './sites/MainPage/Loadings/ToTimeForBiz.jsx'
 import ToTimeForFit from './sites/MainPage/Loadings/ToTimeForFit.jsx'
 import EditProfile from './sites/MainPage/Profile/EditProfile.jsx'
 import Calendar from './sites/MainPage/Calendar/Calendar.jsx'
+import ChoosePlace from './sites/MainPage/Places/ChoosePlace.jsx'
 
 
 function App() {
@@ -53,6 +54,14 @@ function App() {
           <Route path='/profil/edycja' element={<EditProfile />} />
           <Route path='/test' element={<ToTimeForFit />} />
           <Route path='/kalendarz' element={<Calendar />} />
+          <Route 
+            path='/placowki/*'
+            element={
+              <Routes>
+                <Route path='wybor-planu' element={<ChoosePlace />} />
+              </Routes>
+            }
+          />
         </Routes>
       </Router>
     </>

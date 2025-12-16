@@ -29,7 +29,7 @@ function HomePage() {
 
   return(
     <>
-      <NavBar route="Home" title="Home" isProfileVisible={isLoggedIn} />
+      <NavBar route="Home" title="Home" isNotProfileVisible={!isLoggedIn} />
       <SideBar />
       <main className="home-page-container">
         <div className="home-page">

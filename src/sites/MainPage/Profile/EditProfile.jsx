@@ -357,7 +357,7 @@ function EditProfile(){
               >
                 <h3 className="place-choice-title">Prowadź, planuj i działaj</h3>
                 <img 
-                  src={placeType == "second" ? orPlaceChoice2 : placeType ? placeChoice2 : orPlaceChoice2} 
+                  src={placeType == "second" ? orPlaceChoice2 : (placeType ? placeChoice2 : orPlaceChoice2)} 
                   className="place-choice-img" 
                 />
                 <p className="place-choice-desc">
@@ -367,6 +367,20 @@ function EditProfile(){
                 </p>
                 <span className="place-choice-price">Wstępny koszt 119 PLN</span>
               </div>
+            </div>
+            <div className="cp-next-stage-btn-box">
+              <button 
+                disabled={!placeType} 
+                className="cp-ns-btn"
+                onClick={() => {
+                  placeType == "first" ? 
+                    navigate("/placowki/dodawanie-placowki")
+                  :
+                    navigate("/placowki/wybor-planu")
+                }}
+              >
+                Dalej
+              </button>
             </div>
           </div>
         }
