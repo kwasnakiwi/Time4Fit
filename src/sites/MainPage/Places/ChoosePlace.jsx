@@ -67,9 +67,9 @@ function ChoosePlace(){
               step={1}
               value={selected}
               onChange={e => {
-                const value = Number(e.target.value)
-                if (value < 1) return
-                setSelected(value)
+                const value = Number(e.target.value);
+                if (value < 1) return;
+                setSelected(value);
               }}
               className="choose-place-slider"
             />
@@ -86,7 +86,7 @@ function ChoosePlace(){
             <div className="cp-labels">
               {labels.map((label, i) => (
                 <div className="cp-label-wrapper" key={i}>
-                  <p className="cp-label" style={selected === i + 1 ? selectedStyle : undefined}>
+                  <p className="cp-label" style={selected === i + 1 ? selectedStyle : null}>
                     {label}
                   </p>
                 </div>

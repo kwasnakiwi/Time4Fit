@@ -57,22 +57,22 @@ function AddEvent1() {
     }
   }, [isPremium, repeatable])
 
-useEffect(() => {
-  const getCategories = async () => {
-    try {
-      const res = await apiFetch(`${BASE_URL}${ENDPOINTS.eventCategoryList}`);
-      console.log("status:", res.status);
-      
-      const data = await res.json();
-      console.log("Dane kategorii:", data);
+  useEffect(() => {
+    const getCategories = async () => {
+      try {
+        const res = await apiFetch(`${BASE_URL}${ENDPOINTS.eventCategoryList}`);
+        console.log("status:", res.status);
+        
+        const data = await res.json();
+        console.log("Dane kategorii:", data);
 
-      setCategories(data.results || data || []);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-  getCategories();
-}, []);
+        setCategories(data.results || data || []);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    getCategories();
+  }, []);
 
 
   const formatted = date

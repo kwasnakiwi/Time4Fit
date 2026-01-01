@@ -20,6 +20,7 @@ import ToTimeForFit from './sites/MainPage/Loadings/ToTimeForFit.jsx'
 import EditProfile from './sites/MainPage/Profile/EditProfile.jsx'
 import Calendar from './sites/MainPage/Calendar/Calendar.jsx'
 import ChoosePlace from './sites/MainPage/Places/ChoosePlace.jsx'
+import AddPlace from './sites/MainPage/Places/AddPlace.jsx'
 
 
 function App() {
@@ -59,6 +60,7 @@ function App() {
             element={
               <Routes>
                 <Route path='wybor-planu' element={<ChoosePlace />} />
+                <Route path='dodawanie-placowki' element={<AddPlace />} />
               </Routes>
             }
           />

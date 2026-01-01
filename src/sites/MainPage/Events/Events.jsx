@@ -325,7 +325,7 @@ function Events(){
                     </div>
                     <div className="event-content-right">
                       <div className="event-img-wrapper"> 
-                        <img src={event.event_img} alt="event" />
+                        <img src={event.event_img || eventImg} alt="event" />
                         <span className="event-img-location"><PinMap className="img-location-pin icon" /> {event.city}, {event.street} {/*{event.street_number ? event.street_number : ""}{event.flat_number ? `/${event.flat_number}` : ""}*/}</span>
                         <span className={`event-img-payable-status ${event.additional_info.price == 0 ? "green" : "red"}`}>{event.additional_info.price == 0 ? "Bezpłatny" : "Płatny"}</span>
                       </div>
