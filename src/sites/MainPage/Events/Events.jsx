@@ -26,7 +26,8 @@ function Events(){
       places_for_people_limit: 20,
     },
     event_participant_count: 7,
-    event_img: '/src/assets/images/ev1.png'
+    event_img: '/src/assets/images/ev1.png',
+    event_route: '/eventy/test'
   },
   {
     id: 2,
@@ -133,7 +134,7 @@ function Events(){
             throw new Error(data.details || "błąd");
           }
 
-          setEvents((data.results || data || []).sort((a, b) => a.id - b.id));
+          // setEvents((data.results || data || []).sort((a, b) => a.id - b.id));
           console.log(data.results)
         }
         catch(err){
@@ -344,7 +345,7 @@ function Events(){
                       />
                       <span className="quantity-of-people">{event.event_participant_count} / {event.additional_info.places_for_people_limit}</span>
                     </div>
-                    <Link className="more-bout-event" to={`/eventy/${event.id}`}>Zobacz szczegóły <span className="hom">↗</span></Link>
+                    <Link className="more-bout-event" to={`${event.event_route}`}>Zobacz szczegóły <span className="hom">↗</span></Link>
                   </div>
                 </div>
               );

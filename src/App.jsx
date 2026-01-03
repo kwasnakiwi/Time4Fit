@@ -38,7 +38,7 @@ function App() {
           <Route path='/zapomnialem-hasla/zmiana-hasla' element={<ChangePassword />} />
           <Route path='/eventy' element={<Events />} />
           <Route path='/eventy/mapa-eventow' element={<EventsMap />} />
-          <Route path="/eventy/:id" element={<EventDetails />} />
+          <Route path="/eventy/test" element={<EventDetails />} />
           <Route
             path="/eventy/dodawanie-eventu/*"
             element={

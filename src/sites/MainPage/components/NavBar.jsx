@@ -5,7 +5,7 @@ import { FaRegBell as Bell,
 import pfp from './../../../assets/images/pfp.png';
 import mobileLogo from './../../../assets/images/mobile-logo.png';
 import './../../../styles/navbar.css';
-import { Link, useNavigation } from "react-router-dom";
+import { Link, useNavigate, useNavigation } from "react-router-dom";
 import { useState } from "react";
 
 function NavBar(props) {
@@ -19,13 +19,19 @@ function NavBar(props) {
     );
   };
 
+  const navigate = useNavigate();
+
   return (
     <>
       <nav className="navbar">
         <div className="route-box">
           <h5 className="route">{props.route ?? "-"}</h5>
           <h3 className={`nav-title ${props.ist4b ? "t4b" : ""}`}>
-            <Link to={props.linkRoute ?? "#"}><span><LeftArrow className="icon"/></span></Link>
+            <span 
+              onClick={() => navigate(-1)}
+            >
+              <LeftArrow className="icon"/>
+            </span>
             {props.title ?? "-"}
           </h3>
         </div>
