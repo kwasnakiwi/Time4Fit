@@ -318,6 +318,7 @@
     align-self: flex-end;
     color: var(--text-secondery);
     font-size: 14px;
+    white-space: nowrap;
 }
 .place-galery-wrapper{
     display: flex;
@@ -357,4 +358,10 @@
             opacity: 1;
         }
     }
+}
+.gallery-container{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    gap: 24px;
 }

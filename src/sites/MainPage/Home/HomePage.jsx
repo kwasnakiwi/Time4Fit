@@ -1,5 +1,6 @@
 import NavBar from "../components/NavBar.jsx";
 import SideBar from "../components/SideBar.jsx";
+import ToTimeForFit from "../Loadings/ToTimeForFit.jsx";
 import { useState, useEffect, useContext } from "react";
 import './../../../styles/homepage.css'
 import { FaSearch as Search, FaArrowRight as Arrow, FaRegClock as Clock } from "react-icons/fa";
@@ -17,8 +18,6 @@ import ac1 from './../../../assets/images/ac1.png';
 import ac2 from './../../../assets/images/ac2.png';
 import ac3 from './../../../assets/images/ac3.png';
 import ac4 from './../../../assets/images/ac4.png';
-import { DayPicker } from "react-day-picker";
-import { pl } from "date-fns/locale";
 import "react-day-picker/style.css";
 import Calendar from "../components/Calendar.jsx";
 
@@ -26,6 +25,15 @@ function HomePage() {
   const isLoggedIn = true;
   const navigate = useNavigate();
   const [selected, setSelected] = useState();
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 2000)
+  }, [])
+
+  if (isLoading) return <ToTimeForFit />
 
   return(
     <>

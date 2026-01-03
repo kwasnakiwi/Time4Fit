@@ -1,9 +1,14 @@
 :root{
-    --main-gradient: linear-gradient(90deg, #E96D00 0%, #F98017 39%, #F59745 100%);
+    --main-gradient: 
+        linear-gradient(90deg, #E96D00 0%, #F98017 39%, #F59745 100%);
     --primary-orange: #E96D00;
     --clr-secondary: #FFE6D0;
     --text-secondery: #1E2A38;
     --primary-grey: #747474;
+    --primary-green: #004C46;
+    --t4b-secondary: #E0F5EF;
+    --t4b-gradient:
+        linear-gradient(90deg, #17978B 0%, #2BAF9B 39%, #61D4C0 100%);
 }
 
 /* navbar */
@@ -32,6 +37,7 @@
     font-size: 20px;
     font-weight: normal;
     margin: 0;
+    &.t4b{ color: var(--primary-green); }
 }
 .nav-title span svg, .mob-nav-title span svg{
     color: var(--primary-grey);
@@ -48,6 +54,9 @@
     border-radius: 250px;
     color: white;
     cursor: pointer;
+    &.t4b{
+        background: var(--t4b-gradient);
+    }
 }
 .animated-bell{
     animation: ringBell 1.2s ease-out;
@@ -113,7 +122,7 @@
 /* sidebar */
 
 .sidebar{
-    background-color: #FFE6D0;
+    background-color: var(--clr-secondary);
     width: 80px;
     height: calc(100vh - 20px);
     margin: 10px;
@@ -124,6 +133,7 @@
     border-radius: 10px;
     position: fixed;
     top: 0;
+    &.t4b{ background-color: var(--t4b-secondary); }
 }
 .sidebar-logo{
     max-width: 59px;
@@ -145,6 +155,7 @@
     -webkit-text-fill-color: transparent;
     background-clip: text;
     color: transparent; */
+    &.t4b{ color: var(--primary-green); }
 }
 .sideicon-wrapper{
     position: relative;
@@ -158,7 +169,34 @@
         top: 25%;
         border-radius: 3px 0 0 3px;
     }
+    &:has(.sidebar-selected.t4b)::after{
+        content: "";
+        height: 22px;
+        width: 4px;
+        background: var(--t4b-gradient);
+        position: absolute;
+        right: -80%;
+        top: 25%;
+        border-radius: 3px 0 0 3px;
+    }
 }
+
+#last{
+    width: 54px;
+    height: 51px;
+    box-sizing: border-box;
+    padding: 13px 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: auto;
+    margin-bottom: 20px;
+    &.t4b{ background-color: var(--t4b-secondary); }
+    &.t4f{ background-color: var(--clr-secondary); }
+}
+
 /* mobile */
 .mobile-nav{
     display: none;

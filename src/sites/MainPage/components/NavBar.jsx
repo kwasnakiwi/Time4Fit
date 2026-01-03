@@ -24,14 +24,14 @@ function NavBar(props) {
       <nav className="navbar">
         <div className="route-box">
           <h5 className="route">{props.route ?? "-"}</h5>
-          <h3 className="nav-title">
+          <h3 className={`nav-title ${props.ist4b ? "t4b" : ""}`}>
             <Link to={props.linkRoute ?? "#"}><span><LeftArrow className="icon"/></span></Link>
             {props.title ?? "-"}
           </h3>
         </div>
         {!props.isNotProfileVisible &&
           <Bell 
-            className="notification-icon"
+            className={`notification-icon ${props.ist4b ? "t4b" : ""}`}
             onMouseEnter={handleBellHover}
           />
         } 

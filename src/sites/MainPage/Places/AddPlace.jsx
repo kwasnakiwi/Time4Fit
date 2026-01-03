@@ -70,8 +70,14 @@ function AddPlace() {
     const file = e.target.files[0];
     if (!file) return;
 
-    setImageFile(file);
+    console.log(file)
+
+    if (preview) {
+      URL.revokeObjectURL(preview);
+    }
+
     const url = URL.createObjectURL(file);
+    setImageFile(file);
     setPreview(url);
   };
 
@@ -158,6 +164,7 @@ function AddPlace() {
     });
     e.target.value = null;
   };
+  
   const removeGalleryImage = index => {
     setGallery(prev => {
       URL.revokeObjectURL(prev[index].preview);
@@ -454,38 +461,41 @@ function AddPlace() {
               <span className="num-icon">7</span>
               Galeria placówki
             </h2>
-            <div className="place-galery-wrapper">
-              <input
-                type="file"
-                accept="image/*"
-                multiple
-                hidden
-                ref={galleryInputRef}
-                onChange={handleGalleryChange}
-              />
+            <div className="gallery-container">
               {gallery.length < 30 && (
-                <div
-                  className="galery-add"
-                  onClick={() => galleryInputRef.current.click()}
-                >
-                  <span>+</span>
-                </div>
-              )}
-              {gallery.map((img, i) => (
-                <div key={i} className="galery-image">
-                  <img src={img.preview} alt="" />
-                  <div 
-                    className="x-img"
-                    onClick={() => removeGalleryImage(i)}
+                  <div
+                    className="galery-add"
+                    onClick={() => galleryInputRef.current.click()}
                   >
-                    ✕
+                    <span>+</span>
                   </div>
-                </div>
-              ))}
+                )}
+              <div className="place-galery-wrapper">
+                <input
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  hidden
+                  ref={galleryInputRef}
+                  onChange={handleGalleryChange}
+                />
+                
+                {gallery.map((img, i) => (
+                  <div key={i} className="galery-image">
+                    <img src={img.preview} alt="" />
+                    <div 
+                      className="x-img"
+                      onClick={() => removeGalleryImage(i)}
+                    >
+                      ✕
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <span className="galery-counter">
+                {gallery.length} / 30
+              </span>
             </div>
-            <span className="galery-counter">
-              {gallery.length} / 30
-            </span>
           </div>
         </div>
         <div className="cp-next-stage-btn-box" style={{margin: "20px 20px 20px 0"}}>

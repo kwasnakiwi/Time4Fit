@@ -21,6 +21,7 @@ import EditProfile from './sites/MainPage/Profile/EditProfile.jsx'
 import Calendar from './sites/MainPage/Calendar/Calendar.jsx'
 import ChoosePlace from './sites/MainPage/Places/ChoosePlace.jsx'
 import AddPlace from './sites/MainPage/Places/AddPlace.jsx'
+import PlacesMenu from './sites/T4B/PlacesMenu.jsx'
 
 
 function App() {
@@ -61,6 +62,14 @@ function App() {
               <Routes>
                 <Route path='wybor-planu' element={<ChoosePlace />} />
                 <Route path='dodawanie-placowki' element={<AddPlace />} />
+              </Routes>
+            }
+          />
+          <Route 
+            path='time-4-biz/*'
+            element={
+              <Routes>
+                <Route path='menu-placowek' element={<PlacesMenu />} />
               </Routes>
             }
           />
