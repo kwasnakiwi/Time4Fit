@@ -8,7 +8,6 @@ import stat1 from './../../assets/images/stat-icon1.png'
 import stat2 from './../../assets/images/stat-icon2.png'
 import stat3 from './../../assets/images/stat-icon3.png'
 import angle from './../../assets/images/angle.png';
-import 
 
 function PlacesMenu(){
   const [isLoading, setIsLoading] = useState(true);
@@ -64,7 +63,7 @@ function PlacesMenu(){
                 <h3 className="places-web-name">Sieć testowa NR. 1</h3>
                 <div className="places-web-wrapper">
                   <div className="places-web-element">
-
+                    <div></div>sssss
                   </div>
                 </div>
               </div>
