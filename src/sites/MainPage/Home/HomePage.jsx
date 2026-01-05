@@ -28,9 +28,11 @@ function HomePage() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       setIsLoading(false);
     }, 2000)
+
+    return () => clearTimeout(timer);
   }, [])
 
   if (isLoading) return <ToTimeForFit />

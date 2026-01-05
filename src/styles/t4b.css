@@ -53,3 +53,90 @@
     font-size: 18px;
     font-weight: 600;
 }
+.places-web-box{
+    background-color: white;
+    box-shadow: 2px 2px 4px 0 rgba(0, 0, 0, 0.25);
+    border-radius: 14px;
+    margin-top: 16px;
+    padding: 20px;
+}
+.places-web-title{
+    font-size: 16px;
+    font-weight: normal;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 12px;
+}
+.places-web-name{
+    margin: 22px 0 10px;
+    font-size: 16px;
+    font-weight: normal;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    gap: 18px;
+    cursor: pointer;
+    span{
+        font-size: 12px;
+        color: var(--primary-grey);
+        margin-left: -6px;
+    }
+}
+.places-web-wrapper {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition:
+        grid-template-rows 0.35s ease,
+        opacity 0.25s ease,
+        transform 0.25s ease;
+    padding-left: 42px;
+    opacity: 0;
+    transform: translateY(-6px);
+}
+
+.places-web-wrapper.open {
+    grid-template-rows: 1fr;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.places-web-inner {
+    overflow: hidden;
+}
+
+/* STRZAŁKA */
+.arrow {
+    transition: transform 0.25s ease;
+}
+
+.arrow.open {
+    transform: rotate(90deg);
+}
+
+.web-title{
+    font-size: 14px;
+    font-weight: normal;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin: 0;
+    margin-top: 12px;
+}
+.web-element-content{
+    padding-left: 32px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 12px;
+    font-weight: 300;
+    color: var(--primary-grey);
+}
+.ind-places-inner{
+    padding-left: 42px;
+}
+.web-line{
+    border-style: 1px solid #474747;
+    margin: 22px 0;
+}
