@@ -501,7 +501,7 @@ function AddPlace() {
         <div className="cp-next-stage-btn-box" style={{margin: "20px 20px 20px 0"}}>
           <button 
             className="cp-ns-btn"
-            onClick={() => navigate("/cos/dalej/cos")}
+            onClick={() => navigate("/time-4-biz/menu-placowek")}
           >
             Stwórz placówkę
           </button>
