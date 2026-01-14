@@ -75,6 +75,7 @@
     font-weight: normal;
     display: flex;
     width: 100%;
+    max-width: 300px;
     align-items: center;
     gap: 18px;
     cursor: pointer;
@@ -91,7 +92,6 @@
         grid-template-rows 0.35s ease,
         opacity 0.25s ease,
         transform 0.25s ease;
-    padding-left: 42px;
     opacity: 0;
     transform: translateY(-6px);
 }
@@ -104,6 +104,7 @@
 
 .places-web-inner {
     overflow: hidden;
+    padding-left: 42px;
 }
 
 /* STRZAŁKA */
@@ -122,7 +123,29 @@
     align-items: flex-start;
     gap: 12px;
     margin: 0;
-    margin-top: 12px;
+}
+.places-web-inner > div:not(.places-map-line),
+.ind-places-inner > div:not(.places-map-line){
+    padding: 10px;
+    transition: background-color 0.2s ease;
+}
+.places-web-inner > div:not(.places-map-line){
+    box-sizing: border-box;
+    border-radius: 8px;
+    cursor: pointer;
+    &:hover{
+        background-color: var(--t4b-secondary);
+    }
+}
+.ind-places-inner > div:not(.places-map-line){
+    cursor: grab;
+}
+.ind-places-inner > div:active {
+    opacity: .5;
+    cursor: grabbing;
+}
+.drag-ghost{
+    padding: 0 60px 60px 0;
 }
 .web-element-content{
     padding-left: 32px;
@@ -139,4 +162,24 @@
 .web-line{
     border-style: 1px solid #474747;
     margin: 22px 0;
+}
+.places-map-line{
+    box-sizing: border-box;
+    width: 1.5px;
+    height: 100%;
+    background-color: #ACACAC;
+    position: absolute;
+    left: 20px;
+    top: 0;
+    &.orange { background-color: #FFD6A7; }
+}
+.places-web-inner .places-map-line{
+    height: calc(100% - 12px);
+}
+.ind-places-inner, 
+.places-web-inner{
+    position: relative;
+}
+.web-line + .places-web-title{
+    margin-bottom: 10px;
 }

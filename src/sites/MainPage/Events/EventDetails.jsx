@@ -22,7 +22,6 @@ import leaveIcon2 from './../../../assets/images/leave2.png'
 import { LocationContext } from "../../../utils/LocationContext.jsx";
 import { QRCodeCanvas } from "qrcode.react";
 import plus from "./../../../assets/images/+.png"
-import { CgPlayButtonO } from "react-icons/cg";
 
 function EventDetails(){
 	const { id } = useParams();
