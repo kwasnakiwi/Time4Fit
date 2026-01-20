@@ -6,8 +6,9 @@ import SideBar from "../components/SideBar.jsx";
 import './../../../styles/mainpage.css'
 import { FaAngleDown as AngleDown, FaSlidersH as Settings, FaSearch as Search } from "react-icons/fa";
 import { BiMap as PinMap } from "react-icons/bi";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import eventImg from '../../../assets/images/event.png'
+import { useDebounce } from "../../../hooks/useDebounce.js";
 function Events(){
   const [events, setEvents] = useState([])
 //   {
@@ -122,31 +123,93 @@ function Events(){
 // ]);
 
   const [showFilters, setShowFilters] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isFree, setIsFree] = useState(true);
   const navigate = useNavigate();
+  const location = useLocation();
+  const debouncedSearch = useDebounce(searchTerm);
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    setSearchTerm(params.get("title") || "");
+  }, [location.search]);
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+
+    if (debouncedSearch.trim()) {
+      params.set("title", debouncedSearch.trim());
+    }
+
+    navigate(`/eventy?${params.toString()}`, { replace: true });
+  }, [debouncedSearch]);
 
   useEffect(() => {
     const getEvents = async () => {
-        try{
-          const response = await apiFetch(`${BASE_URL}${ENDPOINTS.eventEvents}`); // GET
-          const data = await response.json();
+      try{
 
-          if(!response.ok){
-            throw new Error(data.details || "błąd");
-          }
+        const params = new URLSearchParams(location.search);
+        const titleParam = params.get("title") || "";
+        const isFreeParam = params.get("is_free") || "";
+        setIsFree(
+          isFreeParam == "true"
+            ? true
+            : false
+        )
 
-          setEvents((data.results || data || []).sort((a, b) => a.id - b.id));
-          console.log(data.results)
+        const response = await apiFetch(
+          `${BASE_URL}${ENDPOINTS.eventEvents}?title=${titleParam}&is_free=${isFreeParam}`
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.details || "błąd");
         }
-        catch(err){
-          console.error(err)
-        }
+
+        const results = data.results || data || [];
+
+        setEvents(results);
+      } 
+      catch (err) {
+        console.error(err);
       }
+    };
 
     getEvents();
-  }, [])
+  }, [location.search]);
 
   const handleFiltersApply = () => {
     setShowFilters(false);
+  }
+
+  const applySearch = () => {
+    const params = new URLSearchParams(location.search);
+
+    if (searchTerm.trim()) {
+      params.append("title", searchTerm);
+      console.log(params)
+    }
+
+    navigate(`/eventy?${params.toString()}`);
+  };
+
+  const setIsFreeParam = () => {
+    const params = new URLSearchParams(location.search);
+
+    if (params.get("is_free")) params.set("is_free", true)
+    else params.append("is_free", true)
+
+    navigate(`/eventy?${params.toString()}`)
+  }
+  
+  const setIsNotFreeParam = () => {
+    const params = new URLSearchParams(location.search);
+
+    if (params.get("is_free")) params.set("is_free", false)
+    else params.append("is_free", false)
+
+    navigate(`/eventy?${params.toString()}`)
   }
 
   return(
@@ -157,8 +220,22 @@ function Events(){
         <div className="main-events-container">
           <nav className="top-filters">
             <div className="event-type-buttons">
-              <button className="event-type-button event-type-button-selected">Płatne</button>
-              <button className="event-type-button">Darmowe</button>
+              <button 
+                className={
+                  `event-type-button ${!isFree ? "event-type-button-selected" : ""}`
+                }
+                onClick={setIsNotFreeParam}
+              >
+                Płatne
+              </button>
+              <button 
+                className={
+                  `event-type-button ${isFree ? "event-type-button-selected" : ""}`
+                }
+                onClick={setIsFreeParam}
+              >
+                Darmowe
+              </button>
             </div>
             <div className="filters">
               <div className="selectt-wrapper hom2">
@@ -275,8 +352,15 @@ function Events(){
                 }
               </div>
               <div className="selectt-wrapper">
-                <input type="text" className="search-input" id="search-input" placeholder="Wyszukaj..." />
-                <Search id="search-icon" className="icon"/>
+                <input
+                  type="text"
+                  className="search-input"
+                  id="search-input"
+                  placeholder="Wyszukaj..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+                <Search id="search-icon" className="icon" onClick={applySearch} />
               </div>
               <button id="map-icon" className="filter-button hom2" onClick={() => navigate('/eventy/mapa-eventow')}><PinMap />Mapa wydarzeń</button>
             </div>

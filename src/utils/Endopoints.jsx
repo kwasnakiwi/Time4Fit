@@ -1,4 +1,4 @@
-export const BASE_URL = 'http://217.154.252.37';
+export const BASE_URL = 'https://time4test.fit';
 export const ENDPOINTS = {
     login: "/user/login/",
     refresh: "/user/login/refresh/",

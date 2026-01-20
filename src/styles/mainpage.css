@@ -605,6 +605,9 @@ input[type="number"]::-webkit-outer-spin-button{
     border: none;
     border-radius: 43px;
     color: var(--text-secondery);
+    transition: 
+        background 0.2s ease,
+        color 0.2s ease;
 }
 .event-type-button-selected{
     background: var(--main-gradient);
