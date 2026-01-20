@@ -140,6 +140,9 @@ function Events(){
     if (debouncedSearch.trim()) {
       params.set("title", debouncedSearch.trim());
     }
+    else{
+      params.delete("title")
+    }
 
     navigate(`/eventy?${params.toString()}`, { replace: true });
   }, [debouncedSearch]);
@@ -147,12 +150,11 @@ function Events(){
   useEffect(() => {
     const getEvents = async () => {
       try{
-
         const params = new URLSearchParams(location.search);
         const titleParam = params.get("title") || "";
-        const isFreeParam = params.get("is_free") || "";
+        const isFreeParam = params.get("is_free") || "true";
         setIsFree(
-          isFreeParam == "true"
+          isFreeParam === "true"
             ? true
             : false
         )
@@ -163,7 +165,7 @@ function Events(){
 
         const data = await response.json();
 
-        if (!response.ok) {
+        if(!response.ok){
           throw new Error(data.details || "błąd");
         }
 
@@ -171,13 +173,14 @@ function Events(){
 
         setEvents(results);
       } 
-      catch (err) {
+      catch(err){
         console.error(err);
       }
     };
 
     getEvents();
   }, [location.search]);
+  
 
   const handleFiltersApply = () => {
     setShowFilters(false);
@@ -186,7 +189,7 @@ function Events(){
   const applySearch = () => {
     const params = new URLSearchParams(location.search);
 
-    if (searchTerm.trim()) {
+    if(searchTerm.trim()){
       params.append("title", searchTerm);
       console.log(params)
     }
@@ -211,6 +214,10 @@ function Events(){
 
     navigate(`/eventy?${params.toString()}`)
   }
+
+  useEffect(() => {
+    navigate(`/eventy?is_free=true`)
+  }, [])
 
   return(
     <>
