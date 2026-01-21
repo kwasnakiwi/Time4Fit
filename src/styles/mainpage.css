@@ -589,7 +589,17 @@ input[type="number"]::-webkit-outer-spin-button{
 }
 
 /* events */
-
+.evd-img{
+    width: 100%;
+    height: 204px;
+    object-fit: cover;
+}
+.no-trainers-text{
+    font-size: 22px;
+    text-align: center;
+    margin: 0;
+    color: var(--text-secondery);
+}
 .top-filters{
     display: flex;
     justify-content: space-between;

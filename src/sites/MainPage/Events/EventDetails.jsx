@@ -4,8 +4,8 @@ import { BASE_URL, ENDPOINTS } from "../../../utils/Endopoints.jsx";
 import NavBar from "../components/NavBar.jsx";
 import SideBar from "../components/SideBar.jsx";
 import './../../../styles/mainpage.css'
-import { useNavigate, useParams } from "react-router-dom";
-import eventImg from '../../../assets/images/event.png'
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import eventImg from '../../../assets/images/eventImg.png'
 import { FaRegCalendar as Calendar,
          FaRegStar as Star, 
          FaAngleDown as AngleDown,
@@ -24,7 +24,7 @@ import { QRCodeCanvas } from "qrcode.react";
 import plus from "./../../../assets/images/+.png"
 
 function EventDetails(){
-	const { id } = useParams();
+	const { id, access_code } = useParams();
 	const { lat, lng } = useContext(LocationContext);
 	const [eventDetails, setEventDetails] = useState(null);
 	const [isLoading, setIsLoading] = useState(true);
@@ -52,72 +52,7 @@ function EventDetails(){
 	const [specialGuests, setSpecialGuests] = useState([{name: "", nickname: "", surname: ""}]);
   const [isCodeOneUse, setIsCodeOneUse] = useState(true);
   const [isCodeValid, setIsCodeValid] = useState(true);
-  const [invitations, setInvitations] = useState([
-  {
-    id: 1,
-    code: "INV-7A1B",
-    date_added: "2025-10-01",
-    is_one_use: true,
-    is_valid: true,
-    link: "https://twojadomena.pl/invite/INV-7A1B"
-  },
-  {
-    id: 2,
-    code: "INV-2Z9Q",
-    date_added: "2025-10-03",
-    is_one_use: false,
-    is_valid: true,
-    link: "https://twojadomena.pl/invite/INV-2Z9Q"
-  },
-  {
-    id: 3,
-    code: "INV-X4K3",
-    date_added: "2025-10-05",
-    is_one_use: true,
-    is_valid: false,
-    link: "https://twojadomena.pl/invite/INV-X4K3"
-  },
-  {
-    id: 4,
-    code: "INV-M9T2",
-    date_added: "2025-10-07",
-    is_one_use: false,
-    is_valid: true,
-    link: "https://twojadomena.pl/invite/INV-M9T2"
-  },
-  {
-    id: 5,
-    code: "INV-Q8R1",
-    date_added: "2025-10-09",
-    is_one_use: true,
-    is_valid: true,
-    link: "https://twojadomena.pl/invite/INV-Q8R1"
-  },
-  {
-    id: 6,
-    code: "INV-W6Y5",
-    date_added: "2025-10-12",
-    is_one_use: false,
-    is_valid: false,
-    link: "https://twojadomena.pl/invite/INV-W6Y5"
-  },
-  {
-    id: 7,
-    code: "INV-D5E2",
-    date_added: "2025-10-15",
-    is_one_use: true,
-    is_valid: true,
-    link: "https://twojadomena.pl/invite/INV-D5E2"
-  },
-  {
-    id: 8,
-    code: "INV-A9P7",
-    date_added: "2025-10-20",
-    is_one_use: false,
-    is_valid: true,
-    link: "https://twojadomena.pl/invite/INV-A9P7"
-  }
-]);
+  const [invitations, setInvitations] = useState([]);
   const [participants, setParticipants] = useState([
   {
     id: 1,
@@ -315,6 +250,7 @@ function EventDetails(){
 
 
 	const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     if(localStorage.getItem('page')){
@@ -324,51 +260,36 @@ function EventDetails(){
 
 	useEffect(() => {
     if(page === 'main'){
-      const getEventDetails = async () => {
-        try{
-          const response = await apiFetch(`${BASE_URL}${ENDPOINTS.eventEvents}${id}/`);
-          const data = await response.json();
+      if(id){
+        const getEventDetails = async () => {
+          try{
+            const response = await apiFetch(`${BASE_URL}${ENDPOINTS.eventEvents}${id}/`);
+            const data = await response.json();
 
-          if (!response.ok) {
-            throw new Error(data.details || "Błąd wczytywania eventu");
+            if (!response.ok) {
+              throw new Error(data.details || "Błąd wczytywania eventu");
+            }
+            setEventDetails(data);
+            console.log(data)
           }
-          
-          setEventDetails(data);
+          catch(err){
+            console.error(err);
+          }
+          finally{
+            setIsLoading(false)
+          }
         }
-        catch(err){
-          console.error(err);
-        }
-        finally{
-          setIsLoading(false)
-        }
-      }
 
-      getEventDetails();
+        getEventDetails();
+      }
+      if(access_code){
+        
+      }
     }
-	}, [id, page]);
+	}, [id, page, access_code]);
 
 	const eventParticipants = // eventDetails.event_participant_count ||
 														0;
-
-	useEffect(() => {
-    if(page === "main"){
-      const getCategories = async () => {
-        try{
-          const res = await apiFetch(`${BASE_URL}${ENDPOINTS.eventCategoryList}`);
-          console.log("status:", res.status);
-          
-          const data = await res.json();
-          console.log("Dane kategorii:", data);
-
-          setCategories(data.results || data || []);
-        } 
-      catch(err){
-          console.error(err);
-        }
-      };
-      getCategories();
-    }
-	}, [id, page]);
 
   useEffect(() => {
     const getParticipantList = async () => {
@@ -396,27 +317,28 @@ function EventDetails(){
   }, [id, page]);
 
   useEffect(() => {
-    const getInvitations = async () => {
-      if(page === "invitations"){
-        try{
-          const response = await apiFetch(`${BASE_URL}${ENDPOINTS.eventEvents}${id}/invitations/`);
-          console.log("satus:", response.status);
-
-          if(!response.ok) return;
-
-          const data = await response.json();
-          console.log("dane zaproszeń:", data);
-
-          // setInvitations(data.results || []);
-          console.log(invitations);
-        }
-        catch(err){
-          console.error(err);
-        }
-      }
+    if(page === "invitations"){
+      getInvitations();
     }
-    getInvitations();
   }, [id, page])
+
+  const getInvitations = async () => {
+    try{
+      const response = await apiFetch(`${BASE_URL}${ENDPOINTS.eventEvents}${id}/invitations/`);
+      console.log("satus:", response.status);
+
+      if(!response.ok) return;
+
+      const data = await response.json();
+      console.log("dane zaproszeń:", data);
+
+      setInvitations(data || []);
+      console.log(invitations);
+    }
+    catch(err){
+      console.error(err);
+    }
+  }
 
 	const addGuest = () => {
     const hasEmptyFields = specialGuests.some((guest) => (
@@ -594,7 +516,9 @@ function EventDetails(){
 
       const data = await response.json();
 
-      console.log(data)
+      console.log("zaproszenie:", data)
+
+      await getInvitations();
     }
     catch(err){
       console.error(err);
@@ -603,10 +527,72 @@ function EventDetails(){
     setShowGenerateCodePopup(false)
   }
   
-  const formatDate = (dateStr) => {
-    const [year, month, day] = dateStr.split("-");
+  const formatDate = (isoString) => {
+    const date = new Date(isoString);
+
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+
     return `${day}.${month}.${year}`;
   };
+
+  const handleDeactivateCode = async codeId  => {
+    try{
+      const response = await apiFetch(
+        `${BASE_URL}${ENDPOINTS.eventEvents}${id}/invitations/${codeId}/deactivate/`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: "",
+        }
+      )
+
+      getInvitations();
+    }
+    catch(err){
+      console.error(err)
+    }
+  }
+
+  const handleActivateCode = async codeId => {
+    try{
+      const response = await apiFetch(
+        `${BASE_URL}${ENDPOINTS.eventEvents}${id}/invitations/${codeId}/activate/`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: "",
+        }
+      )
+      
+      getInvitations();
+    }
+    catch(err){
+      console.error(err)
+    }
+  }
+
+  const handleShare = async (code) => {
+    const shareUrl = `http://localhost:5173/eventy/zaproszenie/event/${code}`;
+
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: "Zaproszenie na wydarzenie",
+          text: "Dołącz do mojego wydarzenia!",
+          url: shareUrl,
+        });
+      } catch (err) {
+        console.log("Share cancelled", err);
+      }
+    } else {
+      // fallback
+      navigator.clipboard.writeText(shareUrl);
+      alert("Link skopiowany do schowka");
+    }
+  };
+
 
 	return(
 		<>
@@ -685,7 +671,7 @@ function EventDetails(){
             <div className="event-details-content">
               <div className="event-details-content-left">
                 <div className="event-important-details">
-                  <img src={eventImg} alt="zdjecie wydarzenia" />
+                  <img className="evd-img" src={eventDetails.event_image || eventImg} alt="zdjecie wydarzenia" />
                   {!isEditing ?
                     <div className="event-details-wrapper">
                       <div className="event-details-title-box">
@@ -1050,54 +1036,22 @@ function EventDetails(){
                 <div className="event-details-list-box event-important-details">
                   <h3 className="event-details-list-title">Kadra wydarzenia</h3>
                   <div className="staff-box">
-                    <div className="staff">
-                      <img src={pfp} alt="zdjecie profilowe" />
-                      <div className="staff-content">
-                        <h4 className="staff-name">Tomasz Nowak</h4>
-                        <span className="staff-class">Założyciel</span>
-                        <p className="staff-desc">
-                          Lorem, ipsum dolor sit amet consectetur adipisicing elit. 
-                          Illum asperiores quibusdam quisquam, minus fugiat voluptatem 
-                          cumque dolore nihil autem sunt inventore eligendi, magni, 
-                          corporis reprehenderit?
-                        </p>
-                        <div className="staff-profile-btn-wrapper">
-                          <button className="staff-profile-btn">Zobacz profil</button>
+                    {eventDetails.trainer_list.map((trainer, i) => (
+                      <div key={i} className="staff">
+                        <img src={pfp} alt="zdjecie profilowe" />
+                        <div className="staff-content">
+                          <h4 className="staff-name">{trainer.name} {trainer.surname}</h4>
+                          <span className="staff-class">{trainer.role}</span>
+                          <p className="staff-desc">
+                            {trainer.desc}
+                          </p>
+                          <div className="staff-profile-btn-wrapper">
+                            <button className="staff-profile-btn">Zobacz profil</button>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div className="staff">
-                      <img src={pfp} alt="zdjecie profilowe" />
-                      <div className="staff-content">
-                        <h4 className="staff-name">Tomasz Nowak</h4>
-                        <span className="staff-class">Założyciel</span>
-                        <p className="staff-desc">
-                          Lorem, ipsum dolor sit amet consectetur adipisicing elit. 
-                          Illum asperiores quibusdam quisquam, minus fugiat voluptatem 
-                          cumque dolore nihil autem sunt inventore eligendi, magni, 
-                          corporis reprehenderit?
-                        </p>
-                        <div className="staff-profile-btn-wrapper">
-                          <button className="staff-profile-btn">Zobacz profil</button>
-                        </div> 
-                      </div>
-                    </div>
-                    <div className="staff">
-                      <img src={pfp} alt="zdjecie profilowe" />
-                      <div className="staff-content">
-                        <h4 className="staff-name">Tomasz Nowak</h4>
-                        <span className="staff-class">Założyciel</span>
-                        <p className="staff-desc">
-                          Lorem, ipsum dolor sit amet consectetur adipisicing elit. 
-                          Illum asperiores quibusdam quisquam, minus fugiat voluptatem 
-                          cumque dolore nihil autem sunt inventore eligendi, magni, 
-                          corporis reprehenderit?
-                        </p>
-                        <div className="staff-profile-btn-wrapper">
-                          <button className="staff-profile-btn">Zobacz profil</button>
-                        </div>
-                      </div>
-                    </div>
+                    ))}
+                    {eventDetails.trainer_list.length === 0 && <h4 className="no-trainers-text">Brak danych</h4>}
                   </div>
                   <hr className="event-details-line" />
                   <div className="event-details-special-guests-box">
@@ -1337,7 +1291,7 @@ function EventDetails(){
                     <div key={i}  className="invitation-box">
                       <div className="invitation">
                         <QRCodeCanvas 
-                          value={inv.link}
+                          value={`http://localhost:5173/eventy/zaproszenie/event/${inv.code}`}
                           size={120}
                           bgColor="#ffffff"
                           fgColor="#000000"
@@ -1351,11 +1305,11 @@ function EventDetails(){
                             </div>
                             <div className="invitation-first-row-box">
                               <span className="invitation-first-row-box-title">Data utworzenia</span><br />
-                              <span className="invitation-first-row-box-content">{formatDate(inv.date_added)}</span>
+                              <span className="invitation-first-row-box-content">{formatDate(inv.created_at)}</span>
                             </div>
                             <div className="invitation-first-row-box">
                               <span className="invitation-first-row-box-title">Utworzony przez</span><br />
-                              <span className="invitation-first-row-box-content">Andrzej Marek</span>
+                              <span className="invitation-first-row-box-content">{eventDetails.author_full_name}</span>
                             </div>
                           </div>
                           <div className="invitation-second-row">
@@ -1364,17 +1318,24 @@ function EventDetails(){
                               <input 
                                 type="text"
                                 readOnly
-                                value={inv.link}
+                                value={`http://localhost:5173/eventy/zaproszenie/event/${inv.code}`}
                                 className="invitation-second-row-input"
                               />
                             </div>
                             <div className="invitation-second-row-button-box">
                               <button 
                                 className={`invitation-second-row-button ${inv.is_valid ? "red" : "green"}`}
+                                onClick={() =>
+                                  inv.is_valid 
+                                    ? handleDeactivateCode(inv.id)
+                                    : handleActivateCode(inv.id)
+                                }
                               >
                                 {inv.is_valid ? "Dezaktywuj" : "Aktywuj"}
                               </button>
-                              <button className="invitation-second-row-button share">Udostępnij</button>
+                              <button className="invitation-second-row-button share" onClick={() => handleShare(inv.code)}>
+                                Udostępnij
+                              </button>
                             </div>
                           </div>
                         </div>
@@ -1386,11 +1347,11 @@ function EventDetails(){
                         </div>
                         <div className="invitation-first-row-box">
                           <span className="invitation-first-row-box-title">Data utworzenia</span><br />
-                          <span className="invitation-first-row-box-content">{formatDate(inv.date_added)}</span>
+                          <span className="invitation-first-row-box-content">{formatDate(inv.created_at)}</span>
                         </div>
                         <div className="invitation-first-row-box">
                           <span className="invitation-first-row-box-title">Utworzony przez</span><br />
-                          <span className="invitation-first-row-box-content">Andrzej Marek</span>
+                          <span className="invitation-first-row-box-content">{eventDetails.author_full_name}</span>
                         </div>
                       </div>
                     </div>

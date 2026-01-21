@@ -39,6 +39,7 @@ function App() {
           <Route path='/eventy' element={<Events />} />
           <Route path='/eventy/mapa-eventow' element={<EventsMap />} />
           <Route path="/eventy/:id" element={<EventDetails />} />
+          <Route path="/eventy/zaproszenie/event/:access_code" element={<EventDetails />} />
           <Route
             path="/eventy/dodawanie-eventu/*"
             element={
