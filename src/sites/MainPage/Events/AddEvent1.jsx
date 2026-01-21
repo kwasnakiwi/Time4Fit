@@ -65,9 +65,11 @@ function AddEvent1() {
         
         const data = await res.json();
         console.log("Dane kategorii:", data);
+        console.log(data.results)
 
         setCategories(data.results || data || []);
-      } catch (err) {
+      } 
+      catch (err) {
         console.error(err);
       }
     };

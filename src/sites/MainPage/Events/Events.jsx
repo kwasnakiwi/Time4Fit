@@ -7,7 +7,7 @@ import './../../../styles/mainpage.css'
 import { FaAngleDown as AngleDown, FaSlidersH as Settings, FaSearch as Search } from "react-icons/fa";
 import { BiMap as PinMap } from "react-icons/bi";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import eventImg from '../../../assets/images/event.png'
+import eventImg from '../../../assets/images/eventImg.png'
 import { useDebounce } from "../../../hooks/useDebounce.js";
 function Events(){
   const [events, setEvents] = useState([])
@@ -131,17 +131,17 @@ function Events(){
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
-    setSearchTerm(params.get("title") || "");
+    setSearchTerm(params.get("search") || "");
   }, [location.search]);
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
 
     if (debouncedSearch.trim()) {
-      params.set("title", debouncedSearch.trim());
+      params.set("search", debouncedSearch.trim());
     }
     else{
-      params.delete("title")
+      params.delete("search")
     }
 
     navigate(`/eventy?${params.toString()}`, { replace: true });
@@ -151,7 +151,7 @@ function Events(){
     const getEvents = async () => {
       try{
         const params = new URLSearchParams(location.search);
-        const titleParam = params.get("title") || "";
+        const searchParam = params.get("search") || "";
         const isFreeParam = params.get("is_free") || "true";
         setIsFree(
           isFreeParam === "true"
@@ -160,7 +160,7 @@ function Events(){
         )
 
         const response = await apiFetch(
-          `${BASE_URL}${ENDPOINTS.eventEvents}?title=${titleParam}&is_free=${isFreeParam}`
+          `${BASE_URL}${ENDPOINTS.eventEvents}?search=${searchParam}&is_free=${isFreeParam}`
         );
 
         const data = await response.json();
@@ -190,7 +190,7 @@ function Events(){
     const params = new URLSearchParams(location.search);
 
     if(searchTerm.trim()){
-      params.append("title", searchTerm);
+      params.append("search", searchTerm);
       console.log(params)
     }
 
@@ -216,8 +216,15 @@ function Events(){
   }
 
   useEffect(() => {
-    navigate(`/eventy?is_free=true`)
-  }, [])
+    const params = new URLSearchParams(location.search);
+
+    if (!params.has("is_free")) {
+      params.set("is_free", "true");
+
+      navigate(`/eventy?${params.toString()}`, { replace: true });
+    }
+  }, []);
+
 
   return(
     <>
@@ -417,7 +424,7 @@ function Events(){
                     </div>
                     <div className="event-content-right">
                       <div className="event-img-wrapper"> 
-                        <img src={event.event_img || eventImg} alt="event" />
+                        <img className="ev-img" src={event.event_image || eventImg} alt="event" />
                         <span className="event-img-location"><PinMap className="img-location-pin icon" /> {event.city}, {event.street} {/*{event.street_number ? event.street_number : ""}{event.flat_number ? `/${event.flat_number}` : ""}*/}</span>
                         <span className={`event-img-payable-status ${event.additional_info.price == 0 ? "green" : "red"}`}>{event.additional_info.price == 0 ? "Bezpłatny" : "Płatny"}</span>
                       </div>

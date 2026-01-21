@@ -5,7 +5,7 @@ export const EventContext = createContext();
 export function EventProvider({ children }) {
   const [eventData, setEventData] = useState({
     title: "",
-    category: null,
+    category: "",
     shortDesc: "",
     longDesc: "",
     date: "",

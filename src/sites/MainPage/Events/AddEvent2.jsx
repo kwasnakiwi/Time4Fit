@@ -1,12 +1,13 @@
 import NavBar from "../components/NavBar.jsx";
 import SideBar from "../components/SideBar.jsx";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useRef } from "react";
 import './../../../styles/mainpage.css';
 import { BASE_URL, ENDPOINTS } from "../../../utils/Endopoints.jsx";
 import { LocationContext } from "../../../utils/LocationContext.jsx";
 import { EventContext } from "../../../utils/EventContext.jsx";
 import { apiFetch } from "../../../interceptor/interceptor.jsx";
 import { useNavigate } from "react-router-dom";
+import ev1 from './../../../assets/images/ev1.png'
 
 function AddEvent2(){
   const [advancedLevel, setAdvancedLevel] = useState("beginner");
@@ -20,9 +21,34 @@ function AddEvent2(){
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
+  const inputRef = useRef(null);
+  const [imageFile, setImageFile] = useState(null);
+  const [preview, setPreview] = useState(null);
+
   const { eventData } = useContext(EventContext);
   const { lat, lng } = useContext(LocationContext);
 
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    console.log(file)
+
+    if (preview) {
+      URL.revokeObjectURL(preview);
+    }
+
+    const url = URL.createObjectURL(file);
+    setImageFile(file);
+    setPreview(url);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (preview) URL.revokeObjectURL(preview);
+    };
+  }, [preview]);
 
   const addGuest = () => {
     const hasEmptyFields = specialGuests.some((guest) => (
@@ -40,69 +66,94 @@ function AddEvent2(){
     updatedGuests[index][field] = value;
     setSpecialGuests(updatedGuests);
   }
+  const formattedGuests = specialGuests
+    .filter(g => g.name.trim() && g.surname.trim())
+    .map(g => ({
+      name: g.name.trim(),
+      nickname: g.nickname.trim(),
+      surname: g.surname.trim()
+    }));
+
 
   const handleAddEvent = async () => {
-    setError('');
+    setError("");
 
-    console.log("eventData:", eventData);
-    console.log("lat/lng:", lat, lng);
-    console.log("specialGuests:", specialGuests);
-
-    const formattedGuests = specialGuests
-      .filter(g => g.name.trim() && g.surname.trim())
-      .map(g => ({
-        name: g.name.trim(),
-        nickname: g.nickname.trim(),
-        surname: g.surname.trim()
-      }));
+    if(!imageFile){
+      setError("Dodaj zdjęcie wydarzenia");
+      return;
+    }
 
     try {
-          const response = await apiFetch(`${BASE_URL}${ENDPOINTS.eventEvents}`, {
-            method: "POST",
-            body: JSON.stringify({
-              title: eventData.title,
-              category: eventData.category,
-              short_desc: eventData.shortDesc,
-              long_desc: eventData.longDesc,
-              date_time_event: new Date(`${eventData.date}T${eventData.time}`).toISOString(),
-              duration_min: parseInt(eventData.duration),
-              latitude: lat,
-              longitude: lng,
-              public_event: isPublic,
-              country: "Poland",
-              city: eventData.city,
-              street: eventData.street,
-              street_number: eventData.streetNumber,
-              flat_number: eventData.flatNumber,
-              zip_code: eventData.postial,
-              additional_info: {
-                advanced_level: advancedLevel,
-                places_for_people_limit: parseInt(count),
-                age_limit: ageLimit,
-                participant_list_show: false,
-                price: price,
-                payment_in_app: isPaymentInApp,
-                special_guests: formattedGuests,
-              },
-            }),
-          });
+      
+      // FormData
+      const formData = new FormData();
+
+      formData.append("title", eventData.title);
+      formData.append("short_desc", eventData.shortDesc);
+      formData.append("long_desc", eventData.longDesc);
+      formData.append(
+        "date_time_event",
+        new Date(`${eventData.date}T${eventData.time}`).toISOString()
+      );
+      formData.append("duration_min", parseInt(eventData.duration));
+      formData.append("latitude", lat);
+      formData.append("longitude", lng);
+      formData.append("public_event", isPublic);
+      formData.append("country", "Poland");
+      formData.append("city", eventData.city);
+      formData.append("street", eventData.street);
+      formData.append("street_number", eventData.streetNumber);
+      formData.append("flat_number", eventData.flatNumber);
+      formData.append("zip_code", eventData.postial);
+
+      formData.append("additional_info.advanced_level", advancedLevel);
+      formData.append(
+        "additional_info.places_for_people_limit",
+        parseInt(count)
+      );
+      formData.append("additional_info.age_limit", ageLimit);
+      formData.append(
+        "additional_info.participant_list_show",
+        "false"
+      );
+      formData.append("additional_info.price", price);
+      formData.append(
+        "additional_info.payment_in_app",
+        isPaymentInApp ? "true" : "false"
+      );
+
+      // to MUSI być string
+      formData.append(
+        "additional_info.special_guests",
+        JSON.stringify(formattedGuests)
+      );
+
+
+      // PLIK
+      formData.append("event_image", imageFile);
+
+      const response = await apiFetch(
+        `${BASE_URL}${ENDPOINTS.eventEvents}`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
 
       const data = await response.json();
-      console.log("Odpowiedź z backendu:", data);
 
-      if(!response.ok){
-        console.error("Błąd podczas tworzenia eventu:", data);
-        setError(data.details);
+      if (!response.ok) {
+        setError(data.details || "Błąd");
         return;
       }
 
-      navigate('/eventy')
-    } 
-    catch(err){
+      navigate("/eventy");
+    } catch (err) {
       console.error(err);
       setError("Błąd połączenia z serwerem");
     }
   };
+
 
 
   return(
@@ -281,10 +332,47 @@ function AddEvent2(){
                 </button>
               </div>
             </div>
+            <div className="event-input-box">
+              <h2 className="event-input-box-title">
+                <span className="num-icon hom">12</span>
+                Zdjęcie wydarzenia
+              </h2>
+              <div className="image-input-wrapper">
+                <div
+                  className="img-input-box"
+                  onClick={() => inputRef.current.click()}
+                  style={{
+                    border: !preview ? "2px dashed #ccc" : undefined,
+                  }}
+                >
+                  {preview ? (
+                    <img
+                      src={preview}
+                      alt="preview"
+                      style={{
+                        width: "239px",
+                        height: "142px",
+                        objectFit: "cover",
+                      }}
+                    />
+                  ) : (
+                    <span style={{ fontSize: 32, color: "#999" }}>+</span>
+                  )}
+
+                  <input
+                    ref={inputRef}
+                    type="file"
+                    accept="image/*"
+                    hidden
+                    onChange={handleImageChange}
+                  />
+                </div>
+              </div>
+            </div>
             {isPremium ?
               <div className="event-input-box">
                 <h2 className="event-input-box-title">
-                  <span className="num-icon hom">12</span>
+                  <span className="num-icon hom">13</span>
                   Gość specjalny
                 </h2>
                 <div className="special-guests">
