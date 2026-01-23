@@ -44,6 +44,10 @@ import { FaRegFlag as Flag,
          FaArrowRight as Arrow } from "react-icons/fa";
 
 import { Link, useNavigate } from "react-router-dom";
+import pr4 from './../../../assets/images/pr-icon4.png';
+import recClock from './../../../assets/images/rec-clock.png';
+import recLoc from './../../../assets/images/rec-loc.png';
+import recPeople from './../../../assets/images/rec-people.png';
 
 
 function EditProfile(){
@@ -199,7 +203,6 @@ function EditProfile(){
               </div>
             </section>
             <section className="profile-second">
-              
               <div className="profile-panel" style={{gridArea: 'desc'}}>
                 <h2 className="recomendation-title">
                   <img src={pr1} alt="zdj" id="pr1" />
@@ -254,15 +257,156 @@ function EditProfile(){
                     <span className="cer-more-info">Identyfikator poświadczenia 250/BUR/2025</span><br />
                     <img src={certificate} className="cer-img" alt="Certyfikat" />
                   </div>
-                  <hr className="certificates-line" />
                 </div>
                 <button className="edit-pr-action-btn">
                   Dodaj
                   <img src={addIcon} id="act2" />
                 </button>
               </div>
-            </section>
-          </div>
+              <div className="profile-panel" style={{gridArea: 'events'}}>
+              <h2 className="recomendation-title">
+                <img src={pr4} alt="zdj" />
+                Inne prowadzone zajęcia
+              </h2>
+              <div className="recomended-events">
+                <div className="rec-event">
+                  <div className="rec-event-first-row">
+                    <h3 className="rec-event-name">Joga dla zdrowia</h3>
+                    <span className="rec-event-price-status">Płatny</span>
+                  </div>
+                  <div className="rec-event-informations">
+                    <span className="rec-event-information">Joga</span>
+                    <span className="rec-event-information">+18</span>
+                    <span className="rec-event-information">Średniozaawansowany</span>
+                  </div>
+                  <div className="rec-event-more-info-wrapper">
+                    <div className="rec-event-more-info">
+                      <ul className="rec-event-more-info-list">
+                        <li><img src={recClock} /> Paź 25, 19:00</li>
+                        <li><img src={recLoc} /> Katowice, Park tysiąclecia</li>
+                        <li><img src={recPeople} /> 6 miejsc</li>
+                      </ul>
+                    </div>
+                    <Link><button className="rec-event-show-details-btn">Zobacz szczegóły <Arrow /></button></Link>
+                  </div>
+                </div>
+                <div className="rec-event">
+                  <div className="rec-event-first-row">
+                    <h3 className="rec-event-name">Joga dla zdrowia</h3>
+                    <span className="rec-event-price-status">Płatny</span>
+                  </div>
+                  <div className="rec-event-informations">
+                    <span className="rec-event-information">Joga</span>
+                    <span className="rec-event-information">+18</span>
+                    <span className="rec-event-information">Średniozaawansowany</span>
+                  </div>
+                  <div className="rec-event-more-info-wrapper">
+                    <div className="rec-event-more-info">
+                      <ul className="rec-event-more-info-list">
+                        <li><img src={recClock} /> Paź 25, 19:00</li>
+                        <li><img src={recLoc} /> Katowice, Park tysiąclecia</li>
+                        <li><img src={recPeople} /> 6 miejsc</li>
+                      </ul>
+                    </div>
+                    <Link><button className="rec-event-show-details-btn">Zobacz szczegóły <Arrow /></button></Link>
+                  </div>
+                </div>
+                <div className="rec-event">
+                  <div className="rec-event-first-row">
+                    <h3 className="rec-event-name">Joga dla zdrowia</h3>
+                    <span className="rec-event-price-status">Płatny</span>
+                  </div>
+                  <div className="rec-event-informations">
+                    <span className="rec-event-information">Joga</span>
+                    <span className="rec-event-information">+18</span>
+                    <span className="rec-event-information">Średniozaawansowany</span>
+                  </div>
+                  <div className="rec-event-more-info-wrapper">
+                    <div className="rec-event-more-info">
+                      <ul className="rec-event-more-info-list">
+                        <li><img src={recClock} /> Paź 25, 19:00</li>
+                        <li><img src={recLoc} /> Katowice, Park tysiąclecia</li>
+                        <li><img src={recPeople} /> 6 miejsc</li>
+                      </ul>
+                    </div>
+                    <Link><button className="rec-event-show-details-btn">Zobacz szczegóły <Arrow /></button></Link>
+                  </div>
+                </div>
+                <div className="rec-event">
+                  <div className="rec-event-first-row">
+                    <h3 className="rec-event-name">Joga dla zdrowia</h3>
+                    <span className="rec-event-price-status">Płatny</span>
+                  </div>
+                  <div className="rec-event-informations">
+                    <span className="rec-event-information">Joga</span>
+                    <span className="rec-event-information">+18</span>
+                    <span className="rec-event-information">Średniozaawansowany</span>
+                  </div>
+                  <div className="rec-event-more-info-wrapper">
+                    <div className="rec-event-more-info">
+                      <ul className="rec-event-more-info-list">
+                        <li><img src={recClock} /> Paź 25, 19:00</li>
+                        <li><img src={recLoc} /> Katowice, Park tysiąclecia</li>
+                        <li><img src={recPeople} /> 6 miejsc</li>
+                      </ul>
+                    </div>
+                    <Link><button className="rec-event-show-details-btn">Zobacz szczegóły <Arrow /></button></Link>
+                  </div>
+                </div>
+                <div className="rec-event">
+                  <div className="rec-event-first-row">
+                    <h3 className="rec-event-name">Joga dla zdrowia</h3>
+                    <span className="rec-event-price-status">Płatny</span>
+                  </div>
+                  <div className="rec-event-informations">
+                    <span className="rec-event-information">Joga</span>
+                    <span className="rec-event-information">+18</span>
+                    <span className="rec-event-information">Średniozaawansowany</span>
+                  </div>
+                  <div className="rec-event-more-info-wrapper">
+                    <div className="rec-event-more-info">
+                      <ul className="rec-event-more-info-list">
+                        <li><img src={recClock} /> Paź 25, 19:00</li>
+                        <li><img src={recLoc} /> Katowice, Park tysiąclecia</li>
+                        <li><img src={recPeople} /> 6 miejsc</li>
+                      </ul>
+                    </div>
+                    <Link><button className="rec-event-show-details-btn">Zobacz szczegóły <Arrow /></button></Link>
+                  </div>
+                </div>
+                <div className="rec-event">
+                  <div className="rec-event-first-row">
+                    <h3 className="rec-event-name">Joga dla zdrowia</h3>
+                    <span className="rec-event-price-status">Płatny</span>
+                  </div>
+                  <div className="rec-event-informations">
+                    <span className="rec-event-information">Joga</span>
+                    <span className="rec-event-information">+18</span>
+                    <span className="rec-event-information">Średniozaawansowany</span>
+                  </div>
+                  <div className="rec-event-more-info-wrapper">
+                    <div className="rec-event-more-info">
+                      <ul className="rec-event-more-info-list">
+                        <li><img src={recClock} /> Paź 25, 19:00</li>
+                        <li><img src={recLoc} /> Katowice, Park tysiąclecia</li>
+                        <li><img src={recPeople} /> 6 miejsc</li>
+                      </ul>
+                    </div>
+                    <Link><button className="rec-event-show-details-btn">Zobacz szczegóły <Arrow /></button></Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+          <section className="profile-media">
+            <div className="profile-panel">
+              <h2 className="recomendation-title">
+                <img src={pr3} alt="zdj" id="pr3" />
+                Twoje media
+              </h2>
+            </div>
+          </section>
+        </div>
         }
         {selected == "data" &&
           <div className="profile-user-data">

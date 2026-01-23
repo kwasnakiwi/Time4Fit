@@ -28,7 +28,6 @@ function EventDetails(){
 	const { lat, lng } = useContext(LocationContext);
 	const [eventDetails, setEventDetails] = useState(null);
 	const [isLoading, setIsLoading] = useState(true);
-  const [page, setPage] = useState("main");
 	const [showPopup, setShowPopup] = useState(false);
 	const [isEditing, setIsEditing] = useState(false);
 	const [title, setTitle] = useState("");
@@ -54,239 +53,243 @@ function EventDetails(){
   const [isCodeValid, setIsCodeValid] = useState(true);
   const [invitations, setInvitations] = useState([]);
   const [participants, setParticipants] = useState([
-  {
-    id: 1,
-    user: {
-      id: 1,
-      email: "jan.kowalski@example.com",
-      profile: {
-        name: "Jan",
-        surname: "Kowalski",
-        phone_number: "+48 501 123 456",
-        profile_picture: "https://randomuser.me/api/portraits/men/32.jpg"
-      }
-    },
-    role: "participant",
-    paid_status: true,
-    presence: true
-  },
-  {
-    id: 2,
-    user: {
-      id: 2,
-      email: "anna.nowak@example.com",
-      profile: {
-        name: "Anna",
-        surname: "Nowak",
-        phone_number: "+48 502 987 654",
-        profile_picture: "https://randomuser.me/api/portraits/women/68.jpg"
-      }
-    },
-    role: "participant",
-    paid_status: true,
-    presence: false
-  },
-  {
-    id: 3,
-    user: {
-      id: 3,
-      email: "piotr.zielinski@example.com",
-      profile: {
-        name: "Piotr",
-        surname: "Zieliński",
-        phone_number: "+48 503 111 222",
-        profile_picture: "https://randomuser.me/api/portraits/men/41.jpg"
-      }
-    },
-    role: "organizer",
-    paid_status: false,
-    presence: true
-  },
-  {
-    id: 4,
-    user: {
-      id: 4,
-      email: "magda.kwiatkowska@example.com",
-      profile: {
-        name: "Magda",
-        surname: "Kwiatkowska",
-        phone_number: "+48 505 444 555",
-        profile_picture: "https://randomuser.me/api/portraits/women/59.jpg"
-      }
-    },
-    role: "participant",
-    paid_status: true,
-    presence: true
-  },
-  {
-    id: 5,
-    user: {
-      id: 5,
-      email: "adam.nowicki@example.com",
-      profile: {
-        name: "Adam",
-        surname: "Nowicki",
-        phone_number: "+48 506 333 777",
-        profile_picture: "https://randomuser.me/api/portraits/men/64.jpg"
-      }
-    },
-    role: "participant",
-    paid_status: false,
-    presence: false
-  },
-  {
-    id: 6,
-    user: {
-      id: 6,
-      email: "maria.wisniewska@example.com",
-      profile: {
-        name: "Maria",
-        surname: "Wiśniewska",
-        phone_number: "+48 507 888 999",
-        profile_picture: "https://randomuser.me/api/portraits/women/44.jpg"
-      }
-    },
-    role: "participant",
-    paid_status: true,
-    presence: true
-  },
-  {
-    id: 7,
-    user: {
-      id: 7,
-      email: "michal.wojcik@example.com",
-      profile: {
-        name: "Michał",
-        surname: "Wójcik",
-        phone_number: "+48 508 222 333",
-        profile_picture: "https://randomuser.me/api/portraits/men/12.jpg"
-      }
-    },
-    role: "participant",
-    paid_status: false,
-    presence: true
-  },
-  {
-    id: 8,
-    user: {
-      id: 8,
-      email: "karolina.lewandowska@example.com",
-      profile: {
-        name: "Karolina",
-        surname: "Lewandowska",
-        phone_number: "+48 509 444 555",
-        profile_picture: "https://randomuser.me/api/portraits/women/25.jpg"
-      }
-    },
-    role: "participant",
-    paid_status: true,
-    presence: false
-  },
-  {
-    id: 9,
-    user: {
-      id: 9,
-      email: "tomasz.kaczmarek@example.com",
-      profile: {
-        name: "Tomasz",
-        surname: "Kaczmarek",
-        phone_number: "+48 510 777 111",
-        profile_picture: "https://randomuser.me/api/portraits/men/70.jpg"
-      }
-    },
-    role: "participant",
-    paid_status: false,
-    presence: false
-  },
-  {
-    id: 10,
-    user: {
-      id: 10,
-      email: "katarzyna.dabrowska@example.com",
-      profile: {
-        name: "Katarzyna",
-        surname: "Dąbrowska",
-        phone_number: "+48 511 222 444",
-        profile_picture: "https://randomuser.me/api/portraits/women/14.jpg"
-      }
-    },
-    role: "participant",
-    paid_status: true,
-    presence: true
-  },
-  {
-    id: 11,
-    user: {
-      id: 11,
-      email: "pawel.mazur@example.com",
-      profile: {
-        name: "Paweł",
-        surname: "Mazur",
-        phone_number: "+48 512 333 888",
-        profile_picture: "https://randomuser.me/api/portraits/men/28.jpg"
-      }
-    },
-    role: "participant",
-    paid_status: true,
-    presence: false
-  },
-  {
-    id: 12,
-    user: {
-      id: 12,
-      email: "ewelina.olszewska@example.com",
-      profile: {
-        name: "Ewelina",
-        surname: "Olszewska",
-        phone_number: "+48 513 987 654",
-        profile_picture: "https://randomuser.me/api/portraits/women/39.jpg"
-      }
-    },
-    role: "participant",
-    paid_status: false,
-    presence: true
-  }
+  // {
+  //   id: 1,
+  //   user: {
+  //     id: 1,
+  //     email: "jan.kowalski@example.com",
+  //     profile: {
+  //       name: "Jan",
+  //       surname: "Kowalski",
+  //       phone_number: "+48 501 123 456",
+  //       profile_picture: "https://randomuser.me/api/portraits/men/32.jpg"
+  //     }
+  //   },
+  //   role: "participant",
+  //   paid_status: true,
+  //   presence: true
+  // },
+  // {
+  //   id: 2,
+  //   user: {
+  //     id: 2,
+  //     email: "anna.nowak@example.com",
+  //     profile: {
+  //       name: "Anna",
+  //       surname: "Nowak",
+  //       phone_number: "+48 502 987 654",
+  //       profile_picture: "https://randomuser.me/api/portraits/women/68.jpg"
+  //     }
+  //   },
+  //   role: "participant",
+  //   paid_status: true,
+  //   presence: false
+  // },
+  // {
+  //   id: 3,
+  //   user: {
+  //     id: 3,
+  //     email: "piotr.zielinski@example.com",
+  //     profile: {
+  //       name: "Piotr",
+  //       surname: "Zieliński",
+  //       phone_number: "+48 503 111 222",
+  //       profile_picture: "https://randomuser.me/api/portraits/men/41.jpg"
+  //     }
+  //   },
+  //   role: "organizer",
+  //   paid_status: false,
+  //   presence: true
+  // },
+  // {
+  //   id: 4,
+  //   user: {
+  //     id: 4,
+  //     email: "magda.kwiatkowska@example.com",
+  //     profile: {
+  //       name: "Magda",
+  //       surname: "Kwiatkowska",
+  //       phone_number: "+48 505 444 555",
+  //       profile_picture: "https://randomuser.me/api/portraits/women/59.jpg"
+  //     }
+  //   },
+  //   role: "participant",
+  //   paid_status: true,
+  //   presence: true
+  // },
+  // {
+  //   id: 5,
+  //   user: {
+  //     id: 5,
+  //     email: "adam.nowicki@example.com",
+  //     profile: {
+  //       name: "Adam",
+  //       surname: "Nowicki",
+  //       phone_number: "+48 506 333 777",
+  //       profile_picture: "https://randomuser.me/api/portraits/men/64.jpg"
+  //     }
+  //   },
+  //   role: "participant",
+  //   paid_status: false,
+  //   presence: false
+  // },
+  // {
+  //   id: 6,
+  //   user: {
+  //     id: 6,
+  //     email: "maria.wisniewska@example.com",
+  //     profile: {
+  //       name: "Maria",
+  //       surname: "Wiśniewska",
+  //       phone_number: "+48 507 888 999",
+  //       profile_picture: "https://randomuser.me/api/portraits/women/44.jpg"
+  //     }
+  //   },
+  //   role: "participant",
+  //   paid_status: true,
+  //   presence: true
+  // },
+  // {
+  //   id: 7,
+  //   user: {
+  //     id: 7,
+  //     email: "michal.wojcik@example.com",
+  //     profile: {
+  //       name: "Michał",
+  //       surname: "Wójcik",
+  //       phone_number: "+48 508 222 333",
+  //       profile_picture: "https://randomuser.me/api/portraits/men/12.jpg"
+  //     }
+  //   },
+  //   role: "participant",
+  //   paid_status: false,
+  //   presence: true
+  // },
+  // {
+  //   id: 8,
+  //   user: {
+  //     id: 8,
+  //     email: "karolina.lewandowska@example.com",
+  //     profile: {
+  //       name: "Karolina",
+  //       surname: "Lewandowska",
+  //       phone_number: "+48 509 444 555",
+  //       profile_picture: "https://randomuser.me/api/portraits/women/25.jpg"
+  //     }
+  //   },
+  //   role: "participant",
+  //   paid_status: true,
+  //   presence: false
+  // },
+  // {
+  //   id: 9,
+  //   user: {
+  //     id: 9,
+  //     email: "tomasz.kaczmarek@example.com",
+  //     profile: {
+  //       name: "Tomasz",
+  //       surname: "Kaczmarek",
+  //       phone_number: "+48 510 777 111",
+  //       profile_picture: "https://randomuser.me/api/portraits/men/70.jpg"
+  //     }
+  //   },
+  //   role: "participant",
+  //   paid_status: false,
+  //   presence: false
+  // },
+  // {
+  //   id: 10,
+  //   user: {
+  //     id: 10,
+  //     email: "katarzyna.dabrowska@example.com",
+  //     profile: {
+  //       name: "Katarzyna",
+  //       surname: "Dąbrowska",
+  //       phone_number: "+48 511 222 444",
+  //       profile_picture: "https://randomuser.me/api/portraits/women/14.jpg"
+  //     }
+  //   },
+  //   role: "participant",
+  //   paid_status: true,
+  //   presence: true
+  // },
+  // {
+  //   id: 11,
+  //   user: {
+  //     id: 11,
+  //     email: "pawel.mazur@example.com",
+  //     profile: {
+  //       name: "Paweł",
+  //       surname: "Mazur",
+  //       phone_number: "+48 512 333 888",
+  //       profile_picture: "https://randomuser.me/api/portraits/men/28.jpg"
+  //     }
+  //   },
+  //   role: "participant",
+  //   paid_status: true,
+  //   presence: false
+  // },
+  // {
+  //   id: 12,
+  //   user: {
+  //     id: 12,
+  //     email: "ewelina.olszewska@example.com",
+  //     profile: {
+  //       name: "Ewelina",
+  //       surname: "Olszewska",
+  //       phone_number: "+48 513 987 654",
+  //       profile_picture: "https://randomuser.me/api/portraits/women/39.jpg"
+  //     }
+  //   },
+  //   role: "participant",
+  //   paid_status: false,
+  //   presence: true
+  // }
 ]);
 
 
-	const navigate = useNavigate();
-  const location = useLocation();
+	const location = useLocation();
+  const navigate = useNavigate();
+
+  const page = new URLSearchParams(location.search).get("page") || "main";
+
+  const changePage = (newPage) => {
+    navigate(`?page=${newPage}`, { replace: true });
+  };
 
   useEffect(() => {
-    if(localStorage.getItem('page')){
-      setPage(localStorage.getItem('page'));
+    const params = new URLSearchParams(location.search);
+
+    if (!params.get("page")) {
+      params.set("page", "main");
+      navigate(`?${params.toString()}`, { replace: true });
     }
-  }, [])
+  }, [location.search, navigate]);
+
 
 	useEffect(() => {
-    if(page === 'main'){
-      if(id){
-        const getEventDetails = async () => {
-          try{
-            const response = await apiFetch(`${BASE_URL}${ENDPOINTS.eventEvents}${id}/`);
-            const data = await response.json();
-
-            if (!response.ok) {
-              throw new Error(data.details || "Błąd wczytywania eventu");
-            }
-            setEventDetails(data);
-            console.log(data)
-          }
-          catch(err){
-            console.error(err);
-          }
-          finally{
-            setIsLoading(false)
-          }
-        }
-
-        getEventDetails();
+    const fetchEvent = async () => {
+      try{
+        const res = await apiFetch(
+          id
+            ? `${BASE_URL}${ENDPOINTS.eventEvents}${id}/`
+            : `${BASE_URL}${ENDPOINTS.eventEvents}by-code/${access_code}/`
+        );
+        const data = await res.json();
+        if (!res.ok) throw new Error();
+        setEventDetails(data);
+        console.log("dane eventu", data)
+      } 
+      catch(e){
+        console.error(e);
+      } 
+      finally{
+        setIsLoading(false);
       }
-      if(access_code){
-        
-      }
-    }
-	}, [id, page, access_code]);
+    };
+
+    fetchEvent();
+  }, [id, access_code]);
 
 	const eventParticipants = // eventDetails.event_participant_count ||
 														0;
@@ -305,7 +308,7 @@ function EventDetails(){
           const data = await response.json();
           console.log("dane listy uczestnikow:", data);
 
-          // setParticipants(data.results || []);
+          setParticipants(data.results || []);
           console.log("participants", participants)
         }
         catch(err){
@@ -539,7 +542,7 @@ function EventDetails(){
 
   const handleDeactivateCode = async codeId  => {
     try{
-      const response = await apiFetch(
+      await apiFetch(
         `${BASE_URL}${ENDPOINTS.eventEvents}${id}/invitations/${codeId}/deactivate/`,
         {
           method: "POST",
@@ -557,7 +560,7 @@ function EventDetails(){
 
   const handleActivateCode = async codeId => {
     try{
-      const response = await apiFetch(
+      await apiFetch(
         `${BASE_URL}${ENDPOINTS.eventEvents}${id}/invitations/${codeId}/activate/`,
         {
           method: "POST",
@@ -624,8 +627,7 @@ function EventDetails(){
               <button 
                 className={`event-type-button ed ${page === "main" ? 'event-type-button-selected' : ""}`}
                 onClick={e => {
-                  setPage("main");
-                  localStorage.setItem("page", "main");
+                  changePage("main");
                 }}
               >
                 Wydarzenie
@@ -633,8 +635,7 @@ function EventDetails(){
               <button 
                 className={`event-type-button ed ${page === "list" ? 'event-type-button-selected' : ""}`}
                 onClick={e => {
-                  setPage("list");
-                  localStorage.setItem("page", "list");
+                  changePage("list");
                 }}
               >
                 Lista uczestników
@@ -642,26 +643,36 @@ function EventDetails(){
 							<button 
                 className={`event-type-button ed ${page === "invitations" ? 'event-type-button-selected' : ""}`}
                 onClick={e => {
-                  setPage("invitations");
-                  localStorage.setItem("page", "invitations");
+                  changePage("invitations");
                 }}
               >
                 Zaproszenia
                 </button>
             </div>
 						<div className="edit-delete-btns">
-              {page === "main" && !isEditing && (
-                <>
-                  <button className="event-type-button ed delete-event-btn" onClick={handleDeleteClick}>Usuń wydarzenie</button>
-                  <button className="event-type-button ed edit-event-btn" onClick={handleStartEdit}>Edytuj wydarzenie</button>
-                </>
-              )}
-              {page === "main" && isEditing && (
-                <>
-                  <button className="event-type-button ed delete-event-btn" onClick={handleEditSave}>Zapisz</button>
-                  <button className="event-type-button ed edit-event-btn" onClick={handleEditCancel}>Anuluj</button>
-                </>
-              )}
+              {page === "main" && !eventDetails.role_in_event 
+                ? 
+                  <>
+                    <button className="event-type-button ed" onClick={() => alert("zaobserwowano")}>Obserwuj</button>
+                    <button className="event-type-button ed edit-event-btn" onClick={() => alert("dołączono")}>Dołącz do wydarzenia</button>
+                  </>
+                :
+                  <>
+                    {page === "main" && !isEditing && (
+                      <>
+                        <button className="event-type-button ed delete-event-btn" onClick={handleDeleteClick}>Usuń wydarzenie</button>
+                        <button className="event-type-button ed edit-event-btn" onClick={handleStartEdit}>Edytuj wydarzenie</button>
+                      </>
+                    )}
+                    {page === "main" && isEditing && (
+                      <>
+                        <button className="event-type-button ed delete-event-btn" onClick={handleEditSave}>Zapisz</button>
+                        <button className="event-type-button ed edit-event-btn" onClick={handleEditCancel}>Anuluj</button>
+                      </>
+                    )}
+                  </>
+              }
+              
               {page === "invitations" && (
                 <button className="event-type-button generate-btn" onClick={handleClickGenerateCode}>Wygeneruj nowy kod</button>
               )}
@@ -1138,10 +1149,12 @@ function EventDetails(){
                 <h3 id="pr-presence" className="list-header-title">Obecność</h3>
                 <h3 id="pr-actions" className="list-header-title">Akcje</h3>
               </div>
+              {participants.length === 0 && 
+                <h3 style={{fontSize: "30px"}} className="no-trainers-text">Brak uczestników</h3>
+              }
               {participants.map((p, i) => (
-                <>
-                  <div key={i} className="participant-row">
-                    
+                <div key={i}>
+                  <div className="participant-row">
                     <div className="hom5">
                       <span className="pr-enumerate">{i + 1}.</span>
                       <div>
@@ -1211,7 +1224,7 @@ function EventDetails(){
                     </div>
                   </div>
                   <hr className="pr-list-line"/>
-                </>
+                </div>
               ))}
             </div>
           }

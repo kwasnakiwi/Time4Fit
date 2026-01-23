@@ -196,7 +196,7 @@ function EventsMap() {
               <button
                 id="map-icon"
                 className="filter-button hom2"
-                onClick={() => navigate("/events")}
+                onClick={() => navigate("/eventy")}
               >
                 Lista wydarzeń
               </button>

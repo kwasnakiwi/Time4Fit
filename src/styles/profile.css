@@ -239,16 +239,16 @@
 		position: relative;
 	}
   .profile-main{
-    grid-auto-rows: 68px;
+    grid-auto-rows: 74px;
     .pfp-site{
       img{
-        height: 61px;
+        height: 67px;
       }
       .pfp-site-name{
-        font-size: 18.57px;
+        font-size: 20px;
       }
       .pfp-site-work{
-        font-size: 13.93px;
+        font-size: 16px;
       }
     }
     .pr-panel-btn{
@@ -257,21 +257,21 @@
       height: 23px;
     }
     .pr-panel-contact-icon, .ach-box{
-      width: 26px;
-      height: 26px;
+      width: 30px;
+      height: 30px;
       svg{
-        font-size: 14px;
+        font-size: 16px;
       }
       img{
-        height: 14px;
+        height: 16px;
       }
     }
     .pr-panel-contact-text{
       .contact-text-title{
-        font-size: 10.83px;
+        font-size: 12px;
       }
       .contact-text-value{
-        font-size: 12.38px;
+        font-size: 14px;
       }
     }
     .pr-panel-contact-item{
@@ -281,46 +281,43 @@
   .profile-second{
     grid-template-areas: 
         "desc list"
-        "awards awards";
-    grid-template-rows: 203.5px 525px;
+        "awards events";
+    grid-template-rows: 205px 313px;
+    .recomended-events{
+      max-height: calc(313px - 85px);
+    }
     .pr-events{
         display: none;
     }
     .recomendation-title{
-			font-size: 13.93px;
+			font-size: 16px;
 			margin-bottom: 10px;
 			#pr1, #pr2{
-				width: 15.47px;
+				width: 17px;
 			}
 			#pr3{
-				width: 10.05px;
+				width: 11px;
 			}
     }
 		.profile-desc{
-			font-size: 12.38px;
-			background-color: #FBFBFC;
-			border: 1px solid #C5C3C375;
-			border-radius: 8px;
+			font-size: 14px;
 			padding: 10px;
 		}
 		.profile-list{
-			background-color: #FBFBFC;
-			border: 1px solid #C5C3C375;
-			border-radius: 8px;
 			margin: 0;
 			padding: 10px 10px 10px 30px;
 			li{
-				font-size: 12.38px;
+				font-size: 14px;
 			}
 		}
 		.cer-title, .cer-name{
-			font-size: 13.92px;
+			font-size: 16px;
 		}
 		.cer-place-info, .cer-more-info{
-			font-size: 12.37px;
+			font-size: 14px;
 		}
 		.cer-img{
-			width: 119.14px;
+			width: 131.03px;
 		}
 		.profile-panel{
 			position: relative;
