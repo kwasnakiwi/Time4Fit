@@ -20,8 +20,39 @@ import { FaRegFlag as Flag,
          FaPhoneAlt as Phone,
          FaArrowRight as Arrow } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import empty from './../../../assets/images/eventImg.png';
+import { useEffect, useState } from "react";
+import { apiFetch } from "../../../interceptor/interceptor";
+import { BASE_URL, ENDPOINTS } from "../../../utils/Endopoints";
 
 function PublicProfile(){
+  const [mediaType, setMediaType] = useState("posts");
+  const [posts, setPosts] = useState([]);
+  const [images, setImages] = useState([]);
+  const [albums, setAlbums] = useState([]);
+
+  useEffect(() => {
+    const getProfileInfo = async () => {
+      if(mediaType === "posts"){
+        try{
+          const response = await apiFetch(`${BASE_URL}${ENDPOINTS.posts}`);
+          const data = await response.json();
+
+          if(!response.ok){
+            throw new Error(data.details);
+          }
+
+          setPosts(data.results || []);
+          console.log("posty:", posts)
+        }
+        catch(err){
+          console.error(err);
+        }
+      }
+    }
+    getProfileInfo();
+  }, [mediaType])
+
   return(
     <>
       <NavBar title="Profil" route="Ustawienia konta / Profil" linkRoute="/strona-glowna" isProfileVisible/>
@@ -272,6 +303,56 @@ function PublicProfile(){
                     </div>
                     <Link><button className="rec-event-show-details-btn">Zobacz szczegóły <Arrow /></button></Link>
                   </div>
+                </div>
+              </div>
+            </div>
+          </section>
+          <section className="profile-media">
+            <div className="profile-panel">
+              <h2 className="recomendation-title">
+                <img src={pr3} alt="zdj" id="pr3" />
+                Media
+              </h2>
+              <div className="medias-container">
+                <div className="media-selection">
+                  <button 
+                    className={`media-option ${mediaType === "posts" ? "selected" : ""}`}
+                    onClick={() => setMediaType("posts")}
+                  >
+                    Posty
+                  </button>
+                  <button 
+                    className={`media-option ${mediaType === "albums" ? "selected" : ""}`}
+                    onClick={() => setMediaType("albums")}
+                  >
+                    Albumy
+                  </button>
+                </div>
+                <div className="medias">
+                  {mediaType === "posts" &&
+                    <div className="posts-box">
+                      <div className="posts">
+                        {posts.map((post, i) => (
+                          <div key={i} className="post">
+                            <img src={post.images[0].image || empty} alt="post-image" className="post-img" />
+                          </div>
+                        ))}
+                        {posts.length === 0 && <h3 style={{fontSize: "40px"}} className="no-trainers-text">Brak postów</h3>}
+                      </div>
+                    </div>
+                  }
+                  {mediaType === "albums" &&
+                    <div className="images-box" style={{alignItems: "center"}}>
+                      <div className="pr-images">
+                        {albums.map((img, i) => (
+                          <div key={i} className="pr-image">
+                            <img src={img.img || empty} alt="img-image" className="img-img" />
+                          </div>
+                        ))}
+                        {albums.length === 0 && <h3 style={{fontSize: "40px"}} className="no-trainers-text">Brak albumów</h3>}
+                      </div>
+                    </div>
+                  }
                 </div>
               </div>
             </div>

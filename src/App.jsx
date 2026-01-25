@@ -22,6 +22,7 @@ import Calendar from './sites/MainPage/Calendar/Calendar.jsx'
 import ChoosePlace from './sites/MainPage/Places/ChoosePlace.jsx'
 import AddPlace from './sites/MainPage/Places/AddPlace.jsx'
 import PlacesMenu from './sites/T4B/PlacesMenu.jsx'
+import CreateTrainerProfile from './sites/MainPage/Profile/CreateTrainerProfile.jsx'
 
 
 function App() {
@@ -55,6 +56,7 @@ function App() {
           <Route path='/strona-glowna' element={<HomePage />} />
           <Route path='/profil' element={<PublicProfile />} />
           <Route path='/profil/edycja' element={<EditProfile />} />
+          <Route path='/profil/edycja/stworz-profil-trenera' element={<CreateTrainerProfile />} />
           <Route path='/test' element={<ToTimeForFit />} />
           <Route path='/kalendarz' element={<Calendar />} />
           <Route 

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import NavBar from "../components/NavBar.jsx";
 import SideBar from "../components/SideBar.jsx";
@@ -37,6 +37,8 @@ import placeChoice2 from './../../../assets/images/p-choice2.png';
 import orPlaceChoice1 from './../../../assets/images/or-p-choice1.png';
 import orPlaceChoice2 from './../../../assets/images/or-p-choice2.png';
 
+import empty from './../../../assets/images/eventImg.png'
+
 import { FaRegFlag as Flag,
          FaRegEye as Eye,
          FaRegEnvelope as Envelope,
@@ -48,15 +50,127 @@ import pr4 from './../../../assets/images/pr-icon4.png';
 import recClock from './../../../assets/images/rec-clock.png';
 import recLoc from './../../../assets/images/rec-loc.png';
 import recPeople from './../../../assets/images/rec-people.png';
+import { apiFetch } from "../../../interceptor/interceptor.jsx";
+import { BASE_URL, ENDPOINTS } from "../../../utils/Endopoints.jsx";
+
+import { BiX as XMark } from "react-icons/bi";
+import plus from "./../../../assets/images/+.png"
+import popup1 from "./../../../assets/images/popup1.png"
 
 
 function EditProfile(){
   const [selected, setSelected] = useState("data");
   const [placeType, setPlaceType] = useState(null);
+  const [mediaType, setMediaType] = useState("posts");
+  const [posts, setPosts] = useState([]);
+  const [images, setImages] = useState([]);
+  const [albums, setAlbums] = useState([]);
+  const [showCerPopup, setShowCerPopup] = useState(false);
+  const [cerTitle, setCerTitle] = useState("");
+  const [issuedBy, setIssuedBy] = useState("");
+  const [cerIdentificator, setCerIdentificator] = useState("");
+  const [issuedDate, setIssuedDate] = useState("");
+  const [cerImages, setCerImages] = useState([]);
   const navigate = useNavigate();
-  
+
+  useEffect(() => {
+    const getProfileInfo = async () => {
+      if(selected === "profile"){
+        if(mediaType === "posts"){
+          try{
+            const response = await apiFetch(`${BASE_URL}${ENDPOINTS.posts}`);
+            const data = await response.json();
+
+            if(!response.ok){
+              throw new Error(data.details);
+            }
+
+            setPosts(data.results || []);
+            console.log("posty:", posts)
+          }
+          catch(err){
+            console.error(err);
+          }
+        }
+      }
+    }
+    getProfileInfo();
+  }, [mediaType, selected])
+
+
   return(
     <>
+      {showCerPopup &&
+        <>
+          <div className="code-popup-overlay" onClick={() => setShowGenerateCodePopup(false)} />
+          <div className="code-popup">
+            <div className="code-popup-heading evd">
+              <div className="popup1-box"><img src={popup1} alt="" /></div>
+              <div>
+                <h3>Dyplomy i certyfikaty</h3>
+                <p>Dodaj nowe osiągnięcie</p>
+                <XMark 
+                  className="code-x" 
+                  style={{cursor: "pointer"}} 
+                  onClick={e => setShowCerPopup(false)}
+                />
+              </div>
+            </div>
+            <div className="code-content">
+              <span className="settings-text"><img src={plus} alt="settings" /> Ustawienia zaproszenia</span>
+              <div className="code-switch">
+                <span>Kod jednorazowy</span>
+                <div className="switches">
+                  <button 
+                    className={`switch-button`}
+                    onClick={e => e.target.value}
+                  >
+                    TAK
+                  </button>
+                  <button 
+                    className={`switch-button s2`}
+                    onClick={e => e.target.value}
+                  >
+                    NIE
+                  </button>
+                </div>
+              </div>
+              <div className="code-switch">
+                <span>Kod jest aktywny?</span>
+                <div className="switches">
+                  <button 
+                    className={`switch-button s1`}
+                    onClick={e => e.target.value}
+                  >
+                    TAK
+                  </button>
+                  <button 
+                    className={`switch-button s2`}
+                    onClick={e => e.target.value}
+                  >
+                    NIE
+                  </button>
+                </div>
+              </div>
+            </div>
+            <hr className="code-popup-line" />
+            <div className="code-popup-btns">
+              <button 
+                className="code-popup-btn cancel"
+                onClick={e => setShowCerPopup(false)}
+              >
+                Anuluj
+              </button>
+              <button 
+                className="code-popup-btn add"
+                onClick={e => e.target.value}
+              >
+                Dodaj
+              </button>
+            </div>
+          </div>
+        </>
+      }
       <NavBar title="Ustawienia konta" route="Ustawienia konta" linkRoute="/strona-glowna"/>
       <SideBar />
       <main className="home-page-container profile-edit-container">
@@ -123,7 +237,7 @@ function EditProfile(){
                 <h2 className="pr-side-part-title biz">Funkcje biznes</h2>
               </div>
                <ul className="pr-side-part-list">
-                <li className={selected == "place" ? "" : ""}>
+                <li className={selected == "place" ? "" : ""} onClick={() => navigate("/profil/edycja/stworz-profil-trenera")}>
                   <div style={{width: "20px", height: "20px"}}>
                     <img src={selected == "place" ? clPrSide6 : prSide6} />
                   </div>
@@ -258,7 +372,7 @@ function EditProfile(){
                     <img src={certificate} className="cer-img" alt="Certyfikat" />
                   </div>
                 </div>
-                <button className="edit-pr-action-btn">
+                <button onClick={() => setShowCerPopup(true)} className="edit-pr-action-btn">
                   Dodaj
                   <img src={addIcon} id="act2" />
                 </button>
@@ -404,6 +518,54 @@ function EditProfile(){
                 <img src={pr3} alt="zdj" id="pr3" />
                 Twoje media
               </h2>
+              <div className="medias-container">
+                <div className="media-selection">
+                  <button 
+                    className={`media-option ${mediaType === "posts" ? "selected" : ""}`}
+                    onClick={() => setMediaType("posts")}
+                  >
+                    Posty
+                  </button>
+                  <button 
+                    className={`media-option ${mediaType === "albums" ? "selected" : ""}`}
+                    onClick={() => setMediaType("albums")}
+                  >
+                    Albumy
+                  </button>
+                </div>
+                <div className="medias">
+                  {mediaType === "posts" &&
+                    <div className="posts-box">
+                      <div onClick={() => alert("dodano")} className="add-post-box">
+                        <span>+</span>
+                      </div>
+                      <div className="posts">
+                        {posts.map((post, i) => (
+                          <div key={i} className="post">
+                            <img src={post.images[0].image || empty} alt="post-image" className="post-img" />
+                          </div>
+                        ))}
+                        {posts.length === 0 && <h3 className="no-trainers-text">Brak postów, stwórz nowy!</h3>}
+                      </div>
+                    </div>
+                  }
+                  {mediaType === "albums" &&
+                    <div className="images-box">
+                      <div onClick={() => alert("dodano")} className="add-post-box image">
+                        <span>+</span>
+                      </div>
+                      <div className="pr-images">
+                        {albums.map((img, i) => (
+                          <div key={i} className="pr-image">
+                            <img src={img.img || empty} alt="img-image" className="img-img" />
+                          </div>
+                        ))}
+                        {albums.length === 0 && <h3 className="no-trainers-text">Brak albumów, stwórz nowy!</h3>}
+                      </div>
+                    </div>
+                  }
+                </div>
+              </div>
             </div>
           </section>
         </div>

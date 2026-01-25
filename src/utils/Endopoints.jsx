@@ -7,6 +7,11 @@ export const ENDPOINTS = {
     resetPassword: "/user/reset_password/",
     resetPasswordConfirm: "/user/reset-password/confirm/",
     verifyToken: "/user/token/verify/",
+    me: "/user/me/",
     eventEvents: "/event/events/",
     eventCategoryList: '/event/category-list/',
+    posts: "/user_profile/posts/",
+    trainerCertyficates: "/user_profile/trainer-certyficates/",
+    trainerFullProfile: "/user_profile/trainer-full-profile/",
+    trainerProfiles: "/user_profile/trainer-profiles/",
 }

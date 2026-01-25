@@ -22,6 +22,7 @@ import leaveIcon2 from './../../../assets/images/leave2.png'
 import { LocationContext } from "../../../utils/LocationContext.jsx";
 import { QRCodeCanvas } from "qrcode.react";
 import plus from "./../../../assets/images/+.png"
+import { UserContext } from "../../../utils/UserContext.jsx";
 
 function EventDetails(){
 	const { id, access_code } = useParams();
@@ -250,6 +251,7 @@ function EventDetails(){
 
 	const location = useLocation();
   const navigate = useNavigate();
+  const { me, loading } = useContext(UserContext);
 
   const page = new URLSearchParams(location.search).get("page") || "main";
 
@@ -268,31 +270,30 @@ function EventDetails(){
 
 
 	useEffect(() => {
-    const fetchEvent = async () => {
-      try{
-        const res = await apiFetch(
-          id
-            ? `${BASE_URL}${ENDPOINTS.eventEvents}${id}/`
-            : `${BASE_URL}${ENDPOINTS.eventEvents}by-code/${access_code}/`
-        );
-        const data = await res.json();
-        if (!res.ok) throw new Error();
-        setEventDetails(data);
-        console.log("dane eventu", data)
-      } 
-      catch(e){
-        console.error(e);
-      } 
-      finally{
-        setIsLoading(false);
-      }
-    };
-
     fetchEvent();
   }, [id, access_code]);
 
 	const eventParticipants = // eventDetails.event_participant_count ||
 														0;
+  const fetchEvent = async () => {
+    try{
+      const res = await apiFetch(
+        id
+          ? `${BASE_URL}${ENDPOINTS.eventEvents}${id}/`
+          : `${BASE_URL}${ENDPOINTS.eventEvents}by-code/${access_code}/`
+      );
+      const data = await res.json();
+      if (!res.ok) throw new Error();
+      setEventDetails(data);
+      console.log("dane eventu", data)
+    } 
+    catch(e){
+      console.error(e);
+    } 
+    finally{
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
     const getParticipantList = async () => {
@@ -361,7 +362,7 @@ function EventDetails(){
   }
 
   
-	if (isLoading) return <h1 style={{textAlign: 'center'}}>Ładowanie...</h1>
+	if (isLoading || loading) return <h1 style={{textAlign: 'center'}}>Ładowanie...</h1>
 	if (!eventDetails) return <h1 style={{textAlign: 'center'}}>Nie znaleziono wydarzenia.</h1>
 
 	const datee = new Date(eventDetails.date_time_event);
@@ -596,6 +597,35 @@ function EventDetails(){
     }
   };
 
+  const handleJoinEvent = async () => {
+    try {
+      const response = await apiFetch(
+        `${BASE_URL}${ENDPOINTS.eventEvents}${id}/join_to_public_event/`,
+        {
+          method: "POST"
+        }
+      );
+
+      if (!response.ok) {
+        const text = await response.text();
+        throw new Error(text);
+      }
+
+      // odśwież event
+      setIsLoading(true);
+      await fetchEvent();
+
+    } catch (err) {
+      console.error("JOIN ERROR:", err.message);
+    }
+  };
+
+  const isMainPage = page === "main";
+  const isAuthor = me.id === eventDetails.author;
+  const role = eventDetails.role_in_event; // null | "participant" | "organizer" itd.
+  const hasRole = !!role;
+  const isParticipant = role === "participant";
+
 
 	return(
 		<>
@@ -624,54 +654,103 @@ function EventDetails(){
         <div className="main-events-container">
 					<header className="top-filters">
 					  <div className="event-type-buttons">
-              <button 
-                className={`event-type-button ed ${page === "main" ? 'event-type-button-selected' : ""}`}
-                onClick={e => {
-                  changePage("main");
-                }}
-              >
-                Wydarzenie
-              </button>
-              <button 
-                className={`event-type-button ed ${page === "list" ? 'event-type-button-selected' : ""}`}
-                onClick={e => {
-                  changePage("list");
-                }}
-              >
-                Lista uczestników
-              </button>
-							<button 
-                className={`event-type-button ed ${page === "invitations" ? 'event-type-button-selected' : ""}`}
-                onClick={e => {
-                  changePage("invitations");
-                }}
-              >
-                Zaproszenia
-                </button>
+              {isAuthor &&
+                <>
+                  <button 
+                    className={`event-type-button ed ${page === "main" ? 'event-type-button-selected' : ""}`}
+                    onClick={e => {
+                      changePage("main");
+                    }}
+                  >
+                    Wydarzenie
+                  </button>
+                  <button 
+                    className={`event-type-button ed ${page === "list" ? 'event-type-button-selected' : ""}`}
+                    onClick={e => {
+                      changePage("list");
+                    }}
+                  >
+                    Lista uczestników
+                  </button>
+                  <button 
+                    className={`event-type-button ed ${page === "invitations" ? 'event-type-button-selected' : ""}`}
+                    onClick={e => {
+                      changePage("invitations");
+                    }}
+                  >
+                    Zaproszenia
+                  </button>
+                </>
+              }
             </div>
 						<div className="edit-delete-btns">
-              {page === "main" && !eventDetails.role_in_event 
-                ? 
-                  <>
-                    <button className="event-type-button ed" onClick={() => alert("zaobserwowano")}>Obserwuj</button>
-                    <button className="event-type-button ed edit-event-btn" onClick={() => alert("dołączono")}>Dołącz do wydarzenia</button>
-                  </>
-                :
-                  <>
-                    {page === "main" && !isEditing && (
-                      <>
-                        <button className="event-type-button ed delete-event-btn" onClick={handleDeleteClick}>Usuń wydarzenie</button>
-                        <button className="event-type-button ed edit-event-btn" onClick={handleStartEdit}>Edytuj wydarzenie</button>
-                      </>
-                    )}
-                    {page === "main" && isEditing && (
-                      <>
-                        <button className="event-type-button ed delete-event-btn" onClick={handleEditSave}>Zapisz</button>
-                        <button className="event-type-button ed edit-event-btn" onClick={handleEditCancel}>Anuluj</button>
-                      </>
-                    )}
-                  </>
-              }
+              {isMainPage && (
+                <>
+                  {/* 1️⃣ UŻYTKOWNIK NIE JEST AUTOREM */}
+                  {!isAuthor && !hasRole && (
+                    <>
+                      <button
+                        className="event-type-button ed"
+                        onClick={() => alert("zaobserwowano")}
+                      >
+                        Obserwuj
+                      </button>
+                      <button
+                        className="event-type-button ed edit-event-btn"
+                        onClick={handleJoinEvent}
+                      >
+                        Dołącz do wydarzenia
+                      </button>
+                    </>
+                  )}
+
+                  {/* 2️⃣ UŻYTKOWNIK JEST UCZESTNIKIEM */}
+                  {!isAuthor && isParticipant && (
+                    <button
+                      className="event-type-button ed delete-event-btn"
+                      onClick={() => alert("opuszczono")}
+                    >
+                      Opuść wydarzenie
+                    </button>
+                  )}
+
+                  {/* 3️⃣ AUTOR EVENTU */}
+                  {isAuthor && !isEditing && (
+                    <>
+                      <button
+                        className="event-type-button ed delete-event-btn"
+                        onClick={handleDeleteClick}
+                      >
+                        Usuń wydarzenie
+                      </button>
+                      <button
+                        className="event-type-button ed edit-event-btn"
+                        onClick={handleStartEdit}
+                      >
+                        Edytuj wydarzenie
+                      </button>
+                    </>
+                  )}
+
+                  {isAuthor && isEditing && (
+                    <>
+                      <button
+                        className="event-type-button ed delete-event-btn"
+                        onClick={handleEditSave}
+                      >
+                        Zapisz
+                      </button>
+                      <button
+                        className="event-type-button ed edit-event-btn"
+                        onClick={handleEditCancel}
+                      >
+                        Anuluj
+                      </button>
+                    </>
+                  )}
+                </>
+              )}
+
               
               {page === "invitations" && (
                 <button className="event-type-button generate-btn" onClick={handleClickGenerateCode}>Wygeneruj nowy kod</button>
@@ -1286,13 +1365,13 @@ function EventDetails(){
                         className="code-popup-btn cancel"
                         onClick={e => setShowGenerateCodePopup(false)}
                       >
-                          Anuluj
+                        Anuluj
                       </button>
                       <button 
                         className="code-popup-btn add"
                         onClick={handleAddInvitation}
                       >
-                          Dodaj
+                        Dodaj
                       </button>
                     </div>
                   </div>
