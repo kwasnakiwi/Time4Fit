@@ -309,7 +309,7 @@ function EventDetails(){
           const data = await response.json();
           console.log("dane listy uczestnikow:", data);
 
-          setParticipants(data.results || []);
+          setParticipants(data || []);
           console.log("participants", participants)
         }
         catch(err){
