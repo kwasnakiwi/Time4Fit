@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import NavBar from "../components/NavBar.jsx";
 import SideBar from "../components/SideBar.jsx";
@@ -56,14 +56,16 @@ import { BASE_URL, ENDPOINTS } from "../../../utils/Endopoints.jsx";
 import { BiX as XMark } from "react-icons/bi";
 import plus from "./../../../assets/images/+.png"
 import popup1 from "./../../../assets/images/popup1.png"
+import { UserContext } from "../../../utils/UserContext.jsx";
 
 
 function EditProfile(){
+  const [userData, setUserData] = useState({});
+  const [profileData, setProfileData] = useState({})
   const [selected, setSelected] = useState("data");
   const [placeType, setPlaceType] = useState(null);
   const [mediaType, setMediaType] = useState("posts");
   const [posts, setPosts] = useState([]);
-  const [images, setImages] = useState([]);
   const [albums, setAlbums] = useState([]);
   const [showCerPopup, setShowCerPopup] = useState(false);
   const [cerTitle, setCerTitle] = useState("");
@@ -74,35 +76,79 @@ function EditProfile(){
   const navigate = useNavigate();
 
   useEffect(() => {
+    const getUserData = async () => {
+      try{
+        const response = await apiFetch(`${BASE_URL}${ENDPOINTS.settings}`);
+
+        let data;
+        try{
+          data = await response.json();
+        }
+        catch{
+          data = null;
+        }
+
+        if(!response.ok){
+          throw new Error(data?.error);
+        }
+
+        setUserData(data || {});
+        console.log("settings:", data);
+      }
+      catch(err){
+        console.error(err);
+      }
+    }
+
+    getUserData();
+  }, [])
+
+  useEffect(() => {
     const getProfileInfo = async () => {
       if(selected === "profile"){
-        if(mediaType === "posts"){
+        try{
+          const response = await apiFetch(`
+              ${BASE_URL}${ENDPOINTS.trainerFullProfile}${userData?.trainer_id}/
+            `)
+          
+          let data;
           try{
-            const response = await apiFetch(`${BASE_URL}${ENDPOINTS.posts}`);
-            const data = await response.json();
-
-            if(!response.ok){
-              throw new Error(data.details);
-            }
-
-            setPosts(data.results || []);
-            console.log("posty:", posts)
+            data = await response.json();
           }
-          catch(err){
-            console.error(err);
+          catch{
+            data = null;
           }
+
+          if(!response.ok){
+            throw new Error(data?.error);
+          }
+
+          console.log("profil:", data);
+          setProfileData(data || {});
+        }
+        catch(err){
+          console.error(err);
         }
       }
     }
-    getProfileInfo();
-  }, [mediaType, selected])
 
+    getProfileInfo();
+  }, [selected])
+
+  const advancedLevels = {
+    beginner: "Początkujący",
+    "semi-advanced": "Średniozaawansowany",
+    advanced: "Zaawansowany",
+    none: "Brak"
+  }
+
+  const { me, refetchMe } = useContext(UserContext);
 
   return(
     <>
       {showCerPopup &&
         <>
-          <div className="code-popup-overlay" onClick={() => setShowGenerateCodePopup(false)} />
+          <div className="code-popup-overlay" onClick={() => setShowCerPopup(false)} />
           <div className="code-popup">
             <div className="code-popup-heading evd">
               <div className="popup1-box"><img src={popup1} alt="" /></div>
@@ -181,12 +227,7 @@ function EditProfile(){
                 <h2 className="pr-side-part-title">Użytkownik</h2>
               </div>
               <ul className="pr-side-part-list">
-                <li className={selected == "profile" ? "pr-side-selected" : ""} onClick={() => setSelected("profile")}>
-                  <div style={{width: "20px", height: "19px"}}>
-                    <img src={selected == "profile" ? clPrSide1 : prSide1} />
-                  </div>
-                  Profil
-                </li>
+                
                 <li className={selected == "data" ? "pr-side-selected" : ""} onClick={() => setSelected("data")}>
                   <div style={{width: "20px", height: "20px"}}>
                     <img src={selected == "data" ? clPrSide2 : prSide2} />
@@ -237,11 +278,11 @@ function EditProfile(){
                 <h2 className="pr-side-part-title biz">Funkcje biznes</h2>
               </div>
                <ul className="pr-side-part-list">
-                <li className={selected == "place" ? "" : ""} onClick={() => navigate("/profil/edycja/stworz-profil-trenera")}>
+                <li className={selected == "profile" ? "pr-side-selected" : ""} onClick={() => { !userData.is_trainer ? navigate("/profil/edycja/stworz-profil-trenera") : setSelected("profile") }}>
                   <div style={{width: "20px", height: "20px"}}>
-                    <img src={selected == "place" ? clPrSide6 : prSide6} />
+                    <img src={selected == "profile" ? clPrSide1 : prSide1} />
                   </div>
-                  Jestem trenerem
+                  {userData.is_trainer ? "Mój trener" : "Jestem trenerem"}
                 </li>
                 <li onClick={() => setSelected("place")}>
                   <div style={{width: "20px", height: "20px"}}>
@@ -259,9 +300,9 @@ function EditProfile(){
               <div className="profile-panel" style={{gridArea: 'main'}}>
                 <div className="profile-pr-panel-1row">
                   <div className="pfp-site">
-                    <img src={pfp} alt="Zdjęcie profilowe" />
+                    <img className="pr-img-pfp" src={profileData?.img_profile} alt="Zdjęcie profilowe" />
                     <div className="pfp-site-text">
-                      <h2 className="pfp-site-name">Andrzej Marek</h2>
+                      <h2 className="pfp-site-name">{profileData?.profile?.name} {profileData?.profile?.surname}</h2>
                       <span className="pfp-site-work">Trener</span>
                     </div>
                   </div>
@@ -275,14 +316,14 @@ function EditProfile(){
                     <div className="pr-panel-contact-icon" id="cyan"><Phone /></div>
                     <div className="pr-panel-contact-text">
                       <span className="contact-text-title">Nr. telefonu</span><br />
-                      <span className="contact-text-value">123 456 789</span>
+                      <span className="contact-text-value">{profileData?.phone_business}</span>
                     </div>
                   </div>
                   <div className="pr-panel-contact-item">
                     <div className="pr-panel-contact-icon" id="blue"><Envelope /></div>
                     <div className="pr-panel-contact-text">
                       <span className="contact-text-title">Adres E-mail</span><br />
-                      <span className="contact-text-value">a.marek@example.com</span>
+                      <span className="contact-text-value">{profileData?.business_email}</span>
                     </div>
                   </div>
                 </div>
@@ -291,28 +332,28 @@ function EditProfile(){
                 <div className="ach-box" id="blue"><img src={ach1} alt="ach" /></div>
                 <div className="pr-panel-contact-text">
                   <span className="contact-text-title">Odbyte zajęcia</span><br />
-                  <span className="contact-text-value">42</span>
+                  <span className="contact-text-value">{profileData?.event_past}</span>
                 </div>
               </div>
               <div className="profile-panel achievement" style={{gridArea: 'type'}}>
                 <div className="ach-box" id="purple"><img src={ach2} alt="ach" /></div>
                 <div className="pr-panel-contact-text">
                   <span className="contact-text-title">Prowadzi</span><br />
-                  <span className="contact-text-value">Joga</span>
+                  <span className="contact-text-value">{profileData?.pick_specialization}</span>
                 </div>
               </div>
               <div className="profile-panel achievement" style={{gridArea: 'rating'}}>
                 <div className="ach-box" id="gold"><img src={ach3} alt="ach" /></div>
                 <div className="pr-panel-contact-text">
                   <span className="contact-text-title">Ocena</span><br />
-                  <span className="contact-text-value">4.7</span>
+                  <span className="contact-text-value">{profileData?.rate_avg || "0.0"}</span>
                 </div>
               </div>
               <div className="profile-panel achievement" style={{gridArea: 'joined'}}>
                 <div className="ach-box" id="green"><img src={ach4} alt="ach" /></div>
                 <div className="pr-panel-contact-text">
-                  <span className="contact-text-title">Dołączył</span><br />
-                  <span className="contact-text-value">15.08.2025</span>
+                  <span className="contact-text-title">Obserwujący</span><br />
+                  <span className="contact-text-value">{profileData?.followers_count}</span>
                 </div>
               </div>
             </section>
@@ -323,14 +364,7 @@ function EditProfile(){
                   Opis profilu
                 </h2>
                 <p className="profile-desc">
-                  Nazywam się Andrzej i od kilku lat pomagam ludziom odnaleźć więcej 
-                  spokoju, elastyczności i lekkości w codziennym życiu. Uczę jogi w 
-                  sposób przystępny i uważny — tak, aby każdy mógł praktykować we 
-                  własnym tempie i czuć się swobodnie na macie. Łączę elementy pracy 
-                  z oddechem, mobilności i technik relaksacyjnych, tworząc zajęcia, 
-                  które wzmacniają ciało, ale też wyciszają głowę. Wierzę, że regularna 
-                  praktyka potrafi odmienić samopoczucie, dlatego staram się budować 
-                  przyjazną, wspierającą atmosferę na każdych zajęciach.
+                  {profileData?.description}
                 </p>
                 <button className="edit-pr-action-btn">
                   Edytuj 
@@ -343,12 +377,7 @@ function EditProfile(){
                   Specjalizacje
                 </h2>
                 <ul className="profile-list">
-                  <li>Redukcja tkanki tłuszczowej</li>
-                  <li>Budowa masy mięśniowej</li>
-                  <li>Trening medyczny</li>
-                  <li>Mobilność i stretching</li>
-                  <li>Powrót do formy po przerwie</li>
-                  <li>Trening kobiet po porodzie</li>
+                  {profileData?.specializations}
                 </ul>
                 <button className="edit-pr-action-btn">
                   Edytuj 
@@ -361,16 +390,19 @@ function EditProfile(){
                   Certyfikaty i dyplomy
                 </h2>
                 <div className="certificates">
-                  <div className="certificate">
-                    <h3 className="cer-title">Certyfikat z ukończenia szkolenia:</h3>
-                    <h4 className="cer-name">
-                      Programowanie SIEMENS SIMATIC S7-1500 w TIA PORTAL poziom 1
-                    </h4>
-                    <span className="cer-place-info">EMT-Systems Centrum Szkoleń Inżynierskich</span><br />
-                    <span className="cer-more-info">Issued wrz 2025</span><br />
-                    <span className="cer-more-info">Identyfikator poświadczenia 250/BUR/2025</span><br />
-                    <img src={certificate} className="cer-img" alt="Certyfikat" />
-                  </div>
+                  {profileData?.certificates?.map((cer, i) => (
+                    <div key={i} className="certificate">
+                      <h3 className="cer-title">Certyfikat z ukończenia szkolenia:</h3>
+                      <h4 className="cer-name">
+                        {cer.title}
+                      </h4>
+                      <span className="cer-place-info">{cer.issued_by}</span><br />
+                      <span className="cer-more-info">Issued {cer.issued_date}</span><br />
+                      <span className="cer-more-info">Identyfikator poświadczenia {cer.identyficatior}</span><br />
+                      <img src={certificate} className="cer-img" alt="Certyfikat" />
+                    </div>
+                  ))}
+                  {profileData?.certyficates?.length === 0 && <h3 className="no-trainers-text">Brak certyfikatów</h3>}
                 </div>
                 <button onClick={() => setShowCerPopup(true)} className="edit-pr-action-btn">
                   Dodaj
@@ -383,132 +415,40 @@ function EditProfile(){
                 Inne prowadzone zajęcia
               </h2>
               <div className="recomended-events">
-                <div className="rec-event">
-                  <div className="rec-event-first-row">
-                    <h3 className="rec-event-name">Joga dla zdrowia</h3>
-                    <span className="rec-event-price-status">Płatny</span>
-                  </div>
-                  <div className="rec-event-informations">
-                    <span className="rec-event-information">Joga</span>
-                    <span className="rec-event-information">+18</span>
-                    <span className="rec-event-information">Średniozaawansowany</span>
-                  </div>
-                  <div className="rec-event-more-info-wrapper">
-                    <div className="rec-event-more-info">
-                      <ul className="rec-event-more-info-list">
-                        <li><img src={recClock} /> Paź 25, 19:00</li>
-                        <li><img src={recLoc} /> Katowice, Park tysiąclecia</li>
-                        <li><img src={recPeople} /> 6 miejsc</li>
-                      </ul>
+                {profileData?.events?.map((ev, i) => {
+                  const date = new Date(ev.date_time_event);
+                  const formattedDate = date.toLocaleString("pl-PL", {
+                    month: "short",
+                    day: "2-digit",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  });
+
+                  return(
+                    <div key={i} className="rec-event">
+                      <div className="rec-event-first-row">
+                        <h3 className="rec-event-name">{ev.event_title || "Tytuł"}</h3>
+                        <span className="rec-event-price-status">Płatny</span>
+                      </div>
+                      <div className="rec-event-informations">
+                        <span className="rec-event-information">{ev.category_name || "Joga"}</span>
+                        <span className="rec-event-information">{ev.additional_info.age_limit}</span>
+                        <span className="rec-event-information">{advancedLevels[ev.additional_info.advanced_level]}</span>
+                      </div>
+                      <div className="rec-event-more-info-wrapper">
+                        <div className="rec-event-more-info">
+                          <ul className="rec-event-more-info-list">
+                            <li><img src={recClock} /> {formattedDate}</li>
+                            <li><img src={recLoc} /> {ev.city}, {ev.street}</li>
+                            <li><img src={recPeople} /> {ev.available_places} miejsc</li>
+                          </ul>
+                        </div>
+                        <button onClick={() => navigate(`/eventy/${ev.id}`)} className="rec-event-show-details-btn">Zobacz szczegóły <Arrow /></button>
+                      </div>
                     </div>
-                    <Link><button className="rec-event-show-details-btn">Zobacz szczegóły <Arrow /></button></Link>
-                  </div>
-                </div>
-                <div className="rec-event">
-                  <div className="rec-event-first-row">
-                    <h3 className="rec-event-name">Joga dla zdrowia</h3>
-                    <span className="rec-event-price-status">Płatny</span>
-                  </div>
-                  <div className="rec-event-informations">
-                    <span className="rec-event-information">Joga</span>
-                    <span className="rec-event-information">+18</span>
-                    <span className="rec-event-information">Średniozaawansowany</span>
-                  </div>
-                  <div className="rec-event-more-info-wrapper">
-                    <div className="rec-event-more-info">
-                      <ul className="rec-event-more-info-list">
-                        <li><img src={recClock} /> Paź 25, 19:00</li>
-                        <li><img src={recLoc} /> Katowice, Park tysiąclecia</li>
-                        <li><img src={recPeople} /> 6 miejsc</li>
-                      </ul>
-                    </div>
-                    <Link><button className="rec-event-show-details-btn">Zobacz szczegóły <Arrow /></button></Link>
-                  </div>
-                </div>
-                <div className="rec-event">
-                  <div className="rec-event-first-row">
-                    <h3 className="rec-event-name">Joga dla zdrowia</h3>
-                    <span className="rec-event-price-status">Płatny</span>
-                  </div>
-                  <div className="rec-event-informations">
-                    <span className="rec-event-information">Joga</span>
-                    <span className="rec-event-information">+18</span>
-                    <span className="rec-event-information">Średniozaawansowany</span>
-                  </div>
-                  <div className="rec-event-more-info-wrapper">
-                    <div className="rec-event-more-info">
-                      <ul className="rec-event-more-info-list">
-                        <li><img src={recClock} /> Paź 25, 19:00</li>
-                        <li><img src={recLoc} /> Katowice, Park tysiąclecia</li>
-                        <li><img src={recPeople} /> 6 miejsc</li>
-                      </ul>
-                    </div>
-                    <Link><button className="rec-event-show-details-btn">Zobacz szczegóły <Arrow /></button></Link>
-                  </div>
-                </div>
-                <div className="rec-event">
-                  <div className="rec-event-first-row">
-                    <h3 className="rec-event-name">Joga dla zdrowia</h3>
-                    <span className="rec-event-price-status">Płatny</span>
-                  </div>
-                  <div className="rec-event-informations">
-                    <span className="rec-event-information">Joga</span>
-                    <span className="rec-event-information">+18</span>
-                    <span className="rec-event-information">Średniozaawansowany</span>
-                  </div>
-                  <div className="rec-event-more-info-wrapper">
-                    <div className="rec-event-more-info">
-                      <ul className="rec-event-more-info-list">
-                        <li><img src={recClock} /> Paź 25, 19:00</li>
-                        <li><img src={recLoc} /> Katowice, Park tysiąclecia</li>
-                        <li><img src={recPeople} /> 6 miejsc</li>
-                      </ul>
-                    </div>
-                    <Link><button className="rec-event-show-details-btn">Zobacz szczegóły <Arrow /></button></Link>
-                  </div>
-                </div>
-                <div className="rec-event">
-                  <div className="rec-event-first-row">
-                    <h3 className="rec-event-name">Joga dla zdrowia</h3>
-                    <span className="rec-event-price-status">Płatny</span>
-                  </div>
-                  <div className="rec-event-informations">
-                    <span className="rec-event-information">Joga</span>
-                    <span className="rec-event-information">+18</span>
-                    <span className="rec-event-information">Średniozaawansowany</span>
-                  </div>
-                  <div className="rec-event-more-info-wrapper">
-                    <div className="rec-event-more-info">
-                      <ul className="rec-event-more-info-list">
-                        <li><img src={recClock} /> Paź 25, 19:00</li>
-                        <li><img src={recLoc} /> Katowice, Park tysiąclecia</li>
-                        <li><img src={recPeople} /> 6 miejsc</li>
-                      </ul>
-                    </div>
-                    <Link><button className="rec-event-show-details-btn">Zobacz szczegóły <Arrow /></button></Link>
-                  </div>
-                </div>
-                <div className="rec-event">
-                  <div className="rec-event-first-row">
-                    <h3 className="rec-event-name">Joga dla zdrowia</h3>
-                    <span className="rec-event-price-status">Płatny</span>
-                  </div>
-                  <div className="rec-event-informations">
-                    <span className="rec-event-information">Joga</span>
-                    <span className="rec-event-information">+18</span>
-                    <span className="rec-event-information">Średniozaawansowany</span>
-                  </div>
-                  <div className="rec-event-more-info-wrapper">
-                    <div className="rec-event-more-info">
-                      <ul className="rec-event-more-info-list">
-                        <li><img src={recClock} /> Paź 25, 19:00</li>
-                        <li><img src={recLoc} /> Katowice, Park tysiąclecia</li>
-                        <li><img src={recPeople} /> 6 miejsc</li>
-                      </ul>
-                    </div>
-                    <Link><button className="rec-event-show-details-btn">Zobacz szczegóły <Arrow /></button></Link>
-                  </div>
-                </div>
+                  )
+                })}
+                {profileData?.events?.length === 0 && <h3 className="no-trainers-text">Brak wydarzeń</h3>}
               </div>
             </div>
           </section>
@@ -540,12 +480,12 @@ function EditProfile(){
                         <span>+</span>
                       </div>
                       <div className="posts">
-                        {posts.map((post, i) => (
+                        {profileData?.posts?.map((post, i) => (
                           <div key={i} className="post">
                             <img src={post.images[0].image || empty} alt="post-image" className="post-img" />
                           </div>
                         ))}
-                        {posts.length === 0 && <h3 className="no-trainers-text">Brak postów, stwórz nowy!</h3>}
+                        {profileData?.posts?.length === 0 && <h3 className="no-trainers-text">Brak postów, stwórz nowy!</h3>}
                       </div>
                     </div>
                   }
@@ -578,8 +518,8 @@ function EditProfile(){
                 <div className="change-pfp-icon"><img src={editIcon2} /></div>
               </div>
               <div className="ud-user-name-box">
-                <h2 className="ud-user-name">Andrzej Marek</h2>
-                <span className="ud-user-status">Użytkownik</span>
+                <h2 className="ud-user-name">{userData.name} {userData.surname}</h2>
+                <span className="ud-user-status">{!me?.subscription ? "Użytkownik" : me.subscription.plan_name}</span>
               </div>
             </section>
             <section className="user-data-panel ud-with-content">
@@ -588,19 +528,19 @@ function EditProfile(){
                 <div className="user-data-content">
                   <div className="ud-info-box">
                     <span className="ud-info-title">Imię</span><br />
-                    <span className="ud-info-value">Andrzej</span>
+                    <span className="ud-info-value">{userData.name}</span>
                   </div>
                   <div className="ud-info-box">
                     <span className="ud-info-title">Nazwisko</span><br />
-                    <span className="ud-info-value">Marek</span>
+                    <span className="ud-info-value">{userData.surname}</span>
                   </div>
                   <div className="ud-info-box">
                     <span className="ud-info-title">Płeć</span><br />
-                    <span className="ud-info-value">Mężczyzna</span>
+                    <span className="ud-info-value">{userData.sex !== "none" ? userData.sex : "Nie podano"}</span>
                   </div>
                   <div className="ud-info-box">
                     <span className="ud-info-title">Data urodzenia</span><br />
-                    <span className="ud-info-value">15.08.1995</span>
+                    <span className="ud-info-value">{userData.birth_day || "Nie podano"}</span>
                   </div>
                 </div>
                 <button className="edit-pr-action-btn">

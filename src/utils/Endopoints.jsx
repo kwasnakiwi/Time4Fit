@@ -8,6 +8,7 @@ export const ENDPOINTS = {
     resetPasswordConfirm: "/user/reset-password/confirm/",
     verifyToken: "/user/token/verify/",
     me: "/user/me/",
+    settings: "/user/settings/",
     eventEvents: "/event/events/",
     eventCategoryList: '/event/category-list/',
     posts: "/user_profile/posts/",

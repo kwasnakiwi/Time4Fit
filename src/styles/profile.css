@@ -292,12 +292,6 @@
     .recomendation-title{
 			font-size: 16px;
 			margin-bottom: 10px;
-			#pr1, #pr2{
-				width: 17px;
-			}
-			#pr3{
-				width: 11px;
-			}
     }
 		.profile-desc{
 			font-size: 14px;
@@ -426,7 +420,12 @@
 .pr-images{
   width: 100%;
 }
-
+.pr-img-pfp{
+  width: 70px;
+  height: 67px;
+  object-fit: cover;
+  border-radius: 8px;
+}
 /* popup */
 
 .code-popup-heading.evd{

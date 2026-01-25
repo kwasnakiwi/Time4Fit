@@ -273,8 +273,8 @@ function EventDetails(){
     fetchEvent();
   }, [id, access_code]);
 
-	const eventParticipants = // eventDetails.event_participant_count ||
-														0;
+	
+														
   const fetchEvent = async () => {
     try{
       const res = await apiFetch(
@@ -772,7 +772,7 @@ function EventDetails(){
                         <div className="people-price">
                           <div className="event-details-places">
                             <span className="event-details-span">Miejsca:</span><br />
-                            <span className="event-details-content-span">{eventParticipants} / {eventDetails.additional_info.places_for_people_limit}</span>
+                            <span className="event-details-content-span">{eventDetails.event_participant_count} / {eventDetails.additional_info.places_for_people_limit}</span>
                           </div>
                           <hr className="people-line-price som-line" />
                           <div className="event-details-price">
