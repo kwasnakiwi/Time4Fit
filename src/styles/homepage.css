@@ -222,6 +222,10 @@ body{
     font-size: 10px;
     padding: 4.5px 12px;
     border-radius: 26px;
+    &.green{
+        background-color: var(--bg-green);
+        color: var(--clr-green);
+    }
 }
 .rec-event-informations{
     display: flex;

@@ -217,10 +217,141 @@
 .certificates-line{
     border: 1px solid #74747450;
 }
+.certificate{
+  position: relative;
+}
 .profile-panel .recomended-events{
     max-height: calc(425px - 67px - 16px);
 }
 
+/* cer popup */
+
+.popup-setting{
+  font-size: 14px;
+  font-weight: normal;
+  color: var(--text-secondery);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  margin-bottom: 24px;
+  position: relative;
+}
+.popup-input-box{
+  margin-bottom: 18px;
+  width: 100%;
+}
+.popup-input-title{
+  font-weight: 500;
+  color: var(--primary-grey);
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  margin-bottom: 4px;
+}
+.popup-input{
+  padding: 6px 8px;
+  border: 1px solid #74747450;
+  background-color: #f3f3f3;
+  border-radius: 8px;
+  font-size: 14px;
+  width: calc(100% - 20px);
+}
+.popup-date-inputs{
+  display: flex;
+  justify-content: center;
+  gap: 36px;
+  .popup-input{
+    width: 100%;
+  }
+}
+.add-cer-imgs{
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3px;
+  font-size: 12px;
+  background: var(--main-gradient);
+  background-clip: text;
+  color: transparent;
+  cursor: pointer;
+  img{
+    width: 12px;
+    height: 12px;
+  }
+  &.disabled{
+    user-select: none;
+    pointer-events: none;
+    opacity: .5;
+  }
+}
+.cer-images{
+  height: 120px;
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.cer-image-box{
+  max-width: 25%;
+  position: relative;
+  img{
+    width: auto;
+    height: auto;
+  }
+}
+.cer-image{
+  height: 100%;
+  max-height: 120px;
+  object-fit: cover;
+  max-width: 150px;
+  
+}
+.cer-image-wrapper {
+  position: relative;
+  display: inline-block; /* ← dopasowuje się do img */
+}
+.delete-cer-img{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  font-size: 50px;
+  color: white;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+  opacity: 0;
+  height: calc(100% - 6px);
+  &:hover{
+    opacity: 1;
+  }
+}
+.certificates{
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: calc(313px - 75px)
+}
+.certificates::-webkit-scrollbar{
+    width: 4px;
+}
+/* Tło paska (track) */
+.certificates::-webkit-scrollbar-track{
+    background: var(--primary-grey);
+    border-radius: 10px;
+}
+/* Uchwyt paska (thumb) */
+.certificates::-webkit-scrollbar-thumb{
+    background: var(--main-gradient);
+    border-radius: 10px;
+}
 /* edit */
 
 .home-page-container.profile-edit-container{
@@ -310,9 +441,17 @@
 		.cer-place-info, .cer-more-info{
 			font-size: 14px;
 		}
-		.cer-img{
-			width: 131.03px;
-		}
+		
+    .cer-imgs{
+      display: flex;
+      gap: 15px;
+      .cer-img{
+        max-width: 25%;
+        object-fit: contain;
+        max-height: 100px;
+        margin: 0;
+      }
+    }
 		.profile-panel{
 			position: relative;
 			.edit-pr-action-btn{
@@ -791,6 +930,7 @@
 .ctp-pfp{
   width: 156px;
   height: 156px;
+  object-fit: cover;
   border-radius: 50%;
   cursor: pointer;
 }

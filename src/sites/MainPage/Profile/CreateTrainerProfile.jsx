@@ -71,11 +71,8 @@ function CreateTrainerProfile(){
       }
 
       console.log(data);
-    }
-    catch(err){
-      console.error(err);
-    }
-    finally{
+      navigate("/profil/edycja")
+      
       setDesc(null);
       setEmail(null);
       setPfp(null);
@@ -83,8 +80,9 @@ function CreateTrainerProfile(){
       setPickSpecialization(null);
       setPreview(null);
       setSpecializations(null);
-
-      navigate("/profil/edycja")
+    }
+    catch(err){
+      console.error(err);
     }
   }
 

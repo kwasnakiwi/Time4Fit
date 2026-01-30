@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 
 import NavBar from "../components/NavBar.jsx";
 import SideBar from "../components/SideBar.jsx";
@@ -39,6 +39,14 @@ import orPlaceChoice2 from './../../../assets/images/or-p-choice2.png';
 
 import empty from './../../../assets/images/eventImg.png'
 
+import cer1 from './../../../assets/images/cer1.png';
+import cer2 from './../../../assets/images/cer2.png';
+import cer3 from './../../../assets/images/cer3.png';
+import cer4 from './../../../assets/images/cer4.png';
+import cer5 from './../../../assets/images/cer5.png';
+import cer6 from './../../../assets/images/cer6.png';
+import cer7 from './../../../assets/images/cer7.png';
+
 import { FaRegFlag as Flag,
          FaRegEye as Eye,
          FaRegEnvelope as Envelope,
@@ -60,6 +68,8 @@ import { UserContext } from "../../../utils/UserContext.jsx";
 
 
 function EditProfile(){
+  const { me, refetchMe } = useContext(UserContext);
+
   const [userData, setUserData] = useState({});
   const [profileData, setProfileData] = useState({})
   const [selected, setSelected] = useState("data");
@@ -71,9 +81,13 @@ function EditProfile(){
   const [cerTitle, setCerTitle] = useState("");
   const [issuedBy, setIssuedBy] = useState("");
   const [cerIdentificator, setCerIdentificator] = useState("");
-  const [issuedDate, setIssuedDate] = useState("");
+  const [issuedDay, setIssuedDay] = useState(null);
+  const [issuedMonth, setIssuedMonth] = useState(null);
+  const [issuedYear, setIssuedYear] = useState(null);
   const [cerImages, setCerImages] = useState([]);
   const navigate = useNavigate();
+
+  const cerInputRef = useRef(null);
 
   useEffect(() => {
     const getUserData = async () => {
@@ -104,36 +118,145 @@ function EditProfile(){
   }, [])
 
   useEffect(() => {
-    const getProfileInfo = async () => {
-      if(selected === "profile"){
-        try{
-          const response = await apiFetch(`
-              ${BASE_URL}${ENDPOINTS.trainerFullProfile}${userData?.trainer_id}/
-            `)
-          
-          let data;
-          try{
-            data = await response.json();
-          }
-          catch{
-            data = null;
-          }
-
-          if(!response.ok){
-            throw new Error(data?.error);
-          }
-
-          console.log("profil:", data);
-          setProfileData(data || {});
-        }
-        catch(err){
-          console.error(err);
-        }
-      }
-    }
-
     getProfileInfo();
   }, [selected])
+
+  const getProfileInfo = async () => {
+    if (!userData?.trainer_id) return;
+    if(selected === "profile"){
+      try{
+        const response = await apiFetch(`
+            ${BASE_URL}${ENDPOINTS.trainerFullProfile}${userData?.trainer_id}/
+          `)
+        
+        let data;
+        try{
+          data = await response.json();
+        }
+        catch{
+          data = null;
+        }
+
+        if(!response.ok){
+          throw new Error(data?.error);
+        }
+
+        console.log("profil:", data);
+        setProfileData(data || {});
+      }
+      catch(err){
+        console.error(err);
+      }
+    }
+  }
+
+  useEffect(() => {
+    if (!issuedYear || !issuedMonth || !issuedDay) return;
+
+    const maxDays = getDaysInMonth(issuedYear, issuedMonth);
+    if (issuedDay > maxDays) {
+      setIssuedDay(maxDays);
+    }
+  }, [issuedMonth, issuedYear]);
+
+
+  const getDaysInMonth = (year, month) => {
+    if (!year || !month) return 31;
+    return new Date(year, month, 0).getDate();
+  };
+
+  const handleCerImagesChange = e => {
+    const files = Array.from(e.target.files);
+
+    setCerImages(prev => {
+      const newItems = files.map(file => ({
+        file,
+        preview: URL.createObjectURL(file),
+      }));
+
+      return [...prev, ...newItems].slice(0, 4);
+    });
+    e.target.value = null;
+  };
+
+  const handleCerImageDelete = index => {
+    setCerImages(prev => prev.filter((_, i) => i !== index));
+  }
+  const handleAddCertyficate = async () => {
+    if(!cerTitle || !issuedBy || !issuedDay || !issuedMonth || !issuedYear || !cerImages){
+      return;
+    }
+    const issuedDate = `${issuedYear}-${String(issuedMonth).padStart(2, "0")}-${String(issuedDay).padStart(2, "0")}`;
+    const formData = new FormData();
+
+    formData.append("title", cerTitle)
+    formData.append("issued_by", issuedBy)
+    formData.append("identyficatior", cerIdentificator)
+    formData.append("issued_date", issuedDate)
+    cerImages.forEach((img, i) => {
+      formData.append("uploaded_images", img.file);
+    })
+
+    console.log(issuedDate)
+    try{
+      const response = await apiFetch(`${BASE_URL}${ENDPOINTS.trainerCertyficates}`, {
+        method: "POST",
+        body: formData
+      })
+
+      let data = null
+      try{
+        data = await response.json();
+      }
+      catch{
+        data = null
+      }
+
+      if(!response.ok){
+        throw new Error(data?.error)
+      }
+
+      setCerTitle("");
+      setIssuedBy("")
+      setCerIdentificator("")
+      setIssuedDay(null)
+      setIssuedMonth(null)
+      setIssuedYear(null);
+      setCerImages([]);
+
+      await getProfileInfo();
+
+      setShowCerPopup(false);
+    }
+    catch(err){
+      console.error(err)
+    }
+  }
+
+  const handleRemoveCertyficate = async cerId => {
+    try{
+      const response = await apiFetch(
+        `${BASE_URL}${ENDPOINTS.trainerCertyficates}${cerId}/`,{ 
+          method: "DELETE" 
+        }
+      );
+
+      if(!response.ok){
+        throw new Error("Nie udało się usunąć certyfikatu");
+      }
+
+      await getProfileInfo();
+    } 
+    catch(err){
+      console.error(err);
+    }
+  };
+
+  const handleEditProfile = async field => {
+    const formData = new FormData();
+
+    formData.append(field)
+  }
 
   const advancedLevels = {
     beginner: "Początkujący",
@@ -142,14 +265,19 @@ function EditProfile(){
     none: "Brak"
   }
 
-  const { me, refetchMe } = useContext(UserContext);
+  const formatDate1 = date => {
+    return new Date(date).toLocaleDateString("pl-PL", {
+      month: "short",
+      year: "numeric"
+    })
+  }
 
   return(
     <>
       {showCerPopup &&
         <>
-          <div className="code-popup-overlay" onClick={() => setShowCerPopup(false)} />
-          <div className="code-popup">
+          <div style={{zIndex: 1112}} className="code-popup-overlay" onClick={() => setShowCerPopup(false)} />
+          <div style={{width: "100%", maxWidth: "660px", zIndex: 1113}} className="code-popup">
             <div className="code-popup-heading evd">
               <div className="popup1-box"><img src={popup1} alt="" /></div>
               <div>
@@ -163,57 +291,157 @@ function EditProfile(){
               </div>
             </div>
             <div className="code-content">
-              <span className="settings-text"><img src={plus} alt="settings" /> Ustawienia zaproszenia</span>
-              <div className="code-switch">
-                <span>Kod jednorazowy</span>
-                <div className="switches">
-                  <button 
-                    className={`switch-button`}
-                    onClick={e => e.target.value}
+              <h4 className="popup-setting">
+                <img src={cer1} alt="" />
+                Dane
+              </h4>
+              <div className="popup-input-box">
+                <label className="popup-input-title" htmlFor="cer-title">
+                  <img src={cer2} alt="" />
+                  Wprowadź tytuł
+                </label>
+                <input 
+                  type="text" 
+                  value={cerTitle}
+                  onChange={e => setCerTitle(e.target.value)}
+                  className="popup-input"
+                  name="cer-title"
+                />
+              </div>
+              <div className="popup-input-box">
+                <label className="popup-input-title" htmlFor="cer-title">
+                  <img src={cer3} alt="" />
+                  Wystawione przez
+                </label>
+                <input 
+                  type="text" 
+                  value={issuedBy}
+                  onChange={e => setIssuedBy(e.target.value)}
+                  className="popup-input"
+                  name="cer-title"
+                />
+              </div>
+              <div className="popup-input-box">
+                <label className="popup-input-title" htmlFor="cer-title">
+                  <img src={cer4} alt="" />
+                  Identyfikator poświadczenia
+                </label>
+                <input 
+                  type="text" 
+                  value={cerIdentificator}
+                  onChange={e => setCerIdentificator(e.target.value)}
+                  className="popup-input"
+                  name="cer-title"
+                />
+              </div>
+              <h4 className="popup-setting">
+                <img src={cer5} alt="" />
+                Data wystawienia
+              </h4>
+              <div className="popup-date-inputs">
+                <div className="popup-input-box">
+                  <label>Dzień</label>
+                  <select
+                    className="popup-input"
+                    value={issuedDay || ""}
+                    disabled={!issuedMonth || !issuedYear}
+                    onChange={e => setIssuedDay(Number(e.target.value))}
                   >
-                    TAK
-                  </button>
-                  <button 
-                    className={`switch-button s2`}
-                    onClick={e => e.target.value}
+                    <option value="">--</option>
+                    {Array.from(
+                      { length: getDaysInMonth(issuedYear, issuedMonth) },
+                      (_, i) => i + 1
+                    ).map(day => (
+                      <option key={day} value={day}>{day}</option>
+                    ))}
+                  </select>
+                </div>
+                <div className="popup-input-box">
+                  <label>Miesiąc</label>
+                  <select
+                    className="popup-input"
+                    value={issuedMonth || ""}
+                    onChange={e => setIssuedMonth(Number(e.target.value))}
                   >
-                    NIE
-                  </button>
+                    <option value="">--</option>
+                    {[
+                      "Styczeń","Luty","Marzec","Kwiecień","Maj","Czerwiec",
+                      "Lipiec","Sierpień","Wrzesień","Październik","Listopad","Grudzień"
+                    ].map((name, i) => (
+                      <option key={i + 1} value={i + 1}>
+                        {name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="popup-input-box">
+                  <label>Rok</label>
+                  <select
+                    className="popup-input"
+                    value={issuedYear || ""}
+                    onChange={e => setIssuedYear(Number(e.target.value))}
+                  >
+                    <option value="">--</option>
+                    {Array.from({ length: 70 }, (_, i) => {
+                      const year = new Date().getFullYear() - i;
+                      return (
+                        <option key={year} value={year}>{year}</option>
+                      );
+                    })}
+                  </select>
                 </div>
               </div>
-              <div className="code-switch">
-                <span>Kod jest aktywny?</span>
-                <div className="switches">
-                  <button 
-                    className={`switch-button s1`}
-                    onClick={e => e.target.value}
-                  >
-                    TAK
-                  </button>
-                  <button 
-                    className={`switch-button s2`}
-                    onClick={e => e.target.value}
-                  >
-                    NIE
-                  </button>
-                </div>
+              <h4 className="popup-setting">
+                <img src={cer6} alt="" />
+                Zdjęcia
+                <span onClick={() => cerInputRef.current.click()} className={`add-cer-imgs ${cerImages.length >= 4 ? "disabled" : ""}`}>
+                  <img src={cer7} alt="" />
+                  Dodaj zdjęcie +
+                </span>
+              </h4>
+              <input 
+                type="file"
+                ref={cerInputRef}
+                multiple
+                accept="image/*"
+                hidden
+                onChange={handleCerImagesChange}
+              />
+              <div className="cer-images">
+                {cerImages.map((img, i) => (
+                  <div className="cer-image-box" key={i}>
+                    <div className="cer-image-wrapper">
+                      <img
+                        className="cer-image"
+                        src={img.preview}
+                        alt={`cert-${i}`}
+                      />
+                      <div
+                        className="delete-cer-img"
+                        onClick={() => handleCerImageDelete(i)}
+                      >
+                        ✕
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
-            <hr className="code-popup-line" />
-            <div className="code-popup-btns">
-              <button 
-                className="code-popup-btn cancel"
-                onClick={e => setShowCerPopup(false)}
-              >
-                Anuluj
-              </button>
-              <button 
-                className="code-popup-btn add"
-                onClick={e => e.target.value}
-              >
-                Dodaj
-              </button>
-            </div>
+            <hr className="code-popup-line" style={{margin: 0}} />
+              <div className="code-popup-btns">
+                <button 
+                  className="code-popup-btn cancel"
+                  onClick={e => setShowCerPopup(false)}
+                >
+                  Anuluj
+                </button>
+                <button 
+                  className="code-popup-btn add"
+                  onClick={handleAddCertyficate}
+                >
+                  Dodaj
+                </button>
+              </div>
           </div>
         </>
       }
@@ -346,7 +574,7 @@ function EditProfile(){
                 <div className="ach-box" id="gold"><img src={ach3} alt="ach" /></div>
                 <div className="pr-panel-contact-text">
                   <span className="contact-text-title">Ocena</span><br />
-                  <span className="contact-text-value">{profileData?.rate_avg || "0.0"}</span>
+                  <span className="contact-text-value">{profileData?.rate_avg || "-"}</span>
                 </div>
               </div>
               <div className="profile-panel achievement" style={{gridArea: 'joined'}}>
@@ -390,16 +618,25 @@ function EditProfile(){
                   Certyfikaty i dyplomy
                 </h2>
                 <div className="certificates">
-                  {profileData?.certificates?.map((cer, i) => (
+                  {profileData?.certyficates?.map((cer, i) => (
                     <div key={i} className="certificate">
                       <h3 className="cer-title">Certyfikat z ukończenia szkolenia:</h3>
                       <h4 className="cer-name">
                         {cer.title}
                       </h4>
                       <span className="cer-place-info">{cer.issued_by}</span><br />
-                      <span className="cer-more-info">Issued {cer.issued_date}</span><br />
-                      <span className="cer-more-info">Identyfikator poświadczenia {cer.identyficatior}</span><br />
-                      <img src={certificate} className="cer-img" alt="Certyfikat" />
+                      <span className="cer-more-info">Issued {formatDate1(cer.issued_date)}</span><br />
+                      <span className="cer-more-info">Identyfikator poświadczenia: {cer.identyficatior}</span><br />
+                      <div className="cer-imgs">
+                        {cer.images.map((img, idx) => (
+                          <img key={idx} src={img.image} className="cer-img" alt="Certyfikat" />
+                        ))}
+                      </div>
+                      <hr style={{border: "1px solid #74747450", marginRight: "10px"}}/>
+                      <button onClick={() => handleRemoveCertyficate(cer.id)} className="edit-pr-action-btn">
+                        Usuń
+                        <img src={addIcon} id="act2" />
+                      </button>
                     </div>
                   ))}
                   {profileData?.certyficates?.length === 0 && <h3 className="no-trainers-text">Brak certyfikatów</h3>}
@@ -427,11 +664,11 @@ function EditProfile(){
                   return(
                     <div key={i} className="rec-event">
                       <div className="rec-event-first-row">
-                        <h3 className="rec-event-name">{ev.event_title || "Tytuł"}</h3>
-                        <span className="rec-event-price-status">Płatny</span>
+                        <h3 className="rec-event-name">{ev.title || "Brak tytułu"}</h3>
+                        <span className={`rec-event-price-status ${ev.is_free ? "green" : ""}`}>{ev.is_free ? "Bezpłatny" : "Płatny"}</span>
                       </div>
                       <div className="rec-event-informations">
-                        <span className="rec-event-information">{ev.category_name || "Joga"}</span>
+                        <span className="rec-event-information">{ev.category_name || "-"}</span>
                         <span className="rec-event-information">{ev.additional_info.age_limit}</span>
                         <span className="rec-event-information">{advancedLevels[ev.additional_info.advanced_level]}</span>
                       </div>
@@ -555,11 +792,11 @@ function EditProfile(){
                 <div className="user-data-content">
                   <div className="ud-info-box">
                     <span className="ud-info-title">E-mail</span><br />
-                    <span className="ud-info-value">example123@example.com</span>
+                    <span className="ud-info-value">{me?.email}</span>
                   </div>
                   <div className="ud-info-box">
                     <span className="ud-info-title">Nr. telefonu</span><br />
-                    <span className="ud-info-value">123 456 789</span>
+                    <span className="ud-info-value">{userData.phone_number || "Nie podano"}</span>
                   </div>
                 </div>
                 <button className="edit-pr-action-btn">

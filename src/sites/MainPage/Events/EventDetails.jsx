@@ -606,19 +606,58 @@ function EventDetails(){
         }
       );
 
+      let data = null;
+      try{
+        data = await response.json()
+      }
+      catch{
+        data = null
+      }
+
       if (!response.ok) {
-        const text = await response.text();
-        throw new Error(text);
+        throw new Error(data?.error);
       }
 
       // odśwież event
       setIsLoading(true);
       await fetchEvent();
 
-    } catch (err) {
+    } 
+    catch (err) {
       console.error("JOIN ERROR:", err.message);
     }
   };
+
+  const handleEventQuit = async () => {
+    try {
+      const response = await apiFetch(
+        `${BASE_URL}${ENDPOINTS.eventEvents}${id}/quit_from_event/`,
+        {
+          method: "POST"
+        }
+      );
+
+      let data = null;
+      try{
+        data = await response.json()
+      }
+      catch{
+        data = null
+      }
+
+      if (!response.ok) {
+        throw new Error(data?.error);
+      }
+
+      // odśwież event
+      setIsLoading(true);
+      await fetchEvent();
+
+    } 
+    catch (err) {
+      console.error("QUIT ERROR:", err);
+    }
+  }
 
   const isMainPage = page === "main";
   const isAuthor = me.id === eventDetails.author;
@@ -708,7 +747,7 @@ function EventDetails(){
                   {!isAuthor && isParticipant && (
                     <button
                       className="event-type-button ed delete-event-btn"
-                      onClick={() => alert("opuszczono")}
+                      onClick={handleEventQuit}
                     >
                       Opuść wydarzenie
                     </button>
