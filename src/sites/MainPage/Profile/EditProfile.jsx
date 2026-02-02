@@ -85,6 +85,11 @@ function EditProfile(){
   const [issuedMonth, setIssuedMonth] = useState(null);
   const [issuedYear, setIssuedYear] = useState(null);
   const [cerImages, setCerImages] = useState([]);
+  const [cerEdit, setCerEdit] = useState(false);
+  const [cerEditId, setCerEditId] = useState(null);
+  const [pickSpecializationEdit, setPickSpecializationEdit] = useState({isEditing: false, value: ""});
+  const [descEdit, setDescEdit] = useState({isEditing: false, value: ""});
+  const [specializationsEdit, setSpecializationEdit] = useState({isEditing: false, value: ""});
   const navigate = useNavigate();
 
   const cerInputRef = useRef(null);
@@ -252,10 +257,125 @@ function EditProfile(){
     }
   };
 
-  const handleEditProfile = async field => {
+  const handleEditProfileField = async (field, value) => {
     const formData = new FormData();
 
-    formData.append(field)
+    formData.append(field, value);
+
+    try{
+      const response = await apiFetch(`${BASE_URL}${ENDPOINTS.trainerProfiles}${userData?.trainer_id}/`, {
+        method: "PATCH",
+        body: formData
+      })
+
+      let data = null
+      try{
+        data = await response.json()
+      }
+      catch{
+        data = null;
+      }
+
+      if(!response.ok){
+        throw new Error(data?.error);
+      }
+
+      await getProfileInfo();
+
+      switch(field){
+        case "description":
+          setDescEdit({isEditing: false, value: ""});
+          break;
+        case "specializations":
+          setSpecializationEdit({isEditing: false, value: ""})
+          break;
+        case "pick_specialization":
+          setPickSpecializationEdit({isEditing: false, value: ""})
+          break;
+        default:
+          console.error("Wrong field");
+          break;
+      }
+    }
+    catch(err){
+      console.error(err);
+    }
+  }
+
+  const handleEditCertyficate = async () => {
+    if(!cerTitle || !issuedBy || !issuedDay || !issuedMonth || !issuedYear || !cerImages){
+      return;
+    }
+
+    const formData = new FormData();
+    const issuedDate = `${issuedYear}-${String(issuedMonth).padStart(2, "0")}-${String(issuedDay).padStart(2, "0")}`;
+
+    formData.append("title", cerTitle)
+    formData.append("issued_by", issuedBy)
+    formData.append("identyficatior", cerIdentificator)
+    formData.append("issued_date", issuedDate)
+    cerImages.forEach((img, i) => {
+      formData.append("uploaded_images", img.file);
+    })
+
+    try{
+      const response = await apiFetch(`${BASE_URL}${ENDPOINTS.trainerCertyficates}${cerEditId}/`, {
+        method: "PATCH",
+        body: formData
+      })
+
+      let data = null;
+      try{
+        data = await response.json();
+      }
+      catch{
+        data = null
+      }
+
+      if(!response.ok){
+        throw new Error(data.error)
+      }
+
+      setCerTitle("");
+      setIssuedBy("")
+      setCerIdentificator("")
+      setIssuedDay(null)
+      setIssuedMonth(null)
+      setIssuedYear(null);
+      setCerImages([]);
+
+      await getProfileInfo();
+
+      setShowCerPopup(false);
+      setCerEditId(null);
+      setCerEdit(false);
+    }
+    catch(err){
+      console.error(err);
+    }
+  }
+
+  const handleClickEditCertyficate = (cerId, title, issuedBy, identyficator, day, month, year, images) => {
+    setCerTitle(title);
+    setIssuedBy(issuedBy)
+    setCerIdentificator(identyficator)
+    setIssuedDay(day)
+    setIssuedMonth(month)
+    setIssuedYear(year);
+    setCerImages(
+      Array.isArray(images)
+        ? images.map(img => ({
+            file: null,
+            preview: img.image,
+          }))
+        : []
+    );
+
+
+    
+    setCerEdit(true);
+    setShowCerPopup(true);
+    setCerEditId(cerId);
   }
 
   const advancedLevels = {
@@ -272,9 +392,19 @@ function EditProfile(){
     })
   }
 
+  const formatDate2 = date => {
+    const d = new Date(date)
+
+    return {
+      day: d.getDate(),
+      month: d.getMonth() + 1,
+      year: d.getFullYear()
+    };
+  }
+
   return(
     <>
-      {showCerPopup &&
+    {showCerPopup &&
         <>
           <div style={{zIndex: 1112}} className="code-popup-overlay" onClick={() => setShowCerPopup(false)} />
           <div style={{width: "100%", maxWidth: "660px", zIndex: 1113}} className="code-popup">
@@ -321,7 +451,7 @@ function EditProfile(){
                   name="cer-title"
                 />
               </div>
-              <div className="popup-input-box">
+              <div className="popup-input-box"> 
                 <label className="popup-input-title" htmlFor="cer-title">
                   <img src={cer4} alt="" />
                   Identyfikator poświadczenia
@@ -394,7 +524,7 @@ function EditProfile(){
               <h4 className="popup-setting">
                 <img src={cer6} alt="" />
                 Zdjęcia
-                <span onClick={() => cerInputRef.current.click()} className={`add-cer-imgs ${cerImages.length >= 4 ? "disabled" : ""}`}>
+                <span onClick={() => cerInputRef.current.click()} className={`add-cer-imgs ${cerImages?.length >= 4 ? "disabled" : ""}`}>
                   <img src={cer7} alt="" />
                   Dodaj zdjęcie +
                 </span>
@@ -408,7 +538,7 @@ function EditProfile(){
                 onChange={handleCerImagesChange}
               />
               <div className="cer-images">
-                {cerImages.map((img, i) => (
+                {cerImages?.map((img, i) => (
                   <div className="cer-image-box" key={i}>
                     <div className="cer-image-wrapper">
                       <img
@@ -428,20 +558,23 @@ function EditProfile(){
               </div>
             </div>
             <hr className="code-popup-line" style={{margin: 0}} />
-              <div className="code-popup-btns">
-                <button 
-                  className="code-popup-btn cancel"
-                  onClick={e => setShowCerPopup(false)}
-                >
-                  Anuluj
-                </button>
-                <button 
-                  className="code-popup-btn add"
-                  onClick={handleAddCertyficate}
-                >
-                  Dodaj
-                </button>
-              </div>
+            <div className="code-popup-btns">
+              <button 
+                className="code-popup-btn cancel"
+                onClick={e => setShowCerPopup(false)}
+              >
+                Anuluj
+              </button>
+              <button 
+                className="code-popup-btn add"
+                onClick={() => !cerEdit
+                  ? handleAddCertyficate()
+                  : handleEditCertyficate()
+                }
+              >
+                {cerEdit ? "Akceptuj" : "Dodaj"}
+              </button>
+            </div>
           </div>
         </>
       }
@@ -563,12 +696,32 @@ function EditProfile(){
                   <span className="contact-text-value">{profileData?.event_past}</span>
                 </div>
               </div>
-              <div className="profile-panel achievement" style={{gridArea: 'type'}}>
+              <div className="profile-panel achievement" style={{gridArea: 'type', position: "relative"}}>
                 <div className="ach-box" id="purple"><img src={ach2} alt="ach" /></div>
                 <div className="pr-panel-contact-text">
                   <span className="contact-text-title">Prowadzi</span><br />
-                  <span className="contact-text-value">{profileData?.pick_specialization}</span>
+                  {!pickSpecializationEdit.isEditing 
+                    ? <span className="contact-text-value">{profileData?.pick_specialization}</span>
+                    : <input 
+                        type="text" 
+                        value={pickSpecializationEdit.value} 
+                        className="edit-profile-input" 
+                        onChange={(e) => setPickSpecializationEdit(prev => ({...prev, value: e.target.value}))} 
+                      />
+                  }
                 </div>
+                <button 
+                  onClick={() => { !pickSpecializationEdit.isEditing
+                      ? setPickSpecializationEdit(prev => ({...prev, isEditing: true})) 
+                      : handleEditProfileField("pick_specialization", pickSpecializationEdit.value)
+                    }
+                  }
+                  style={{top: "10px"}} 
+                  className="edit-pr-action-btn"
+                >
+                  {pickSpecializationEdit.isEditing ? "Zapisz" : "Edytuj"}
+                  <img src={editIcon} />
+                </button>
               </div>
               <div className="profile-panel achievement" style={{gridArea: 'rating'}}>
                 <div className="ach-box" id="gold"><img src={ach3} alt="ach" /></div>
@@ -591,11 +744,25 @@ function EditProfile(){
                   <img src={pr1} alt="zdj" id="pr1" />
                   Opis profilu
                 </h2>
-                <p className="profile-desc">
-                  {profileData?.description}
-                </p>
-                <button className="edit-pr-action-btn">
-                  Edytuj 
+                {!descEdit.isEditing 
+                    ? <p className="profile-desc">{profileData?.description}</p>
+                    : <textarea 
+                        type="text" 
+                        value={descEdit.value} 
+                        className="edit-profile-input"
+                        id="desc"
+                        onChange={(e) => setDescEdit(prev => ({...prev, value: e.target.value}))} 
+                      />
+                  }
+                <button 
+                  onClick={() => { !descEdit.isEditing
+                      ? setDescEdit(prev => ({...prev, isEditing: true})) 
+                      : handleEditProfileField("description", descEdit.value)
+                    }
+                  }
+                  className="edit-pr-action-btn"
+                >
+                  {descEdit.isEditing ? "Zapisz" : "Edytuj"}
                   <img src={editIcon} />
                 </button>
               </div>
@@ -604,11 +771,25 @@ function EditProfile(){
                   <img src={pr2} alt="zdj" id="pr2" />
                   Specjalizacje
                 </h2>
-                <ul className="profile-list">
-                  {profileData?.specializations}
-                </ul>
-                <button className="edit-pr-action-btn">
-                  Edytuj 
+                {!specializationsEdit.isEditing 
+                    ? <p className="profile-desc">{profileData?.specializations}</p>
+                    : <textarea 
+                        type="text" 
+                        value={specializationsEdit.value} 
+                        className="edit-profile-input"
+                        id="desc"
+                        onChange={(e) => setSpecializationEdit(prev => ({...prev, value: e.target.value}))} 
+                      />
+                  }
+                <button 
+                  onClick={() => { !specializationsEdit.isEditing
+                      ? setSpecializationEdit(prev => ({...prev, isEditing: true})) 
+                      : handleEditProfileField("specializations", specializationsEdit.value)
+                    }
+                  }
+                  className="edit-pr-action-btn"
+                >
+                  {specializationsEdit.isEditing ? "Zapisz" : "Edytuj"}
                   <img src={editIcon} />
                 </button>
               </div>
@@ -632,11 +813,17 @@ function EditProfile(){
                           <img key={idx} src={img.image} className="cer-img" alt="Certyfikat" />
                         ))}
                       </div>
-                      <hr style={{border: "1px solid #74747450", marginRight: "10px"}}/>
-                      <button onClick={() => handleRemoveCertyficate(cer.id)} className="edit-pr-action-btn">
-                        Usuń
-                        <img src={addIcon} id="act2" />
-                      </button>
+                      {profileData?.certyficates?.length !== 1 && <hr style={{border: "1px solid #74747450", marginRight: "10px"}}/> }
+                      <div className="cer-btns">
+                        <button style={{position: "static"}} onClick={() => handleClickEditCertyficate(cer.id, cer.title, cer.issued_by, cer.identyficatior, formatDate2(cer.issued_date).day, formatDate2(cer.issued_date).month, formatDate2(cer.issued_date).year, cer.uploaded_images)} className="edit-pr-action-btn">
+                          Edytuj
+                          <img src={editIcon}/>
+                        </button>
+                        <button style={{position: "static"}} onClick={() => handleRemoveCertyficate(cer.id)} className="edit-pr-action-btn">
+                          Usuń
+                          <img src={addIcon} />
+                        </button>
+                      </div>
                     </div>
                   ))}
                   {profileData?.certyficates?.length === 0 && <h3 className="no-trainers-text">Brak certyfikatów</h3>}
