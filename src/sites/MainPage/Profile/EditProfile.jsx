@@ -704,7 +704,7 @@ function EditProfile(){
                     ? <span className="contact-text-value">{profileData?.pick_specialization}</span>
                     : <input 
                         type="text" 
-                        value={pickSpecializationEdit.value} 
+                        value={pickSpecializationEdit.value || profileData?.pick_specialization} 
                         className="edit-profile-input" 
                         onChange={(e) => setPickSpecializationEdit(prev => ({...prev, value: e.target.value}))} 
                       />
@@ -713,7 +713,7 @@ function EditProfile(){
                 <button 
                   onClick={() => { !pickSpecializationEdit.isEditing
                       ? setPickSpecializationEdit(prev => ({...prev, isEditing: true})) 
-                      : handleEditProfileField("pick_specialization", pickSpecializationEdit.value)
+                      : handleEditProfileField("pick_specialization", pickSpecializationEdit.value || profileData?.pick_specialization)
                     }
                   }
                   style={{top: "10px"}} 
@@ -748,7 +748,7 @@ function EditProfile(){
                     ? <p className="profile-desc">{profileData?.description}</p>
                     : <textarea 
                         type="text" 
-                        value={descEdit.value} 
+                        value={descEdit.value || profileData?.description} 
                         className="edit-profile-input"
                         id="desc"
                         onChange={(e) => setDescEdit(prev => ({...prev, value: e.target.value}))} 
@@ -757,7 +757,7 @@ function EditProfile(){
                 <button 
                   onClick={() => { !descEdit.isEditing
                       ? setDescEdit(prev => ({...prev, isEditing: true})) 
-                      : handleEditProfileField("description", descEdit.value)
+                      : handleEditProfileField("description", descEdit.value || profileData?.description)
                     }
                   }
                   className="edit-pr-action-btn"
@@ -775,7 +775,7 @@ function EditProfile(){
                     ? <p className="profile-desc">{profileData?.specializations}</p>
                     : <textarea 
                         type="text" 
-                        value={specializationsEdit.value} 
+                        value={specializationsEdit.value || profileData?.specializations} 
                         className="edit-profile-input"
                         id="desc"
                         onChange={(e) => setSpecializationEdit(prev => ({...prev, value: e.target.value}))} 
@@ -784,7 +784,7 @@ function EditProfile(){
                 <button 
                   onClick={() => { !specializationsEdit.isEditing
                       ? setSpecializationEdit(prev => ({...prev, isEditing: true})) 
-                      : handleEditProfileField("specializations", specializationsEdit.value)
+                      : handleEditProfileField("specializations", specializationsEdit.value || profileData?.specializations)
                     }
                   }
                   className="edit-pr-action-btn"
