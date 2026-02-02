@@ -573,6 +573,22 @@
   object-fit: cover;
   border-radius: 8px;
 }
+.edit-profile-input{
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 12px;
+  border: none;
+  outline: 2px solid #00000050;
+  width: calc(100% - 20px);
+  &:focus{
+    outline: 2px solid var(--primary-orange);
+    border: none;
+  }
+  &#desc, &#spec{
+    height: calc(100% - 45px);
+  }
+}
+
 /* popup */
 
 .code-popup-heading.evd{

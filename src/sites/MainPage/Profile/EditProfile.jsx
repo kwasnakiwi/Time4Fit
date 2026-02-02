@@ -777,7 +777,7 @@ function EditProfile(){
                         type="text" 
                         value={specializationsEdit.value || profileData?.specializations} 
                         className="edit-profile-input"
-                        id="desc"
+                        id="spec"
                         onChange={(e) => setSpecializationEdit(prev => ({...prev, value: e.target.value}))} 
                       />
                   }
