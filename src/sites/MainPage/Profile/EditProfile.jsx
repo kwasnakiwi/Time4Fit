@@ -63,7 +63,9 @@ import { BASE_URL, ENDPOINTS } from "../../../utils/Endopoints.jsx";
 
 import { BiX as XMark } from "react-icons/bi";
 import plus from "./../../../assets/images/+.png"
+import add from "./../../../assets/images/add_ic.png"
 import popup1 from "./../../../assets/images/popup1.png"
+import like from "./../../../assets/images/like.png"
 import { UserContext } from "../../../utils/UserContext.jsx";
 
 
@@ -90,9 +92,14 @@ function EditProfile(){
   const [pickSpecializationEdit, setPickSpecializationEdit] = useState({isEditing: false, value: ""});
   const [descEdit, setDescEdit] = useState({isEditing: false, value: ""});
   const [specializationsEdit, setSpecializationEdit] = useState({isEditing: false, value: ""});
+  const [showPostPopup, setShowPostPopup] = useState(false);
+  const [postHeading, setPostHeading] = useState("");
+  const [postDesc, setPostDesc] = useState("");
+  const [postImages, setPostImages] = useState([]);
   const navigate = useNavigate();
 
   const cerInputRef = useRef(null);
+  const postInputRef = useRef(null);
 
   useEffect(() => {
     const getUserData = async () => {
@@ -187,6 +194,25 @@ function EditProfile(){
   const handleCerImageDelete = index => {
     setCerImages(prev => prev.filter((_, i) => i !== index));
   }
+
+  const handlePostImagesChange = e => {
+    const files = Array.from(e.target.files);
+
+    setPostImages(prev => {
+      const newItems = files.map(file => ({
+        file,
+        preview: URL.createObjectURL(file)
+      }));
+
+      return [...prev, ...newItems].slice(0, 5);
+    })
+    e.target.value = null
+  }
+
+  const handlePostImageDelete = index => {
+    setPostImages(prev => prev.filter((_, i) => i !== index));
+  }
+
   const handleAddCertyficate = async () => {
     if(!cerTitle || !issuedBy || !issuedDay || !issuedMonth || !issuedYear || !cerImages){
       return;
@@ -370,12 +396,67 @@ function EditProfile(){
           }))
         : []
     );
-
-
     
     setCerEdit(true);
     setShowCerPopup(true);
     setCerEditId(cerId);
+  }
+
+  const handleAddPost = async () => {
+    if (!postDesc || !postHeading || !postImages) return;
+
+    const formData = new FormData();
+
+    formData.append("description", postDesc);
+    postImages.forEach((img, i) => {
+      formData.append("uploaded_images", img.file);
+    })
+
+
+    try{
+      const response = await apiFetch(`${BASE_URL}${ENDPOINTS.posts}`, {
+        method: "POST",
+        body: formData
+      })
+
+      let data = null;
+      try{
+        data = await response.json();
+      }
+      catch{
+        data = null;
+      }
+
+      if(!response.ok){
+        throw new Error(data.error);
+      }
+
+      await getProfileInfo();
+      setPostDesc("");
+      setPostImages([]);
+      setPostHeading("");
+      setShowPostPopup(false);
+    }
+    catch(err){
+      console.error(err);
+    }
+  }
+
+  const handleRemovePost = async postId => {
+    try{
+      const response = await apiFetch(`${BASE_URL}${ENDPOINTS.posts}${postId}/`, {
+        method: "DELETE"
+      })
+
+      if(!response.ok){
+        throw new Error("error przy usuwaniu postu")
+      }
+
+      await getProfileInfo()
+    }
+    catch(err){
+      console.error(err)
+    }
   }
 
   const advancedLevels = {
@@ -400,6 +481,14 @@ function EditProfile(){
       month: d.getMonth() + 1,
       year: d.getFullYear()
     };
+  }
+
+  const formatDate3 = date => {
+    return new Date(date).toLocaleDateString("pl-PL", {
+      day: "2-digit",
+      month: "long",
+      year: "numeric"
+    })
   }
 
   return(
@@ -578,6 +667,102 @@ function EditProfile(){
           </div>
         </>
       }
+      {showPostPopup &&
+        <>
+          <div style={{zIndex: 1112}} className="code-popup-overlay" onClick={() => setShowPostPopup(false)} />
+          <div style={{zIndex: 1113, width: "661px"}} className="code-popup">
+            <div className="code-popup-heading evd">
+              <div style={{width: "48px"}} className="popup1-box"><img style={{width: "20px", height: "20px"}} src={add} alt="" /></div>
+              <div>
+                <h3>Tworzenie postu</h3>
+                <p>Stwórz post</p>
+                <XMark 
+                  className="code-x" 
+                  style={{cursor: "pointer"}} 
+                  onClick={e => setShowPostPopup(false)}
+                />
+              </div>
+            </div>
+            <div className="code-content">
+              <div className="post-popup-input-box">
+                <label htmlFor="postHeading">Nagłówek</label>
+                <input 
+                  type="text"
+                  value={postHeading}
+                  onChange={e => setPostHeading(e.target.value)}
+                  name="postHeading"
+                  className="post-popup-input"
+                  id="post-heading"
+                />
+              </div>
+              <div className="post-popup-input-box">
+                <label htmlFor="postDesc">Treść</label>
+                <textarea 
+                  type="text"
+                  value={postDesc}
+                  onChange={e => setPostDesc(e.target.value)}
+                  name="postDesc"
+                  className="post-popup-input"
+                  id="post-desc"
+                  maxLength={250}
+                />
+                <span className="post-desc-counter">{postDesc.length || 0}/250</span>
+              </div>
+              <label htmlFor="post-images" style={{display: "block", marginBottom: "16px"}}>
+                <img 
+                  style={{display: "inline-block", marginRight: "8px"}} 
+                  src={cer6} 
+                  alt="" 
+                />
+                Zdjęcia
+              </label>
+              <div className="post-images-box">
+                <input 
+                  type="file"
+                  accept="image/*"
+                  hidden
+                  ref={postInputRef}
+                  onChange={handlePostImagesChange}
+                  name="post-images"
+                />
+                {postImages.length < 5 && 
+                  <div onClick={() => postInputRef.current.click()} className="add-post-box post-img">
+                    <span>+</span>
+                  </div>
+                }
+                <div className="post-images">
+                  {postImages.map((img, i) => (
+                    <div key={i} className="post-img-box">
+                      <img src={img.preview} className="post-image" alt="" />
+                      <div 
+                        onClick={() => handlePostImageDelete(i)}
+                        className="delete-post-image"
+                      >
+                        ✕
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <hr className="code-popup-line" />
+            <div className="code-popup-btns">
+              <button 
+                className="code-popup-btn cancel"
+                onClick={e => setShowPostPopup(false)}
+              >
+                Anuluj
+              </button>
+              <button 
+                className="code-popup-btn add"
+                onClick={handleAddPost}
+              >
+                Dodaj
+              </button>
+            </div>
+          </div>
+      </>
+    }
       <NavBar title="Ustawienia konta" route="Ustawienia konta" linkRoute="/strona-glowna"/>
       <SideBar />
       <main className="home-page-container profile-edit-container">
@@ -900,13 +1085,34 @@ function EditProfile(){
                 <div className="medias">
                   {mediaType === "posts" &&
                     <div className="posts-box">
-                      <div onClick={() => alert("dodano")} className="add-post-box">
+                      <div onClick={() => setShowPostPopup(true)} className="add-post-box">
                         <span>+</span>
                       </div>
                       <div className="posts">
                         {profileData?.posts?.map((post, i) => (
                           <div key={i} className="post">
-                            <img src={post.images[0].image || empty} alt="post-image" className="post-img" />
+                            <img className="post-img2" src={post.images[0].image} alt="" />
+                            <div className="post-content">
+                              <div className="post-profile-box">
+                                <img src={profileData?.img_profile} alt="" className="post-pfp" />
+                                <div className="post-pfp-text">
+                                  <span className="post-pfp-name">{profileData?.profile?.name} {profileData?.profile?.surname}</span>
+                                  <span className="post-date">{formatDate3(post.date)}</span>
+                                </div>
+                              </div>
+                              <div className="post-text-box">
+                                <h4 className="post-title">{post.title || "Brak tytułu"}</h4>
+                                <p className="post-desc">
+                                  {post.description.slice(0, 130) || "Brak opisu"}{post.description.length > 130 && <span style={{color: "var(--primary-orange)", cursor: "pointer", fontWeight: "bold"}}>&nbsp;Czytaj więcej</span>}
+                                </p>
+                              </div>
+                              <hr className="post-line" />
+                              <span className="post-likes"><img src={like} alt="" /> {post.likes}</span>
+                              <button onClick={() => handleRemovePost(post.id)} className="edit-pr-action-btn post">
+                                Usuń
+                                <img src={addIcon} />
+                              </button>
+                            </div>
                           </div>
                         ))}
                         {profileData?.posts?.length === 0 && <h3 className="no-trainers-text">Brak postów, stwórz nowy!</h3>}
@@ -921,7 +1127,7 @@ function EditProfile(){
                       <div className="pr-images">
                         {albums.map((img, i) => (
                           <div key={i} className="pr-image">
-                            <img src={img.img || empty} alt="img-image" className="img-img" />
+                            <img src={img.img} alt="img-image" className="img-img" />
                           </div>
                         ))}
                         {albums.length === 0 && <h3 className="no-trainers-text">Brak albumów, stwórz nowy!</h3>}

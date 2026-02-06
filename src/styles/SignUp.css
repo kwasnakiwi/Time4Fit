@@ -1,19 +1,14 @@
 :root{
     --clr-primary: #F37900;
-    --clr-backgorund: #282828;
-}
-
-body{
-    margin: 0;
-    font-family: Poppins;
+    --clr-background: #282828;
 }
 .main-container{
-    height: 100vh;
+    min-height: 100vh;
     background-image: url(/src/assets/images/background.png);
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
-    background-color: var(--clr-backgorund);
+    background-color: var(--clr-background);
     display: flex;
     justify-content: right;
 }
@@ -22,7 +17,7 @@ body{
     max-width: 725px;
     padding: 30px 40px;
     border-radius: 31px;
-    margin: 35px 35px 35px 35px;
+    margin: 35px;
     box-shadow: -5px 5px 20px 0 rgba(0, 0, 0, 0.25);
     min-height: 815px;
     width: 645px;

@@ -110,7 +110,7 @@ function SignUp() {
           </div>
 
           <div className="forgot-password-box">
-            <Link to="/forgot-password" className='forgot-password'>Zapomniałem hasła</Link>
+            <Link to="/zapomnialem-hasla" className='forgot-password'>Zapomniałem hasła</Link>
           </div>
 
           <button
