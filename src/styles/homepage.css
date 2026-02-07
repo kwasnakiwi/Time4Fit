@@ -240,7 +240,7 @@ body{
     color: var(--primary-orange);
     border-radius: 26px;
     background: transparent;
-    z-index: 1111;
+    z-index: 1;
 }
 .rec-event-information::before{
     content: "";

@@ -48,10 +48,11 @@
 .profile-second{
   display: grid;
   grid-template-columns: 1.5fr 1fr;
-  grid-template-rows: 263px 425px;
+  grid-template-rows: 263px 425px 600px;
   grid-template-areas: 
       "desc list"
-      "awards events";
+      "awards events"
+      "medias medias";
   gap: 20px;
 }
 .profile{
@@ -420,7 +421,8 @@
   .profile-second{
     grid-template-areas: 
         "desc list"
-        "awards events";
+        "awards events"
+        "medias medias";
     grid-template-rows: 205px 313px;
     .recomended-events{
       max-height: calc(313px - 85px);
@@ -527,7 +529,6 @@
   display: flex;
   align-items: center;
   width: 100%;
-  max-width: 1418px;
   gap: 14px;
 }
 .add-post-box{
@@ -574,12 +575,14 @@
   }
 }
 .posts{
-  width: 1000px;
+  width: calc(100% - 140px);
   display: flex;
   gap: 14px;
   overflow-x: auto;
   overflow-y: hidden;
   scrollbar-width: none;
+  padding: 10px;
+  padding-left: 0;
   & .post{
     flex-shrink: 0;
   }
@@ -591,6 +594,18 @@
   border-radius: 14px;
   box-shadow: 1.65px 1.65px 3.3px 0 rgba(0, 0, 0, 0.25);
   position: relative;
+  outline: 1px solid transparent;
+  cursor: pointer;
+  transition: 
+    transform 0.2s ease,
+    outline 0.2s ease;
+  &:hover{
+    transform: translateY(-2px);
+    outline: 1px solid var(--primary-orange);
+  }
+  &:first-child{
+    margin-left: 1px;
+  }
 }
 .images-box{
   width: 100%;
