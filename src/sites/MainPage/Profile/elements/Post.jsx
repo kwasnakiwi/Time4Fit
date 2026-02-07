@@ -18,6 +18,7 @@ function Post({
   handleRemovePost,
 }) {
   const [showPostPupup, setShowPostPopup] = useState(false);
+  const [isDeleteHovered, setIsDeleteHovered] = useState(false);
 
   const formatDate = (date) => {
     return new Date(date).toLocaleDateString("pl-PL", {
@@ -26,6 +27,7 @@ function Post({
       year: "numeric",
     });
   };
+
 
   return (
     <>
@@ -47,7 +49,7 @@ function Post({
       <div
         className="post"
         onClick={() => {
-          setShowPostPopup(true);
+          if (!isDeleteHovered) setShowPostPopup(true);
         }}
       >
         <img className="post-img2" src={images[0].image} alt="" />
@@ -64,7 +66,8 @@ function Post({
           <div className="post-text-box">
             <h4 className="post-title">{title || "Brak tytułu"}</h4>
             <p className="post-desc">
-              {desc.slice(0, 130) || "Brak opisu"}
+              {desc.slice(0, 130) + (desc.length > 130 ? "..." : "") ||
+                "Brak opisu"}
               {desc.length > 130 && (
                 <span
                   style={{
@@ -85,6 +88,8 @@ function Post({
           <button
             onClick={() => handleRemovePost(id)}
             className="edit-pr-action-btn post"
+            onMouseOver={() => setIsDeleteHovered(true)}
+            onMouseOut={() => setIsDeleteHovered(false)}
           >
             Usuń
             <img src={addIcon} />

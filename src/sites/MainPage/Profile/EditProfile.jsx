@@ -1322,7 +1322,7 @@ function EditProfile() {
                   )}
                 </div>
               </div>
-              <section className="profile-media" style={{gridArea: "medias"}}>
+              <section className="profile-media" style={{ gridArea: "medias" }}>
                 <div className="profile-panel">
                   <h2 className="recomendation-title">
                     <img src={pr3} alt="zdj" id="pr3" />

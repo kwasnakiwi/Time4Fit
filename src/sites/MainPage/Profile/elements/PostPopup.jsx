@@ -1,5 +1,6 @@
 import like from "./../../../../assets/images/like.png";
 import "./../../../../styles/popup.css";
+import { useEffect } from "react";
 
 function PostPopup({
   pfpImage,
@@ -20,10 +21,26 @@ function PostPopup({
     });
   };
 
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        setShowPostPopup(false);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
   return (
     <>
-      <div className="post-popup-back-overlay" />
-      <span className="close-post-popup" onClick={() => setShowPostPopup(false)}>✕</span>
+      <div
+        className="post-popup-back-overlay"
+        onClick={() => setShowPostPopup(false)}
+      />
       <div className="post-popup">
         <img
           className="post-popup-img"
