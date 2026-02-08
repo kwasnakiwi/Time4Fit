@@ -15,4 +15,5 @@ export const ENDPOINTS = {
     trainerCertyficates: "/user_profile/trainer-certyficates/",
     trainerFullProfile: "/user_profile/trainer-full-profile/",
     trainerProfiles: "/user_profile/trainer-profiles/",
+    trainersList: "/user_profile/trainers-list/",
 }
