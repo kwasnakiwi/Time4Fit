@@ -4,6 +4,8 @@ import like from "./../../../../assets/images/like.png";
 import { useState } from "react";
 import PostPopup from "./PostPopup.jsx";
 import { createPortal } from "react-dom";
+import { apiFetch } from "../../../../interceptor/interceptor.jsx";
+import { BASE_URL, ENDPOINTS } from "../../../../utils/Endopoints.jsx";
 
 function Post({
   id,
@@ -15,7 +17,7 @@ function Post({
   date,
   images,
   likes,
-  handleRemovePost,
+  getProfileInfo,
 }) {
   const [showPostPupup, setShowPostPopup] = useState(false);
   const [isDeleteHovered, setIsDeleteHovered] = useState(false);
@@ -28,6 +30,24 @@ function Post({
     });
   };
 
+  const handleRemovePost = async (postId) => {
+    try {
+      const response = await apiFetch(
+        `${BASE_URL}${ENDPOINTS.posts}${postId}/`,
+        {
+          method: "DELETE",
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error("error przy usuwaniu postu");
+      }
+
+      await getProfileInfo();
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
     <>

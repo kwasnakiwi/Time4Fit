@@ -580,12 +580,24 @@
   gap: 14px;
   overflow-x: auto;
   overflow-y: hidden;
-  scrollbar-width: none;
   padding: 10px;
   padding-left: 0;
   & .post{
     flex-shrink: 0;
   }
+}
+.posts::-webkit-scrollbar{
+    height: 8px;
+}
+/* Tło paska (track) */
+.posts::-webkit-scrollbar-track{
+    background: var(--primary-grey);
+    border-radius: 10px;
+}
+/* Uchwyt paska (thumb) */
+.posts::-webkit-scrollbar-thumb{
+    background: var(--main-gradient);
+    border-radius: 10px;
 }
 .post{
   width: 345px;
@@ -639,6 +651,7 @@
   width: 100%;
   height: 206px;
   object-fit: cover;
+  object-position: top;
   background-color: white;
   border-radius: 14px 14px 0 0;
 }

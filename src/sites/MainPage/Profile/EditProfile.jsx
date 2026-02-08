@@ -70,6 +70,8 @@ import add from "./../../../assets/images/add_ic.png";
 import popup1 from "./../../../assets/images/popup1.png";
 import like from "./../../../assets/images/like.png";
 import { UserContext } from "../../../utils/UserContext.jsx";
+import { createPortal } from "react-dom";
+import EditProfileModal from "./elements/EditProfileModal.jsx";
 
 function EditProfile() {
   const { me, refetchMe } = useContext(UserContext);
@@ -91,19 +93,16 @@ function EditProfile() {
   const [cerImages, setCerImages] = useState([]);
   const [cerEdit, setCerEdit] = useState(false);
   const [cerEditId, setCerEditId] = useState(null);
-  const [pickSpecializationEdit, setPickSpecializationEdit] = useState({
-    isEditing: false,
-    value: "",
-  });
-  const [descEdit, setDescEdit] = useState({ isEditing: false, value: "" });
-  const [specializationsEdit, setSpecializationEdit] = useState({
-    isEditing: false,
-    value: "",
-  });
+  const [pickSpecializationEdit, setPickSpecializationEdit] = useState("");
+  const [descEdit, setDescEdit] = useState();
+  const [specializationsEdit, setSpecializationEdit] = useState();
   const [showPostPopup, setShowPostPopup] = useState(false);
   const [postHeading, setPostHeading] = useState("");
   const [postDesc, setPostDesc] = useState("");
   const [postImages, setPostImages] = useState([]);
+  const [showEditModal1, setShowEditModal1] = useState(false);
+  const [showEditModal2, setShowEditModal2] = useState(false);
+  const [showEditModal3, setShowEditModal3] = useState(false);
   const navigate = useNavigate();
 
   const cerInputRef = useRef(null);
@@ -468,25 +467,6 @@ function EditProfile() {
     }
   };
 
-  const handleRemovePost = async (postId) => {
-    try {
-      const response = await apiFetch(
-        `${BASE_URL}${ENDPOINTS.posts}${postId}/`,
-        {
-          method: "DELETE",
-        },
-      );
-
-      if (!response.ok) {
-        throw new Error("error przy usuwaniu postu");
-      }
-
-      await getProfileInfo();
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   const advancedLevels = {
     beginner: "Początkujący",
     "semi-advanced": "Średniozaawansowany",
@@ -831,6 +811,54 @@ function EditProfile() {
           </div>
         </>
       )}
+      {showEditModal1 &&
+        createPortal(
+          <EditProfileModal
+            setShowModal={setShowEditModal1}
+            heading="Zmiana prowadzonych zajęć"
+            title="Prowadzi"
+            type="input"
+            value={pickSpecializationEdit}
+            setValue={setPickSpecializationEdit}
+            maxLength={50}
+            trainerId={userData?.trainer_id}
+            field="pick_specialization"
+            getProfileInfo={getProfileInfo}
+          />,
+          document.body,
+        )}
+      {showEditModal2 &&
+        createPortal(
+          <EditProfileModal
+            setShowModal={setShowEditModal2}
+            heading="Zmiana opisu"
+            title="Opis"
+            type="textarea"
+            value={descEdit}
+            setValue={setDescEdit}
+            maxLength={300}
+            trainerId={userData?.trainer_id}
+            field="description"
+            getProfileInfo={getProfileInfo}
+          />,
+          document.body,
+        )}
+      {showEditModal3 &&
+        createPortal(
+          <EditProfileModal
+            setShowModal={setShowEditModal3}
+            heading="Zmiana specjalizacji"
+            title="Specializacje"
+            type="textarea"
+            value={specializationsEdit}
+            setValue={setSpecializationEdit}
+            maxLength={300}
+            trainerId={userData?.trainer_id}
+            field="specializations"
+            getProfileInfo={getProfileInfo}
+          />,
+          document.body,
+        )}
       <NavBar
         title="Ustawienia konta"
         route="Ustawienia konta"
@@ -1020,44 +1048,18 @@ function EditProfile() {
                 <div className="pr-panel-contact-text">
                   <span className="contact-text-title">Prowadzi</span>
                   <br />
-                  {!pickSpecializationEdit.isEditing ? (
-                    <span className="contact-text-value">
-                      {profileData?.pick_specialization}
-                    </span>
-                  ) : (
-                    <input
-                      type="text"
-                      value={
-                        pickSpecializationEdit.value ||
-                        profileData?.pick_specialization
-                      }
-                      className="edit-profile-input"
-                      onChange={(e) =>
-                        setPickSpecializationEdit((prev) => ({
-                          ...prev,
-                          value: e.target.value,
-                        }))
-                      }
-                    />
-                  )}
+                  <span className="contact-text-value">
+                    {profileData?.pick_specialization}
+                  </span>
                 </div>
                 <button
                   onClick={() => {
-                    !pickSpecializationEdit.isEditing
-                      ? setPickSpecializationEdit((prev) => ({
-                          ...prev,
-                          isEditing: true,
-                        }))
-                      : handleEditProfileField(
-                          "pick_specialization",
-                          pickSpecializationEdit.value ||
-                            profileData?.pick_specialization,
-                        );
+                    setShowEditModal1(true);
                   }}
                   style={{ top: "10px" }}
                   className="edit-pr-action-btn"
                 >
-                  {pickSpecializationEdit.isEditing ? "Zapisz" : "Edytuj"}
+                  Edytuj
                   <img src={editIcon} />
                 </button>
               </div>
@@ -1098,34 +1100,12 @@ function EditProfile() {
                   <img src={pr1} alt="zdj" id="pr1" />
                   Opis profilu
                 </h2>
-                {!descEdit.isEditing ? (
-                  <p className="profile-desc">{profileData?.description}</p>
-                ) : (
-                  <textarea
-                    type="text"
-                    value={descEdit.value || profileData?.description}
-                    className="edit-profile-input"
-                    id="desc"
-                    onChange={(e) =>
-                      setDescEdit((prev) => ({
-                        ...prev,
-                        value: e.target.value,
-                      }))
-                    }
-                  />
-                )}
+                <p className="profile-desc">{profileData?.description}</p>
                 <button
-                  onClick={() => {
-                    !descEdit.isEditing
-                      ? setDescEdit((prev) => ({ ...prev, isEditing: true }))
-                      : handleEditProfileField(
-                          "description",
-                          descEdit.value || profileData?.description,
-                        );
-                  }}
+                  onClick={() => setShowEditModal2(true)}
                   className="edit-pr-action-btn"
                 >
-                  {descEdit.isEditing ? "Zapisz" : "Edytuj"}
+                  Edytuj
                   <img src={editIcon} />
                 </button>
               </div>
@@ -1134,40 +1114,12 @@ function EditProfile() {
                   <img src={pr2} alt="zdj" id="pr2" />
                   Specjalizacje
                 </h2>
-                {!specializationsEdit.isEditing ? (
-                  <p className="profile-desc">{profileData?.specializations}</p>
-                ) : (
-                  <textarea
-                    type="text"
-                    value={
-                      specializationsEdit.value || profileData?.specializations
-                    }
-                    className="edit-profile-input"
-                    id="spec"
-                    onChange={(e) =>
-                      setSpecializationEdit((prev) => ({
-                        ...prev,
-                        value: e.target.value,
-                      }))
-                    }
-                  />
-                )}
+                <p className="profile-desc">{profileData?.specializations}</p>
                 <button
-                  onClick={() => {
-                    !specializationsEdit.isEditing
-                      ? setSpecializationEdit((prev) => ({
-                          ...prev,
-                          isEditing: true,
-                        }))
-                      : handleEditProfileField(
-                          "specializations",
-                          specializationsEdit.value ||
-                            profileData?.specializations,
-                        );
-                  }}
+                  onClick={() => setShowEditModal3(true)}
                   className="edit-pr-action-btn"
                 >
-                  {specializationsEdit.isEditing ? "Zapisz" : "Edytuj"}
+                  Edytuj
                   <img src={editIcon} />
                 </button>
               </div>
@@ -1352,7 +1304,14 @@ function EditProfile() {
                           >
                             <span>+</span>
                           </div>
-                          <div className="posts">
+                          <div
+                            className="posts"
+                            style={
+                              profileData?.posts?.length === 0
+                                ? { justifyContent: "center" }
+                                : undefined
+                            }
+                          >
                             {profileData?.posts?.map((post, i) => (
                               <Post
                                 key={i}
@@ -1365,7 +1324,7 @@ function EditProfile() {
                                 date={post.date}
                                 images={post.images}
                                 likes={post.likes}
-                                handleRemovePost={handleRemovePost}
+                                getProfileInfo={getProfileInfo}
                               />
                             ))}
                             {profileData?.posts?.length === 0 && (
