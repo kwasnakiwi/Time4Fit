@@ -48,7 +48,7 @@
 .profile-second{
   display: grid;
   grid-template-columns: 1.5fr 1fr;
-  grid-template-rows: 263px 425px 600px;
+  grid-template-rows: 263px 345px 633px;
   grid-template-areas: 
       "desc list"
       "awards events"
@@ -74,6 +74,10 @@
 }
 .pfp-site img{
   height: 79px;
+  width: 83px;
+  border-radius: 8px;
+  object-fit: cover;
+  object-position: center;
 }
 .pfp-site-name{
   font-size: 24px;
@@ -213,7 +217,10 @@
   font-size: 16px;
 }
 .cer-img{
-  margin: 16px 0;
+  margin: 16px 8px;
+  max-width: 25%;
+  height: 109px;
+  object-fit: cover;
 }
 .certificates-line{
   border: 1px solid #74747450;
@@ -222,7 +229,7 @@
   position: relative;
 }
 .profile-panel .recomended-events{
-  max-height: calc(425px - 67px - 16px);
+  max-height: calc(345px - 67px - 16px);
 }
 .cer-btns{
   display: flex;
@@ -361,6 +368,10 @@
     background: var(--main-gradient);
     border-radius: 10px;
 }
+.pbl .posts{
+  width: auto;
+}
+
 /* edit */
 
 .home-page-container.profile-edit-container{
@@ -422,8 +433,9 @@
     grid-template-areas: 
         "desc list"
         "awards events"
-        "medias medias";
-    grid-template-rows: 205px 313px;
+        "medias medias"
+        "custom custom";
+    grid-template-rows: 205px 313px 605px 69px;
     .recomended-events{
       max-height: calc(313px - 85px);
     }

@@ -62,7 +62,6 @@ function App() {
           />
           <Route path="/eventy/zaproszenie" element={<EventInvitation />} />
           <Route path="/strona-glowna" element={<HomePage />} />
-          <Route path="/profil" element={<PublicProfile />} />
           <Route path="/profil/edycja" element={<EditProfile />} />
           <Route
             path="/profil/edycja/stworz-profil-trenera"
@@ -92,6 +91,7 @@ function App() {
             element={
               <Routes>
                 <Route path="" element={<TrainerList />} />
+                <Route path=":trainerId" element={<PublicProfile />} />
               </Routes>
             }
           />

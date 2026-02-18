@@ -18,6 +18,7 @@ function Post({
   images,
   likes,
   getProfileInfo,
+  isCreator,
 }) {
   const [showPostPupup, setShowPostPopup] = useState(false);
   const [isDeleteHovered, setIsDeleteHovered] = useState(false);
@@ -105,15 +106,17 @@ function Post({
           <span className="post-likes">
             <img src={like} alt="" /> {likes}
           </span>
-          <button
-            onClick={() => handleRemovePost(id)}
-            className="edit-pr-action-btn post"
-            onMouseOver={() => setIsDeleteHovered(true)}
-            onMouseOut={() => setIsDeleteHovered(false)}
-          >
-            Usuń
-            <img src={addIcon} />
-          </button>
+          {isCreator && (
+            <button
+              onClick={() => handleRemovePost(id)}
+              className="edit-pr-action-btn post"
+              onMouseOver={() => setIsDeleteHovered(true)}
+              onMouseOut={() => setIsDeleteHovered(false)}
+            >
+              Usuń
+              <img src={addIcon} />
+            </button>
+          )}
         </div>
       </div>
     </>
