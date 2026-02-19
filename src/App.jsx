@@ -24,6 +24,7 @@ import AddPlace from "./sites/MainPage/Places/AddPlace.jsx";
 import PlacesMenu from "./sites/T4B/PlacesMenu.jsx";
 import CreateTrainerProfile from "./sites/MainPage/Profile/CreateTrainerProfile.jsx";
 import TrainerList from "./sites/MainPage/TrainerList/TrainerList.jsx";
+import ProductsList from "./sites/MainPage/Diets/Products/ProductsList.jsx";
 
 function App() {
   return (
@@ -92,6 +93,14 @@ function App() {
               <Routes>
                 <Route path="" element={<TrainerList />} />
                 <Route path=":trainerId" element={<PublicProfile />} />
+              </Routes>
+            }
+          />
+          <Route
+            path="/produkty/*"
+            element={
+              <Routes>
+                <Route path="" element={<ProductsList />} />
               </Routes>
             }
           />

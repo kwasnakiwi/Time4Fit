@@ -19,7 +19,7 @@ function Data({ me, refetchMe, userData }) {
               {userData.name} {userData.surname}
             </h2>
             <span className="ud-user-status">
-              {!me?.subscription ? "Użytkownik" : me.subscription.plan_name}
+              {!me?.subscription ? "Użytkownik" : me.subscription.plan_name} 
             </span>
           </div>
         </section>

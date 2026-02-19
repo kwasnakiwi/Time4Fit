@@ -1,0 +1,299 @@
+:root {
+  --main-gradient: linear-gradient(
+    90deg,
+    #e96d00 0%,
+    #f98017 39%,
+    #f59745 100%
+  );
+  --purple-gradient: linear-gradient(
+    90deg,
+    #ca00e9 12%,
+    #f917f6 76%,
+    #de45f5 100%
+  );
+  --blue-gradient: linear-gradient(
+    90deg,
+    #0052e9 0%,
+    #1766f9 39%,
+    #4582f5 100%
+  );
+  --green-gradient: linear-gradient(
+    90deg,
+    #13e900 0%,
+    #22f917 39%,
+    #53f545 100%
+  );
+  --primary-orange: #e96d00;
+  --clr-secondary: #ffe6d0;
+  --text-secondery: #1e2a38;
+  --primary-grey: #747474;
+  --clr-red: #b71c1c;
+  --bg-red: #fdecea;
+  --clr-green: #2e7d32;
+  --bg-green: #e8f5e9;
+  --clr-red2: #e80101;
+  --bg-red2: #ffd0d0;
+
+  --clr-red3: #c10007;
+  --bg-red3: #fef2f2;
+
+  --clr-purple: #bb15fc;
+  --bg-purple: #f4e8fc;
+  --bold-purple: #531c8e;
+
+  --clr-blue: #155dfc;
+  --bg-blue: #e7eefc;
+  --bold-blue: #1c398e;
+
+  --clr-yellow: #e27100;
+  --bg-yellow: #f9f0e8;
+  --bold-yellow: #7b3306;
+
+  --clr-green2: #00a63e;
+  --bg-green2: #e6f5ec;
+  --bold-green: #0d542b;
+}
+.product-filters {
+  padding: 20px;
+  .top {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+.product-left-filters {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+}
+.filter-wrapper {
+  position: relative;
+  width: 100%;
+  .arrow {
+    position: absolute;
+    right: 14px;
+    top: 8px;
+  }
+  .p-search-icon {
+    position: absolute;
+    left: 14px;
+    top: 8px;
+    color: var(--primary-grey);
+  }
+  &:has(.p-filter-input[name="pSearch"]) {
+    max-width: 300px;
+  }
+  &:has(.p-filter-input[name="pMacro"]) {
+    max-width: 240px;
+  }
+  &:has(.p-filter-input[name="pAlergens"]) {
+    max-width: 115px;
+  }
+}
+select.p-filter-input {
+  cursor: pointer;
+  outline: none;
+  box-shadow: none;
+  &:focus {
+    outline: 2px solid black;
+  }
+}
+.p-filter-input {
+  font-size: 14px;
+  box-sizing: border-box;
+  height: 33px;
+  border: 1px solid #74747475;
+  border-radius: 8px;
+  padding: 4px 30px 4px 14px;
+  appearance: none;
+  width: 100%;
+}
+.filter-wrapper:has(.p-search-icon) .p-filter-input {
+  padding: 4px 14px 4px 40px;
+}
+.add-product-wrapper {
+  width: 100%;
+  max-width: 160px;
+}
+.add-product-btn {
+  color: white;
+  background: var(--main-gradient);
+  border-radius: 43px;
+  box-sizing: border-box;
+  padding: 6px 14px;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.bottom {
+  margin-top: 20px;
+  display: flex;
+  gap: 12px;
+}
+.product-category {
+  border: 1px solid var(--primary-grey);
+  border-radius: 8px;
+  padding: 6px 20px;
+  font-size: 14px;
+  color: var(--primary-grey);
+  background: white;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    border 0.2s ease,
+    transform 0.2s ease;
+  &:hover {
+    transform: translateY(-2px);
+  }
+  &.selected {
+    color: white;
+    background: var(--main-gradient);
+    border: 1px solid transparent;
+  }
+}
+.products {
+  margin: 0 20px;
+}
+
+/* product */
+
+.product {
+  padding: 10px 20px;
+  background-color: white;
+  box-shadow: 2px 2px 8px 0 rgba(0, 0, 0, 0.25);
+  border: 1px solid #e1e1e1;
+  border-radius: 15.71px;
+  position: relative;
+  &:not(:last-child) {
+    margin-bottom: 10px;
+  }
+}
+.product-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+}
+.product-allergens {
+  display: flex;
+  gap: 12px;
+  margin: 13px 0;
+}
+.product-allergens-text {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--clr-red3);
+  background-color: var(--bg-red3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 4px 10px;
+  border-radius: 7px;
+  border: 1px solid var(--clr-red3);
+}
+.product-allergen {
+  font-size: 12px;
+  color: var(--clr-red3);
+  background-color: var(--bg-red3);
+  padding: 4px 10px;
+  border-radius: 7px;
+}
+.product-nutrients {
+  display: flex;
+  gap: 16px;
+}
+.product-nutrient {
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 4px 10px;
+  border-radius: 7px;
+  span {
+    font-weight: 600;
+  }
+  &.purple {
+    color: var(--clr-purple);
+    background-color: var(--bg-purple);
+    border: 1px solid var(--clr-purple);
+    span {
+      color: var(--bold-purple);
+    }
+  }
+  &.blue {
+    color: var(--clr-blue);
+    background-color: var(--bg-blue);
+    border: 1px solid var(--clr-blue);
+    span {
+      color: var(--bold-blue);
+    }
+  }
+  &.yellow {
+    color: var(--clr-yellow);
+    background-color: var(--bg-yellow);
+    border: 1px solid var(--clr-yellow);
+    span {
+      color: var(--bold-yellow);
+    }
+  }
+  &.green {
+    color: var(--clr-green2);
+    background-color: var(--bg-green2);
+    border: 1px solid var(--clr-green2);
+    span {
+      color: var(--bold-green);
+    }
+  }
+}
+.product-info{
+  position: absolute;
+  right: 20px;
+  bottom: 10px;
+  display: flex;
+  gap: 12px;
+}
+.product-category-name{
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--clr-green2);
+  background-color: var(--bg-green2);
+  border: 1px solid var(--clr-green2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 4px 10px;
+  border-radius: 8px;
+}
+.product-packaging{
+  font-size: 14px;
+  font-weight: 500;
+  color: #364153;
+  padding: 4px 10px;
+  background-color: #F3F4F6;
+  border: 1px solid #C5C6C7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  border-radius: 8px;
+}
+.product-actions{
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  img{
+    cursor: pointer;
+  }
+}

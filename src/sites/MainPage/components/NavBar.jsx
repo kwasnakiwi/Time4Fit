@@ -47,10 +47,10 @@ function NavBar(props) {
             className={`notification-icon ${props.ist4b ? "t4b" : ""}`}
             onMouseEnter={handleBellHover}
           />
-        } 
+        }
         {!props.isNotProfileVisible &&
           <Link to={'/profil/edycja'} style={{color: "black", textDecoration: 'none'}}><div className="profile-box-container">
-            <div className="profile-box" onClick={() => setShowPopup(!showPopup)}>
+            <div className="profile-box">
               <img src={pfp} alt="Profile" />
               <div className="name-data">
                 <h4 className="name-data-text bold">{me.profile.name} {me.profile.surname}</h4>
