@@ -16,25 +16,12 @@ function Product({
   packagingType,
   packagingSize,
   packagingMetric,
-  barcode,
-  allergens,
   nutrients,
 }) {
   return (
     <>
       <div className="product">
         <h2 className="product-title">{title}</h2>
-        <div className="product-allergens">
-          <span className="product-allergens-text">
-            <img src={warn} alt="" />
-            Alergeny
-          </span>
-          {allergens.map((al, i) => (
-            <span key={i} className="product-allergen">
-              {al.name}
-            </span>
-          ))}
-        </div>
         <div className="product-nutrients">
           <span className="product-nutrient purple">
             <img src={nut1} alt="" />

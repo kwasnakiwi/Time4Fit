@@ -10,11 +10,14 @@ import {
 import { apiFetch } from "../../../../interceptor/interceptor.jsx";
 import { BASE_URL, ENDPOINTS } from "../../../../utils/Endopoints.jsx";
 import Product from "../elements/Product.jsx";
+import { createPortal } from "react-dom";
+import AddProductModal from "../elements/AddProductModal.jsx";
 
 function ProductsList() {
   const [products, setProducts] = useState([]);
   const [search, setSearch] = useState("");
   const [productsCategory, setProductsCategory] = useState("all");
+  const [showAddProductModal, setShowAddProductModal] = useState(false);
 
   const getProducts = async () => {
     try {
@@ -45,11 +48,19 @@ function ProductsList() {
   }, []);
 
   const handleClickAddProductButton = () => {
-    return;
+    setShowAddProductModal(true);
   };
 
   return (
     <>
+      {showAddProductModal &&
+        createPortal(
+          <AddProductModal
+            setShowModal={setShowAddProductModal}
+            setProducts={setProducts}
+          />,
+          document.body,
+        )}
       <NavBar title="Lista produktów" route="Lista produktów" />
       <SideBar />
       <main className="home-page-container">
@@ -140,7 +151,7 @@ function ProductsList() {
           </div>
         </header>
         <section className="products">
-          {[1, 2, 3, 4].map((pr, i) => (
+          {products.map((pr, i) => (
             <Product
               key={i}
               title={pr.title || "Bez nazwy"}
@@ -149,27 +160,6 @@ function ProductsList() {
               packagingType={pr.packaging_type || "Opakowanie"}
               packagingSize={pr.packaging_size || 32}
               packagingMetric={pr.packaging_metric || "g"}
-              barcode={pr.barcode || "code"}
-              allergens={
-                pr.allergens || [
-                  {
-                    id: 1,
-                    name: "Gluten",
-                  },
-                  {
-                    id: 2,
-                    name: "Laktoza",
-                  },
-                ]
-              }
-              nutrients={
-                pr.nutrients || {
-                  kcal: 17,
-                  protein: 87,
-                  fat: 89,
-                  carbohydrates: 119,
-                }
-              }
             />
           ))}
         </section>

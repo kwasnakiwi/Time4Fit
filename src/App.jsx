@@ -25,6 +25,7 @@ import PlacesMenu from "./sites/T4B/PlacesMenu.jsx";
 import CreateTrainerProfile from "./sites/MainPage/Profile/CreateTrainerProfile.jsx";
 import TrainerList from "./sites/MainPage/TrainerList/TrainerList.jsx";
 import ProductsList from "./sites/MainPage/Diets/Products/ProductsList.jsx";
+import DishesList from "./sites/MainPage/Diets/Dishes/DishesList.jsx";
 
 function App() {
   return (
@@ -101,6 +102,14 @@ function App() {
             element={
               <Routes>
                 <Route path="" element={<ProductsList />} />
+              </Routes>
+            }
+          />
+          <Route 
+            path="/dania/*"
+            element={
+              <Routes>
+                <Route path="" element={<DishesList />} />
               </Routes>
             }
           />

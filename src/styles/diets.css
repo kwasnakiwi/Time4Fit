@@ -23,6 +23,7 @@
     #22f917 39%,
     #53f545 100%
   );
+  --dark-purple-gradient: linear-gradient(90deg, #7c3aed 25%, #9333ea 100%);
   --primary-orange: #e96d00;
   --clr-secondary: #ffe6d0;
   --text-secondery: #1e2a38;
@@ -45,6 +46,9 @@
   --bg-blue: #e7eefc;
   --bold-blue: #1c398e;
 
+  --clr-cyan: #00ced5;
+  --bg-cyan: #e8f5fc;
+
   --clr-yellow: #e27100;
   --bg-yellow: #f9f0e8;
   --bold-yellow: #7b3306;
@@ -52,6 +56,9 @@
   --clr-green2: #00a63e;
   --bg-green2: #e6f5ec;
   --bold-green: #0d542b;
+
+  --border-blue: #dbeafe;
+  --bg-blue2: #eff6ff;
 }
 .product-filters {
   padding: 20px;
@@ -178,11 +185,12 @@ select.p-filter-input {
   font-size: 18px;
   font-weight: 600;
   margin: 0;
+  margin-bottom: 14px;
 }
 .product-allergens {
   display: flex;
   gap: 12px;
-  margin: 13px 0;
+  margin: 14px 0;
 }
 .product-allergens-text {
   font-size: 12px;
@@ -252,14 +260,14 @@ select.p-filter-input {
     }
   }
 }
-.product-info{
+.product-info {
   position: absolute;
   right: 20px;
   bottom: 10px;
   display: flex;
   gap: 12px;
 }
-.product-category-name{
+.product-category-name {
   font-size: 12px;
   font-weight: 500;
   color: var(--clr-green2);
@@ -272,20 +280,20 @@ select.p-filter-input {
   padding: 4px 10px;
   border-radius: 8px;
 }
-.product-packaging{
+.product-packaging {
   font-size: 14px;
   font-weight: 500;
   color: #364153;
   padding: 4px 10px;
-  background-color: #F3F4F6;
-  border: 1px solid #C5C6C7;
+  background-color: #f3f4f6;
+  border: 1px solid #c5c6c7;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 12px;
   border-radius: 8px;
 }
-.product-actions{
+.product-actions {
   position: absolute;
   top: 10px;
   right: 20px;
@@ -293,7 +301,10 @@ select.p-filter-input {
   justify-content: center;
   align-items: center;
   gap: 12px;
-  img{
+  img {
     cursor: pointer;
   }
 }
+
+/* dishes */
+

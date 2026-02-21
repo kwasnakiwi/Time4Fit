@@ -18,4 +18,8 @@ export const ENDPOINTS = {
   trainersList: "/user_profile/trainers-list/",
   dietListGlobalProduct: "/diet/list-global-product/",
   dietListMyProduct: "/diet/list-my-product/",
+  dietCreateProduct: "/diet/create-product/",
+  dietMyProducts: "/diet/my-products/",
+  dietAllergensHelper: "/diet/allergens-helper/",
+  dietCategoryHelper: "/diet/category-helper/",
 };
