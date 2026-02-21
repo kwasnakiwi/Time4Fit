@@ -69,12 +69,12 @@ function SideBar({ ist4b }) {
           <img
             style={{ maxHeight: "22px" }}
             src={
-              location.pathname.startsWith("/dania")
+              location.pathname.startsWith("/potrawy")
                 ? eventsIconSelected
                 : eventsIcon
             }
-            className={`sidebar-icon icon ${location.pathname == "/dania" ? "sidebar-selected" : ""} ${ist4b ? "t4b" : ""}`}
-            onClick={() => navigate("/dania")}
+            className={`sidebar-icon icon ${location.pathname == "/potrawy" ? "sidebar-selected" : ""} ${ist4b ? "t4b" : ""}`}
+            onClick={() => navigate("/potrawy")}
           />
         </div>
         <div className={`sideicon-wrapper ${ist4b ? "t4f" : "t4b"}`} id="last">

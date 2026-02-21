@@ -95,6 +95,9 @@
   &:has(.p-filter-input[name="pAlergens"]) {
     max-width: 115px;
   }
+  &:has(.p-filter-input[name="pRange"]) {
+    max-width: 200px;
+  }
 }
 select.p-filter-input {
   cursor: pointer;
@@ -307,4 +310,66 @@ select.p-filter-input {
 }
 
 /* dishes */
+.dishes {
+  margin: 10px 20px 0;
+}
+/* dish */
 
+.dish {
+  position: relative;
+  background-color: #fefefe;
+  border-radius: 15.71px;
+  box-shadow: 2px 2px 8px 0 rgba(0, 0, 0, 0.25);
+  &:not(:last-child) {
+    margin-bottom: 10px;
+  }
+}
+.dish-top-row {
+  padding: 10px 20px;
+  position: relative;
+}
+.dish-category-name {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--primary-orange);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--primary-orange);
+  border-radius: 5px;
+  background-color: #fff7ec;
+  padding: 4px 10px;
+  margin-right: 22px;
+}
+.dish-line {
+  margin: 0;
+}
+.dish-bottom-row {
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.dish-ingredients-box {
+  h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #4a5565;
+  }
+}
+.dish-ingredients {
+  margin: 0;
+  margin-top: 12px;
+  li {
+    font-size: 14px;
+    color: #364153;
+    &:not(:last-child){
+      margin-bottom: 5.5px;
+    }
+    &::marker{
+      color: var(--primary-orange);
+      font-size: 18px;
+    }
+  }
+}

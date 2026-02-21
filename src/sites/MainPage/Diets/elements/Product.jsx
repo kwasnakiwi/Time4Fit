@@ -1,5 +1,4 @@
 import "./../../../../styles/diets.css";
-import warn from "./../../../../assets/images/red-warn.png";
 import nut1 from "./../../../../assets/images/nut1.png";
 import nut2 from "./../../../../assets/images/nut2.png";
 import nut3 from "./../../../../assets/images/nut3.png";

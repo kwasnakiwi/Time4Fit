@@ -106,7 +106,7 @@ function App() {
             }
           />
           <Route 
-            path="/dania/*"
+            path="/potrawy/*"
             element={
               <Routes>
                 <Route path="" element={<DishesList />} />

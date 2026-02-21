@@ -151,7 +151,7 @@ function ProductsList() {
           </div>
         </header>
         <section className="products">
-          {products.map((pr, i) => (
+          {[1, 2, 3, 4].map((pr, i) => (
             <Product
               key={i}
               title={pr.title || "Bez nazwy"}
@@ -160,6 +160,12 @@ function ProductsList() {
               packagingType={pr.packaging_type || "Opakowanie"}
               packagingSize={pr.packaging_size || 32}
               packagingMetric={pr.packaging_metric || "g"}
+              nutrients={{
+                kcal: 17,
+                protein: 17,
+                fat: 17,
+                carbohydrates: 17,
+              }}
             />
           ))}
         </section>
