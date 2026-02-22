@@ -14,8 +14,10 @@ import exclamationMark from "./../../../../assets/svgs/!.svg";
 import img from "./../../../../assets/svgs/img.svg";
 import redBin from "./../../../../assets/svgs/red-bin.svg";
 import cubes from "./../../../../assets/svgs/cubes.svg";
+import { createPortal } from "react-dom";
+import AddIngredientsModal from "./AddIngredientsModal";
 
-function AddDishModal({ setShowAddDishModal }) {
+function AddDishModal({ setShowAddDishModal, setShowAddIngredientsModal }) {
   const [name, setName] = useState("");
   const [recipe, setRecipe] = useState("");
   const [category, setCategory] = useState("");
@@ -55,14 +57,13 @@ function AddDishModal({ setShowAddDishModal }) {
   const handleAddDish = async () => {
     return;
   };
-
   return (
     <>
       <div
         className="template-modal-back-overlay"
         onClick={() => setShowAddDishModal(false)}
       />
-      <div className="template-modal">
+      <div className="template-modal dish-modal">
         <header className="template-modal-header">
           <div className="template-modal-info">
             <div className="template-modal-img-wrapper">
@@ -264,13 +265,21 @@ function AddDishModal({ setShowAddDishModal }) {
               <ol className="modal-ingredients-list">
                 {[1, 2, 3, 4].map((ing, i) => (
                   <li key={i}>
-                    <input type="text" className="template-modal-input" id="product" placeholder="Produkt..." />
-                    <input type="number" className="template-modal-input" id="amount" placeholder="1..." />
+                    <input
+                      type="text"
+                      className="template-modal-input"
+                      id="product"
+                      placeholder="Produkt..."
+                    />
+                    <input
+                      type="number"
+                      className="template-modal-input"
+                      id="amount"
+                      placeholder="1..."
+                    />
                     <div className="tm-select-wrapper" id="type">
                       <select className="template-modal-input">
-                        <option value="spoon">
-                          Łyżka (15g)
-                        </option>
+                        <option value="spoon">Łyżka (15g)</option>
                       </select>
                       <AngleDown className="arrow" />
                     </div>
@@ -282,7 +291,14 @@ function AddDishModal({ setShowAddDishModal }) {
                 ))}
               </ol>
             </div>
-            <button className="modal-add-ingredient add-product-btn"><Plus className="p-plus" /> Dodaj</button>
+            <button
+              className="modal-add-ingredient add-product-btn"
+              onClick={() => {
+                setShowAddIngredientsModal(true);
+              }}
+            >
+              <Plus className="p-plus" /> Dodaj
+            </button>
           </div>
           <div className="modal-allergens-box">
             <h2 className="template-modal-title-bold flex">
@@ -352,7 +368,7 @@ function AddDishModal({ setShowAddDishModal }) {
         <section className="template-modal-btns">
           <button
             className="template-modal-btn cancel"
-            onClick={() => setShowModal(false)}
+            onClick={() => setShowAddDishModal(false)}
           >
             Anuluj
           </button>

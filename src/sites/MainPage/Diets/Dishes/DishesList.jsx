@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import NavBar from "../../components/NavBar";
 import SideBar from "../../components/SideBar";
 import "./../../../../styles/diets.css";
@@ -10,12 +10,14 @@ import {
 import Dish from "../elements/Dish";
 import { createPortal } from "react-dom";
 import AddDishModal from "../elements/AddDishModal";
+import AddIngredientsModal from "../elements/AddIngredientsModal";
 
 function DishesList() {
   const [dishesCategory, setDishesCategory] = useState("all");
   const [search, setSearch] = useState("");
   const [dishes, setDishes] = useState([]);
   const [showAddDishModal, setShowAddDishModal] = useState(false);
+  const [showAddIngredientsModal, setShowAddIngredientsModal] = useState(false);
 
   const handleClickAddDishButton = () => {
     setShowAddDishModal(true);
@@ -25,7 +27,18 @@ function DishesList() {
     <>
       {showAddDishModal &&
         createPortal(
-          <AddDishModal setShowAddDishModal={setShowAddDishModal} />,
+          <AddDishModal
+            setShowAddDishModal={setShowAddDishModal}
+            setShowAddIngredientsModal={setShowAddIngredientsModal}
+          />,
+          document.body,
+        )}
+      {showAddIngredientsModal &&
+        createPortal(
+          <AddIngredientsModal
+            setShowAddDishModal={setShowAddDishModal}
+            setShowAddIngredientsModal={setShowAddIngredientsModal}
+          />,
           document.body,
         )}
       <NavBar title="Lista potraw" route="Lista potraw" />

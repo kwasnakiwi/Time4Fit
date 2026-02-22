@@ -180,7 +180,8 @@
     transition:
       background-color 0.2s ease,
       color 0.2s ease,
-      height 0.2s ease;
+      height 0.2s ease,
+      transform 0.2s ease;
   }
 }
 .template-modal-back-overlay {
@@ -294,6 +295,9 @@
   justify-content: flex-end;
   gap: 10px;
   padding: 13px 20px 20px;
+  &.space-between {
+    justify-content: space-between;
+  }
 }
 .template-modal-btn {
   padding: 2px 20px;
@@ -698,28 +702,28 @@ select.template-modal-input {
   gap: 24px;
   margin-top: 12px;
 }
-.modal-ingredients-list{
-  li{
+.modal-ingredients-list {
+  li {
     display: flex;
     justify-content: stretch;
     position: relative;
     align-items: center;
     gap: 12px;
-    #product{
+    #product {
       max-width: 259px;
     }
-    #amount{
+    #amount {
       max-width: 70px;
     }
-    #type{
+    #type {
       max-width: 169px;
     }
-    &:not(:last-child){
+    &:not(:last-child) {
       margin-bottom: 8px;
     }
   }
 }
-.ing-enumeration{
+.ing-enumeration {
   position: absolute;
   left: -30px;
   top: 8px;
@@ -733,7 +737,7 @@ select.template-modal-input {
   align-items: center;
   justify-content: center;
 }
-.delete-ingredient{
+.delete-ingredient {
   width: 31px;
   height: 30px;
   box-sizing: border-box;
@@ -745,7 +749,7 @@ select.template-modal-input {
   justify-content: center;
   cursor: pointer;
 }
-.modal-add-ingredient.add-product-btn{
+.modal-add-ingredient.add-product-btn {
   position: absolute;
   max-width: 105px;
   border-radius: 6px;
@@ -754,4 +758,110 @@ select.template-modal-input {
   top: 10px;
   right: 10px;
   font-size: 14px;
+}
+
+/* add product to dish */
+
+.modal-dish-categories {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.modal-dish-category {
+  width: 148px;
+  box-sizing: border-box;
+  padding: 7px 51px;
+  display: flex;
+  justify-content: center;
+  background-color: white;
+  border: 1px solid var(--primary-grey);
+  border-radius: 8px;
+  font-size: 14px;
+  color: var(--primary-grey);
+  cursor: pointer;
+  &:hover {
+    transform: translateY(-2px);
+  }
+  &.selected {
+    color: white;
+    background: var(--main-gradient);
+    border: 1px solid transparent;
+  }
+}
+.modal-dish-filters {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 20px;
+  > div input,
+  > div select {
+    width: 100%;
+  }
+  .filter-wrapper {
+    width: 100%;
+    max-width: none;
+    &.s {
+      max-width: 631px;
+    }
+    &.m {
+      max-width: 235px;
+    }
+    &.a {
+      max-width: 115px;
+    }
+  }
+}
+.product-category-name.top {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+}
+.modal-product-list-box:last-child {
+  margin-top: 20px;
+}
+.modal-product-list-box-header {
+  cursor: pointer;
+  padding: 15px 10px;
+  position: relative;
+  border-radius: 8px 8px 0 0;
+  box-shadow: 0 0px 1px 1px rgba(0, 0, 0, 0.25);
+  h3 {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 16px;
+    color: var(--text-secondery);
+    font-weight: bold;
+    margin: 0;
+  }
+  .arrow {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  &.my-products {
+    background-color: #f3e8ff;
+  }
+  &.app-products {
+    background-color: #fff4ea;
+  }
+}
+.modal-products-list {
+  display: grid;
+  grid-template-rows: 1fr;
+  overflow: hidden;
+  transition:
+    grid-template-rows 0.3s ease-out,
+    padding 0.3s ease-out;
+  padding: 10px;
+  background-color: #f5f6f8;
+  box-shadow: 0 0px 1px 1px rgba(0, 0, 0, 0.25);
+  border-radius: 0 0 8px 8px;
+}
+.modal-product-list-box .product {
+  cursor: pointer;
+  &.selected {
+    box-shadow: 0 0 3px 1px var(--primary-orange);
+    background-color: #fff7ec;
+  }
 }

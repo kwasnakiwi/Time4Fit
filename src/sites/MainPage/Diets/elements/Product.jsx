@@ -17,6 +17,7 @@ function Product({
   packagingSize,
   packagingMetric,
   nutrients,
+  isSmall,
 }) {
   return (
     <>
@@ -32,7 +33,7 @@ function Product({
           <span className="product-nutrient cyan">
             <img src={nut5} alt="" />
             <div>
-              Kcal <span>{nutrients.sodium_salt}g</span>
+              Sól <span>{nutrients.sodium_salt}g</span>
             </div>
           </span>
           <span className="product-nutrient blue">
@@ -54,20 +55,28 @@ function Product({
             </div>
           </span>
         </div>
+        <span className={`product-category-name top`}>
+          <img src={prInfo1} alt="" />
+          {category}
+        </span>
         <div className="product-info">
-          <span className="product-category-name">
-            <img src={prInfo1} alt="" />
-            {category}
-          </span>
+          {!isSmall && (
+            <span className={`product-category-name`}>
+              <img src={prInfo1} alt="" />
+              {category}
+            </span>
+          )}
           <span className="product-packaging">
             <img src={prInfo2} alt="" />
             {packagingType} {packagingSize}g
           </span>
         </div>
-        <div className="product-actions">
-          <img src={prAction1} alt="" />
-          <img src={prAction2} alt="" />
-        </div>
+        {!isSmall && (
+          <div className="product-actions">
+            <img src={prAction1} alt="" />
+            <img src={prAction2} alt="" />
+          </div>
+        )}
       </div>
     </>
   );
