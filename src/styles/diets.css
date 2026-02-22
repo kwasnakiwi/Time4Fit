@@ -238,6 +238,14 @@ select.p-filter-input {
       color: var(--bold-purple);
     }
   }
+  &.cyan {
+    color: var(--clr-cyan);
+    background-color: var(--bg-cyan);
+    border: 1px solid var(--clr-cyan);
+    span {
+      color: var(--clr-cyan);
+    }
+  }
   &.blue {
     color: var(--clr-blue);
     background-color: var(--bg-blue);
@@ -343,6 +351,7 @@ select.p-filter-input {
 }
 .dish-line {
   margin: 0;
+  border: 1px solid #e1e1e1;
 }
 .dish-bottom-row {
   padding: 10px 20px;
@@ -364,10 +373,10 @@ select.p-filter-input {
   li {
     font-size: 14px;
     color: #364153;
-    &:not(:last-child){
+    &:not(:last-child) {
       margin-bottom: 5.5px;
     }
-    &::marker{
+    &::marker {
       color: var(--primary-orange);
       font-size: 18px;
     }

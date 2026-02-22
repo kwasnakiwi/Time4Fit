@@ -8,18 +8,26 @@ import {
   FaPlus as Plus,
 } from "react-icons/fa";
 import Dish from "../elements/Dish";
+import { createPortal } from "react-dom";
+import AddDishModal from "../elements/AddDishModal";
 
 function DishesList() {
   const [dishesCategory, setDishesCategory] = useState("all");
   const [search, setSearch] = useState("");
   const [dishes, setDishes] = useState([]);
+  const [showAddDishModal, setShowAddDishModal] = useState(false);
 
   const handleClickAddDishButton = () => {
-    return;
+    setShowAddDishModal(true);
   };
 
   return (
     <>
+      {showAddDishModal &&
+        createPortal(
+          <AddDishModal setShowAddDishModal={setShowAddDishModal} />,
+          document.body,
+        )}
       <NavBar title="Lista potraw" route="Lista potraw" />
       <SideBar />
       <main className="home-page-container">
@@ -134,13 +142,14 @@ function DishesList() {
         <section className="dishes">
           {[1, 2, 3, 4].map((dish, i) => (
             <Dish
+              key={i}
               name={dish.name || "Bez nazwy"}
               category={dish.category || "Brak kategorii"}
               dietType={dish.diet_type || "Normalna"}
               totalKcal={dish.total_kcal || 0}
               totalProtein={dish.total_protein || 0}
               totalFat={dish.total_fat || 0}
-              totalCarbohydrates={dish.total_carbohydrates|| 0}
+              totalCarbohydrates={dish.total_carbohydrates || 0}
               displaySalt={dish.display_salt || 0}
             />
           ))}

@@ -162,6 +162,7 @@ function ProductsList() {
               packagingMetric={pr.packaging_metric || "g"}
               nutrients={{
                 kcal: 17,
+                sodium_salt: 17,
                 protein: 17,
                 fat: 17,
                 carbohydrates: 17,

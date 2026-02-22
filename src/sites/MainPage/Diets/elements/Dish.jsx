@@ -3,6 +3,7 @@ import nut1 from "./../../../../assets/images/nut1.png";
 import nut2 from "./../../../../assets/images/nut2.png";
 import nut3 from "./../../../../assets/images/nut3.png";
 import nut4 from "./../../../../assets/images/nut4.png";
+import nut5 from "./../../../../assets/svgs/macro2.svg";
 import prInfo1 from "./../../../../assets/images/product-i1.png";
 import prInfo2 from "./../../../../assets/images/product-i2.png";
 import prAction1 from "./../../../../assets/images/productAction1.png";
@@ -19,6 +20,7 @@ function Dish({
   totalFat,
   totalCarbohydrates,
   displaySalt,
+  image,
 }) {
   return (
     <>
@@ -30,6 +32,12 @@ function Dish({
               <img src={nut1} alt="" />
               <div>
                 Kcal <span>{totalKcal}</span>
+              </div>
+            </span>
+            <span className="product-nutrient cyan">
+              <img src={nut5} alt="" />
+              <div>
+                Sól <span>{displaySalt}g</span>
               </div>
             </span>
             <span className="product-nutrient blue">
@@ -79,7 +87,7 @@ function Dish({
               </li>
             </ul>
           </div>
-          <img src={exampleDish} alt="" />
+          <img src={image || exampleDish} alt="" />
         </div>
       </div>
     </>

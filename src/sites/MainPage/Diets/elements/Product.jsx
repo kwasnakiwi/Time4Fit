@@ -3,10 +3,11 @@ import nut1 from "./../../../../assets/images/nut1.png";
 import nut2 from "./../../../../assets/images/nut2.png";
 import nut3 from "./../../../../assets/images/nut3.png";
 import nut4 from "./../../../../assets/images/nut4.png";
+import nut5 from "./../../../../assets/svgs/macro2.svg";
 import prInfo1 from "./../../../../assets/images/product-i1.png";
 import prInfo2 from "./../../../../assets/images/product-i2.png";
-import prAction1 from "./../../../../assets/images/productAction1.png"
-import prAction2 from "./../../../../assets/images/productAction2.png"
+import prAction1 from "./../../../../assets/images/productAction1.png";
+import prAction2 from "./../../../../assets/images/productAction2.png";
 
 function Product({
   title,
@@ -28,34 +29,28 @@ function Product({
               Kcal <span>{nutrients.kcal}</span>
             </div>
           </span>
+          <span className="product-nutrient cyan">
+            <img src={nut5} alt="" />
+            <div>
+              Kcal <span>{nutrients.sodium_salt}g</span>
+            </div>
+          </span>
           <span className="product-nutrient blue">
             <img src={nut2} alt="" />
             <div>
-              Białko{" "}
-              <span>
-                {nutrients.protein}
-                {packagingMetric}
-              </span>
+              Białko <span>{nutrients.protein}g</span>
             </div>
           </span>
           <span className="product-nutrient yellow">
             <img src={nut3} alt="" />
             <div>
-              Tłuszcze{" "}
-              <span>
-                {nutrients.fat}
-                {packagingMetric}
-              </span>
+              Tłuszcze <span>{nutrients.fat}g</span>
             </div>
           </span>
           <span className="product-nutrient green">
             <img src={nut4} alt="" />
             <div>
-              Węglowodany{" "}
-              <span>
-                {nutrients.carbohydrates}
-                {packagingMetric}
-              </span>
+              Węglowodany <span>{nutrients.carbohydrates}g</span>
             </div>
           </span>
         </div>
@@ -66,8 +61,7 @@ function Product({
           </span>
           <span className="product-packaging">
             <img src={prInfo2} alt="" />
-            {packagingType} {packagingSize}
-            {packagingMetric}
+            {packagingType} {packagingSize}g
           </span>
         </div>
         <div className="product-actions">

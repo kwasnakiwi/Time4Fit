@@ -58,7 +58,7 @@ function AddProductModal({ setShowModal, setProducts }) {
         }
 
         setMainAllergens(data);
-        console.log("allergens:", data)
+        console.log("allergens:", data);
       } catch (err) {
         console.log(err);
       }
@@ -87,14 +87,15 @@ function AddProductModal({ setShowModal, setProducts }) {
   };
 
   // macro
-  const calculateTotal = (value100g) => {
+  const calculateTotal = (value100g, type) => {
     const val = parseFloat(value100g);
     const size = parseFloat(packagingSize);
     if (isNaN(val) || isNaN(size)) return 0;
 
     const result = (val / 100) * size;
 
-    return Math.round(result * 10) / 10;
+    if (type !== "kcal") return Math.round(result * 100) / 100;
+    else return Math.round(result);
   };
 
   const handleAddProduct = async () => {
@@ -364,7 +365,7 @@ function AddProductModal({ setShowModal, setProducts }) {
                       name="nutrient1"
                       placeholder="0"
                       readOnly
-                      value={calculateTotal(kcal)}
+                      value={calculateTotal(kcal, "kcal")}
                     />
                   </div>
                   <div className="modal-nutrient cyan">
@@ -378,7 +379,7 @@ function AddProductModal({ setShowModal, setProducts }) {
                       name="nutrient2"
                       placeholder="0"
                       readOnly
-                      value={calculateTotal(sodiumSalt)}
+                      value={calculateTotal(sodiumSalt, "salt")}
                     />
                   </div>
                   <div className="modal-nutrient blue">
@@ -392,7 +393,7 @@ function AddProductModal({ setShowModal, setProducts }) {
                       name="nutrient3"
                       placeholder="0"
                       readOnly
-                      value={calculateTotal(protein)}
+                      value={calculateTotal(protein, "protein")}
                     />
                   </div>
                   <div className="modal-nutrient yellow">
@@ -406,7 +407,7 @@ function AddProductModal({ setShowModal, setProducts }) {
                       name="nutrient4"
                       placeholder="0"
                       readOnly
-                      value={calculateTotal(fat)}
+                      value={calculateTotal(fat, "fat")}
                     />
                   </div>
                   <div className="modal-nutrient green">
@@ -420,7 +421,7 @@ function AddProductModal({ setShowModal, setProducts }) {
                       name="nutrient5"
                       placeholder="0"
                       readOnly
-                      value={calculateTotal(carbohydrates)}
+                      value={calculateTotal(carbohydrates, "carbohydrates")}
                     />
                   </div>
                 </div>
