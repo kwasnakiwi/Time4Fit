@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import "./../../../../styles/popup.css";
 import A from "./../../../../assets/svgs/A.svg";
 import B from "./../../../../assets/svgs/B.svg";
-import I from "./../../../../assets/svgs/I.svg";
+import I from "./../../../../assets/svgs/Italic.svg";
 import U from "./../../../../assets/svgs/U.svg";
 import S from "./../../../../assets/svgs/S.svg";
 import left from "./../../../../assets/svgs/left.svg";
@@ -124,6 +124,7 @@ function FormatTextModal({ setShowFormatTextModal }) {
             />
           </div>
         </section>
+        <hr className="template-modal-line" />
         <section className="template-modal-btns space-between">
           <button
             className="template-modal-btn cancel"
