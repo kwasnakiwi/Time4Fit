@@ -11,6 +11,7 @@ function AddIngredientsModal({ showAddDishModal, setShowAddIngredientsModal }) {
   const [search, setSearch] = useState("");
   const [showMyProducts, setShowMyProducts] = useState(true);
   const [showAppProducts, setShowAppProducts] = useState(true);
+  const [selected, setSelected] = useState([]);
 
   return (
     <>
@@ -84,7 +85,7 @@ function AddIngredientsModal({ showAddDishModal, setShowAddIngredientsModal }) {
                 onChange={(e) => setSearch(e.target.value)}
                 id=""
                 className="p-filter-input"
-                placeholder="Wyszukaj potrawę..."
+                placeholder="Wyszukaj produkt..."
               />
             </div>
             <div className="filter-wrapper m">
@@ -113,7 +114,7 @@ function AddIngredientsModal({ showAddDishModal, setShowAddIngredientsModal }) {
                 className="arrow"
                 style={
                   showMyProducts
-                    ? { transform: "rotate(180deg) translateY(50%)" }
+                    ? { transform: "rotate(-180deg) translateY(50%)" }
                     : undefined
                 }
               />
@@ -161,7 +162,7 @@ function AddIngredientsModal({ showAddDishModal, setShowAddIngredientsModal }) {
                 className="arrow"
                 style={
                   showAppProducts
-                    ? { transform: "rotate(180deg) translateY(50%)" }
+                    ? { transform: "rotate(-180deg) translateY(50%)" }
                     : undefined
                 }
               />

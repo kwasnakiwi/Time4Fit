@@ -7,7 +7,7 @@ import macro2 from "./../../../../assets/svgs/macro2.svg";
 import macro3 from "./../../../../assets/svgs/macro3.svg";
 import macro4 from "./../../../../assets/svgs/macro4.svg";
 import macro5 from "./../../../../assets/svgs/macro5.svg";
-import i from "./../../../../assets/svgs/i.svg";
+import i from "./../../../../assets/svgs/i-icon.svg";
 import exclamationMark from "./../../../../assets/svgs/!.svg";
 import barcodeIcon from "./../../../../assets/svgs/barcode.svg";
 import img from "./../../../../assets/svgs/img.svg";

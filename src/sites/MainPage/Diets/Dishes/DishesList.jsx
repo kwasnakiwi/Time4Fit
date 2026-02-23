@@ -11,6 +11,7 @@ import Dish from "../elements/Dish";
 import { createPortal } from "react-dom";
 import AddDishModal from "../elements/AddDishModal";
 import AddIngredientsModal from "../elements/AddIngredientsModal";
+import FormatTextModal from "../elements/FormatTextModal";
 
 function DishesList() {
   const [dishesCategory, setDishesCategory] = useState("all");
@@ -18,6 +19,7 @@ function DishesList() {
   const [dishes, setDishes] = useState([]);
   const [showAddDishModal, setShowAddDishModal] = useState(false);
   const [showAddIngredientsModal, setShowAddIngredientsModal] = useState(false);
+  const [showFormatTextModal, setShowFormatTextModal] = useState(false);
 
   const handleClickAddDishButton = () => {
     setShowAddDishModal(true);
@@ -25,11 +27,17 @@ function DishesList() {
 
   return (
     <>
+      {showFormatTextModal &&
+        createPortal(
+          <FormatTextModal setShowFormatTextModal={setShowFormatTextModal} />,
+          document.body,
+        )}
       {showAddDishModal &&
         createPortal(
           <AddDishModal
             setShowAddDishModal={setShowAddDishModal}
             setShowAddIngredientsModal={setShowAddIngredientsModal}
+            setShowFormatTextModal={setShowFormatTextModal}
           />,
           document.body,
         )}

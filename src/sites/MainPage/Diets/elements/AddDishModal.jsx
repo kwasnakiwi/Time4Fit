@@ -17,7 +17,11 @@ import cubes from "./../../../../assets/svgs/cubes.svg";
 import { createPortal } from "react-dom";
 import AddIngredientsModal from "./AddIngredientsModal";
 
-function AddDishModal({ setShowAddDishModal, setShowAddIngredientsModal }) {
+function AddDishModal({
+  setShowAddDishModal,
+  setShowAddIngredientsModal,
+  setShowFormatTextModal,
+}) {
   const [name, setName] = useState("");
   const [recipe, setRecipe] = useState("");
   const [category, setCategory] = useState("");
@@ -110,6 +114,8 @@ function AddDishModal({ setShowAddDishModal, setShowAddIngredientsModal }) {
               placeholder="Przepis..."
               maxLength={250}
               style={{ height: "118px" }}
+              readOnly
+              onClick={() => setShowFormatTextModal(true)}
             />
             <span className="length-counter" style={{ top: 0, right: 0 }}>
               {recipe.length}/250
