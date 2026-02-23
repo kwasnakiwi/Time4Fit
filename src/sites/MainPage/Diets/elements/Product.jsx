@@ -55,10 +55,6 @@ function Product({
             </div>
           </span>
         </div>
-        <span className={`product-category-name top`}>
-          <img src={prInfo1} alt="" />
-          {category}
-        </span>
         <div className="product-info">
           {!isSmall && (
             <span className={`product-category-name`}>
