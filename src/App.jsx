@@ -26,6 +26,7 @@ import CreateTrainerProfile from "./sites/MainPage/Profile/CreateTrainerProfile.
 import TrainerList from "./sites/MainPage/TrainerList/TrainerList.jsx";
 import ProductsList from "./sites/MainPage/Diets/Products/ProductsList.jsx";
 import DishesList from "./sites/MainPage/Diets/Dishes/DishesList.jsx";
+import DishDetails from "./sites/MainPage/Diets/Dishes/DIshDetails.jsx";
 
 function App() {
   return (
@@ -110,6 +111,7 @@ function App() {
             element={
               <Routes>
                 <Route path="" element={<DishesList />} />
+                <Route path=":id" element={<DishDetails />} />
               </Routes>
             }
           />

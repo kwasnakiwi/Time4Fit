@@ -10,8 +10,10 @@ import prAction1 from "./../../../../assets/images/productAction1.png";
 import prAction2 from "./../../../../assets/images/productAction2.png";
 import coffee from "./../../../../assets/svgs/coffee.svg";
 import exampleDish from "./../../../../assets/images/exampleDish.png";
+import { useNavigate } from "react-router-dom";
 
 function Dish({
+  dishId,
   name,
   category,
   dietType,
@@ -22,9 +24,11 @@ function Dish({
   displaySalt,
   image,
 }) {
+  const navigate = useNavigate();
+
   return (
     <>
-      <div className="dish">
+      <div className="dish" onClick={() => navigate(`/potrawy/${dishId}`)}>
         <div className="dish-top-row">
           <h2 className="product-title">{name}</h2>
           <div className="product-nutrients">

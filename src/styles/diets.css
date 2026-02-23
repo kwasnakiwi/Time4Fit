@@ -23,6 +23,7 @@
     #22f917 39%,
     #53f545 100%
   );
+  --red-gradient: linear-gradient(90deg, #dc2626 62%, #ef4444 100%);
   --dark-purple-gradient: linear-gradient(90deg, #7c3aed 25%, #9333ea 100%);
   --primary-orange: #e96d00;
   --clr-secondary: #ffe6d0;
@@ -328,8 +329,14 @@ select.p-filter-input {
   background-color: #fefefe;
   border-radius: 15.71px;
   box-shadow: 2px 2px 8px 0 rgba(0, 0, 0, 0.25);
+  border: 1px solid transparent;
+  transition: border 0.2s ease;
+  cursor: pointer;
   &:not(:last-child) {
     margin-bottom: 10px;
+  }
+  &:hover {
+    border: 1px solid var(--primary-orange);
   }
 }
 .dish-top-row {
@@ -379,6 +386,53 @@ select.p-filter-input {
     &::marker {
       color: var(--primary-orange);
       font-size: 18px;
+    }
+  }
+}
+
+/* dish details */
+
+.dish.dish-details {
+  height: calc(100% - 40px);
+  margin: 20px;
+  border: none;
+  cursor: default;
+  .dish-top-row {
+    padding-left: 50px;
+    position: relative;
+    .arrow {
+      color: var(--primary-grey);
+      font-size: 22px;
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      cursor: pointer;
+    }
+  }
+  .recipe {
+    font-size: 14px;
+    color: #364153;
+  }
+  .dish-category-name {
+    margin: 0;
+  }
+  .product-actions {
+    .product-action {
+      padding: 4px 12px;
+      color: white;
+      font-size: 14px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      &.edit {
+        background: var(--main-gradient);
+      }
+      &.delete {
+        background: var(--red-gradient);
+      }
     }
   }
 }

@@ -164,6 +164,7 @@ function DishesList() {
           {[1, 2, 3, 4].map((dish, i) => (
             <Dish
               key={i}
+              dishId={i}
               name={dish.name || "Bez nazwy"}
               category={dish.category || "Brak kategorii"}
               dietType={dish.diet_type || "Normalna"}
