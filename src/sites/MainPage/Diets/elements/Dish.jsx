@@ -28,7 +28,7 @@ function Dish({
 
   return (
     <>
-      <div className="dish" onClick={() => navigate(`/potrawy/${dishId}`)}>
+      <div className="dish" onClick={() => navigate(`/diety/potrawa/${dishId}`)}>
         <div className="dish-top-row">
           <h2 className="product-title">{name}</h2>
           <div className="product-nutrients">

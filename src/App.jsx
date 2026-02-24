@@ -104,6 +104,7 @@ function App() {
             element={
               <Routes>
                 <Route path="" element={<Diets />} />
+                <Route path="/potrawa/:id" element={<DishDetails />} />
               </Routes>
             }
           />
