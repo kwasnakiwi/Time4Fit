@@ -145,6 +145,7 @@
     width: 30px;
     height: 30px;
     color: var(--primary-grey);
+    scale: 1.3;
 }
 .sidebar-selected{
     display: inline-block;

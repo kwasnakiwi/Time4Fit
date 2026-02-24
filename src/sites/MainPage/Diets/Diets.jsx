@@ -98,7 +98,13 @@ function Diets() {
                   id=""
                   className="p-filter-input"
                   name="pSearch"
-                  placeholder="Wyszukaj produkt..."
+                  placeholder={
+                    filterType === "myProducts"
+                      ? "Wyszukaj produkt"
+                      : filterType === "myDishes"
+                        ? "Wyszukaj potrawę"
+                        : undefined
+                  }
                 />
               </div>
               {filterType === "myDishes" && (
