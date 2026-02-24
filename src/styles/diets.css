@@ -63,9 +63,38 @@
 }
 .product-filters {
   padding: 20px;
+  margin: 14px 20px;
+  background-color: white;
+  border-radius: 11.91px;
+  box-shadow: 1.7px 1.7px 3.4px 0 #00000025;
   .top {
     display: flex;
     justify-content: space-between;
+  }
+}
+.product-filters-types{
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+.product-filters-type{
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--primary-grey);
+  cursor: pointer;
+  &.selected{
+    color: var(--primary-orange);
+    font-weight: 600;
+    position: relative;
+    &::after{
+      content: "";
+      position: absolute;
+      height: 2px;
+      width: 100%;
+      background-color: var(--primary-orange);
+      bottom: -12px;
+      left: 0;
+    }
   }
 }
 .product-left-filters {

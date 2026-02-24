@@ -27,6 +27,7 @@ import TrainerList from "./sites/MainPage/TrainerList/TrainerList.jsx";
 import ProductsList from "./sites/MainPage/Diets/Products/ProductsList.jsx";
 import DishesList from "./sites/MainPage/Diets/Dishes/DishesList.jsx";
 import DishDetails from "./sites/MainPage/Diets/Dishes/DIshDetails.jsx";
+import Diets from "./sites/MainPage/Diets/Diets.jsx";
 
 function App() {
   return (
@@ -99,19 +100,10 @@ function App() {
             }
           />
           <Route
-            path="/produkty/*"
+            path="/diety/*"
             element={
               <Routes>
-                <Route path="" element={<ProductsList />} />
-              </Routes>
-            }
-          />
-          <Route 
-            path="/potrawy/*"
-            element={
-              <Routes>
-                <Route path="" element={<DishesList />} />
-                <Route path=":id" element={<DishDetails />} />
+                <Route path="" element={<Diets />} />
               </Routes>
             }
           />
