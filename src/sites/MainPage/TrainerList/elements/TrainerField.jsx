@@ -5,6 +5,9 @@ import tr1 from "./../../../../assets/images/tr1.png";
 import tr2 from "./../../../../assets/images/tr2.png";
 import tr3 from "./../../../../assets/images/tr3.png";
 import { useNavigate } from "react-router-dom";
+import { apiFetch } from "./../../../../interceptor/interceptor.jsx";
+import { BASE_URL, ENDPOINTS } from "../../../../utils/Endopoints.jsx";
+import { useState } from "react";
 
 function TrainerField({
   pfpImage,
@@ -17,9 +20,65 @@ function TrainerField({
   phoneNumber,
   email,
   trainerId,
+  getTrainerList,
 }) {
-  let isFollowing = false;
   const navigate = useNavigate();
+  const [isFollowing, setIsFollowing] = useState(false);
+
+  const handleFollow = async () => {
+    try {
+      const response = await apiFetch(
+        `${BASE_URL}${ENDPOINTS.userProfileGiveObs}${trainerId}/`,
+        {
+          method: "POST",
+        },
+      );
+
+      let data;
+      try {
+        data = await response.json();
+      } catch {
+        data = null;
+      }
+
+      if (!response.ok) {
+        throw new Error(data?.error);
+      }
+
+      getTrainerList();
+
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const handleUnFollow = async () => {
+    try {
+      const response = await apiFetch(
+        `${BASE_URL}${ENDPOINTS.userProfileRevokeObs}${trainerId}/`,
+        {
+          method: "POST",
+        },
+      );
+
+      let data;
+      try {
+        data = await response.json();
+      } catch {
+        data = null;
+      }
+
+      if (!response.ok) {
+        throw new Error(data?.error);
+      }
+
+      getTrainerList();
+
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <>
@@ -77,7 +136,10 @@ function TrainerField({
           </div>
         </div>
         <div className="tf-buttons">
-          <button className={`tf-follow-btn ${isFollowing ? "following" : ""}`}>
+          <button
+            className={`tf-follow-btn ${isFollowing ? "following" : ""}`}
+            onClick={() => (!isFollowing ? handleFollow() : handleUnFollow())}
+          >
             {isFollowing ? "Obserwujesz" : "Obserwuj"}
           </button>
           <button

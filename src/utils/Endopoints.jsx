@@ -12,6 +12,8 @@ export const ENDPOINTS = {
   eventEvents: "/event/events/",
   eventCategoryList: "/event/category-list/",
   posts: "/user_profile/posts/",
+  userProfileGiveObs: "/user_profile/give-obs/",
+  userProfileRevokeObs: "/user_profile/revoke-obs/",
   trainerCertyficates: "/user_profile/trainer-certyficates/",
   trainerFullProfile: "/user_profile/trainer-full-profile/",
   trainerProfiles: "/user_profile/trainer-profiles/",

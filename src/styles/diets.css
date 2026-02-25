@@ -72,21 +72,21 @@
     justify-content: space-between;
   }
 }
-.product-filters-types{
+.product-filters-types {
   display: flex;
   align-items: center;
   gap: 32px;
 }
-.product-filters-type{
+.product-filters-type {
   font-size: 14px;
   font-weight: 500;
   color: var(--primary-grey);
   cursor: pointer;
-  &.selected{
+  &.selected {
     color: var(--primary-orange);
     font-weight: 600;
     position: relative;
-    &::after{
+    &::after {
       content: "";
       position: absolute;
       height: 2px;
@@ -464,4 +464,97 @@ select.p-filter-input {
       }
     }
   }
+}
+
+/* menu */
+
+.menu-wrapper {
+  margin: 0 20px 244px;
+}
+.menu-date {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 2px 2px 8px 0 rgba(0, 0, 0, 0.25);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  span {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 18px;
+    font-weight: 500;
+    user-select: none;
+  }
+}
+.menu-date-arrow {
+  color: var(--primary-grey);
+  font-size: 26px;
+  cursor: pointer;
+}
+.menu-panel {
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 2px 2px 8px 0 rgba(0, 0, 0, 0.25);
+  margin-top: 10px;
+  position: relative;
+}
+.menu-panel-title{
+  font-weight: 500;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+}
+.menu-panel-text{
+  font-size: 14px;
+  color: var(--primary-grey);
+}
+.add-dish-to-menu{
+  color: var(--primary-grey);
+  font-size: 14px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  box-shadow: 0 0 0 0.4px var(--primary-grey);
+  border: none;
+  border-radius: 8px;
+  padding: 4px 14px;
+  background-color: transparent;
+  cursor: pointer;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+.add-dish-to-menu-plus{
+  color: var(--primary-orange);
+  font-size: 10px;
+}
+.menu-bottom-wrapper{
+  position: fixed;
+  bottom: 20px;
+  width: calc(100% - 150px);
+}
+.menu-stats{
+  background-color: white;
+  padding: 20px;
+  box-sizing: border-box;
+  height: 165px;
+  box-shadow: 2px -2px 8px 0 rgba(0, 0, 0, 0.25);
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.add-new-block-wrapper{
+  padding: 10px 20px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  background-color: white;
+  margin-top: 10px;
+  box-shadow: 2px 2px 8px 0 rgba(0, 0, 0, 0.25);
 }

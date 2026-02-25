@@ -10,6 +10,7 @@ import {
 import ProductsList from "./Products/ProductsList";
 import DishesList from "./Dishes/DishesList";
 import { useNavigate, useLocation } from "react-router-dom";
+import Menu from "./Menu/Menu";
 
 function Diets() {
   const navigate = useNavigate();
@@ -39,6 +40,8 @@ function Diets() {
   const [showAddDishModal, setShowAddDishModal] = useState(false);
   const [showAddIngredientsModal, setShowAddIngredientsModal] = useState(false);
   const [showFormatTextModal, setShowFormatTextModal] = useState(false);
+  const [showAddProductToMenuModal, setShowAddProductToMenuModal] =
+    useState(false);
 
   const handleClickAddProductButton = () => {
     setShowAddProductModal(true);
@@ -87,51 +90,64 @@ function Diets() {
             </span>
           </nav>
           <hr className="dish-line" style={{ margin: "12px 0" }} />
-          <div className="top">
-            <div className="product-left-filters">
-              <div className="filter-wrapper">
-                <Search className="p-search-icon" />
-                <input
-                  type="text"
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  id=""
-                  className="p-filter-input"
-                  name="pSearch"
-                  placeholder={
-                    filterType === "myProducts"
-                      ? "Wyszukaj produkt"
-                      : filterType === "myDishes"
-                        ? "Wyszukaj potrawę"
-                        : undefined
-                  }
-                />
-              </div>
-              {filterType === "myDishes" && (
+          {filterType !== "menu" && (
+            <div className="top">
+              <div className="product-left-filters">
+                <div className="filter-wrapper">
+                  <Search className="p-search-icon" />
+                  <input
+                    type="text"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    id=""
+                    className="p-filter-input"
+                    name="pSearch"
+                    placeholder={
+                      filterType === "myProducts"
+                        ? "Wyszukaj produkt"
+                        : filterType === "myDishes"
+                          ? "Wyszukaj potrawę"
+                          : undefined
+                    }
+                  />
+                </div>
+                {filterType === "myDishes" && (
+                  <div className="filter-wrapper">
+                    <select
+                      type="text"
+                      id=""
+                      className="p-filter-input"
+                      name="pRange"
+                    >
+                      <option value="">Zakres kalorii od - do</option>
+                    </select>
+                    <AngleDown className="arrow" />
+                  </div>
+                )}
                 <div className="filter-wrapper">
                   <select
                     type="text"
                     id=""
                     className="p-filter-input"
-                    name="pRange"
+                    name="pMacro"
                   >
-                    <option value="">Zakres kalorii od - do</option>
+                    <option value="">Makroskładnik dominujący</option>
                   </select>
                   <AngleDown className="arrow" />
                 </div>
-              )}
-              <div className="filter-wrapper">
-                <select
-                  type="text"
-                  id=""
-                  className="p-filter-input"
-                  name="pMacro"
-                >
-                  <option value="">Makroskładnik dominujący</option>
-                </select>
-                <AngleDown className="arrow" />
-              </div>
-              {filterType === "myDishes" && (
+                {filterType === "myDishes" && (
+                  <div className="filter-wrapper">
+                    <select
+                      type="text"
+                      id=""
+                      className="p-filter-input"
+                      name="pAlergens"
+                    >
+                      <option value="">Typ diety</option>
+                    </select>
+                    <AngleDown className="arrow" />
+                  </div>
+                )}
                 <div className="filter-wrapper">
                   <select
                     type="text"
@@ -139,48 +155,37 @@ function Diets() {
                     className="p-filter-input"
                     name="pAlergens"
                   >
-                    <option value="">Typ diety</option>
+                    <option value="">Alergeny</option>
                   </select>
                   <AngleDown className="arrow" />
                 </div>
-              )}
-              <div className="filter-wrapper">
-                <select
-                  type="text"
-                  id=""
-                  className="p-filter-input"
-                  name="pAlergens"
-                >
-                  <option value="">Alergeny</option>
-                </select>
-                <AngleDown className="arrow" />
               </div>
-            </div>
-            <div
-              className="add-product-wrapper"
-              style={
-                filterType === "myDishes" ? { maxWidth: "210px" } : undefined
-              }
-            >
-              <button
-                className="add-product-btn"
-                onClick={
-                  filterType === "myProducts"
-                    ? handleClickAddProductButton
-                    : filterType === "myDishes"
-                      ? handleClickAddDishButton
-                      : undefined
+              <div
+                className="add-product-wrapper"
+                style={
+                  filterType === "myDishes" ? { maxWidth: "210px" } : undefined
                 }
               >
-                <Plus className="p-plus" />{" "}
-                {filterType === "myProducts"
-                  ? "Dodaj produkt"
-                  : filterType === "myDishes"
-                    ? "Stwórz nową potrawę"
-                    : undefined}
-              </button>
+                <button
+                  className="add-product-btn"
+                  onClick={
+                    filterType === "myProducts"
+                      ? handleClickAddProductButton
+                      : filterType === "myDishes"
+                        ? handleClickAddDishButton
+                        : undefined
+                  }
+                >
+                  <Plus className="p-plus" />{" "}
+                  {filterType === "myProducts"
+                    ? "Dodaj produkt"
+                    : filterType === "myDishes"
+                      ? "Stwórz nową potrawę"
+                      : undefined}
+                </button>
+              </div>
             </div>
-          </div>
+          )}
           <div className="bottom">
             {filterType === "myProducts" && (
               <>
@@ -279,6 +284,12 @@ function Diets() {
               setShowAddDishModal={setShowAddDishModal}
               setShowAddIngredientsModal={setShowAddIngredientsModal}
               setShowFormatTextModal={setShowFormatTextModal}
+            />
+          )}
+          {filterType === "menu" && (
+            <Menu
+              showAddProductToMenuModal={showAddProductToMenuModal}
+              setShowAddProductToMenuModal={setShowAddProductToMenuModal}
             />
           )}
         </section>

@@ -11,29 +11,29 @@ import TrainerField from "./elements/TrainerField";
 function TrainerList() {
   const [trainers, setTrainers] = useState([]);
 
-  useEffect(() => {
-    const getTrainerList = async () => {
+  const getTrainerList = async () => {
+    try {
+      const response = await apiFetch(`${BASE_URL}${ENDPOINTS.trainersList}`);
+
+      let data = null;
       try {
-        const response = await apiFetch(`${BASE_URL}${ENDPOINTS.trainersList}`);
-
-        let data = null;
-        try {
-          data = await response.json();
-        } catch {
-          data = null;
-        }
-
-        if (!response.ok) {
-          throw new Error(data?.error);
-        }
-
-        setTrainers(data);
-        console.log("trainers:", data);
-      } catch (err) {
-        console.error(err);
+        data = await response.json();
+      } catch {
+        data = null;
       }
-    };
 
+      if (!response.ok) {
+        throw new Error(data?.error);
+      }
+
+      setTrainers(data);
+      console.log("trainers:", data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
     getTrainerList();
   }, []);
 
@@ -82,6 +82,7 @@ function TrainerList() {
               phoneNumber={trainer.phone_business || "-"}
               email={trainer.business_email || "-"}
               trainerId={trainer.id}
+              getTrainerList={getTrainerList}
             />
           ))}
         </div>
