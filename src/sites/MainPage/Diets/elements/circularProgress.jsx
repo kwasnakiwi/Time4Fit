@@ -1,27 +1,38 @@
-import React from 'react';
+import React from "react";
 
-const CircularProgress = ({ 
-  value = 2170, 
-  max = 2200, 
-  label = "Kcal", 
+const CircularProgress = ({
+  value = 2170,
+  max = 2200,
+  label = "Kcal",
   textColor = "#000000",
-  gradientColors = ["#0c143a", "#f97979", "#fded5c"], // Domyślnie fioletowy (jak na screenie)
+  gradientColors = ["#181e3a", "#471f86", "#5c5ffd"], // Domyślnie fioletowy (jak na screenie)
   id = "grad1", // Unikalne ID dla każdego gradientu na stronie
-  size = "125px"
+  size = "125px",
 }) => {
   const radius = 60;
   const strokeWidth = 10;
   const viewBoxSize = 160;
   const center = viewBoxSize / 2;
-  
+
   // Obliczenia SVG
   const circumference = 2 * Math.PI * radius;
   const progress = (value / max) * circumference;
   const dashOffset = circumference - progress;
 
   return (
-    <div style={{ width: size, height: size, textAlign: 'center', fontFamily: 'sans-serif' }}>
-      <svg width="100%" height="100%" viewBox={`0 0 ${viewBoxSize} ${viewBoxSize}`}>
+    <div
+      style={{
+        width: size,
+        height: size,
+        textAlign: "center",
+        fontFamily: "poppins",
+      }}
+    >
+      <svg
+        width="100%"
+        height="100%"
+        viewBox={`0 0 ${viewBoxSize} ${viewBoxSize}`}
+      >
         <defs>
           {/* Tutaj definiujemy gradient */}
           <linearGradient id={id} x1="0%" y1="0%" x2="100%" y2="100%">
@@ -52,14 +63,28 @@ const CircularProgress = ({
           strokeDasharray={circumference}
           strokeDashoffset={dashOffset}
           transform={`rotate(-90 ${center} ${center})`}
-          style={{ transition: 'stroke-dashoffset 0.8s ease-out' }}
+          style={{ transition: "stroke-dashoffset 0.8s ease-out" }}
         />
 
         {/* Teksty w środku */}
-        <text x="50%" y="37%" textAnchor="middle" fill={textColor} fontSize="14" fontWeight="600">
+        <text
+          x="50%"
+          y="37%"
+          textAnchor="middle"
+          fill={textColor}
+          fontSize="14"
+          fontWeight="600"
+        >
           {label}
         </text>
-        <text x="50%" y="55%" textAnchor="middle" fill={gradientColors[0]} fontSize="24" fontWeight="800">
+        <text
+          x="50%"
+          y="55%"
+          textAnchor="middle"
+          fill={gradientColors[0]}
+          fontSize="24"
+          fontWeight="800"
+        >
           {value}
         </text>
         <text x="50%" y="68%" textAnchor="middle" fill="#747474" fontSize="12">

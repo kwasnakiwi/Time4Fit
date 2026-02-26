@@ -11,7 +11,9 @@ import menu2 from "./../../../../assets/svgs/menu2.svg";
 import menu3 from "./../../../../assets/svgs/menu3.svg";
 import menu4 from "./../../../../assets/svgs/menu4.svg";
 import menu5 from "./../../../../assets/svgs/menu5.svg";
-import CircularProgress from "./elements/circularProgress";
+import CircularProgress from "../elements/circularProgress";
+import { createPortal } from "react-dom";
+import AddProductToMenuModal from "../elements/AddProductToMenuModal";
 
 function Menu({ showAddProductToMenuModal, setShowAddProductToMenuModal }) {
   const [menuDate, setMenuDate] = useState(new Date());
@@ -30,6 +32,11 @@ function Menu({ showAddProductToMenuModal, setShowAddProductToMenuModal }) {
 
   return (
     <>
+      {showAddProductToMenuModal &&
+        createPortal(
+          <AddProductToMenuModal setShowModal={setShowAddProductToMenuModal} />,
+          document.body,
+        )}
       <div className="menu-wrapper">
         <header className="menu-date">
           <Left

@@ -178,6 +178,7 @@ function AddIngredientsModal({ showAddDishModal, setShowAddIngredientsModal }) {
               <div style={{ minHeight: 0 }}>
                 {[1, 2, 3, 4].map((pr, i) => (
                   <Product
+                    key={i}
                     title={pr.title || "Bez nazwy"}
                     category={pr.category || "Brak kategorii"}
                     packagingType={pr.packaging_type || "Opakowanie"}
