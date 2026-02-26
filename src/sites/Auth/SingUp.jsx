@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./../../styles/SignUp.css";
 import logo from "./../../assets/images/appLogo.png";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { ENDPOINTS } from "../../utils/Endopoints.jsx";
 import { BASE_URL } from "../../utils/Endopoints.jsx";
 import { apiFetch } from "../../interceptor/interceptor.jsx";
+import { UserContext } from "../../utils/UserContext.jsx";
 
 function SignUp() {
   const navigate = useNavigate();
@@ -14,44 +15,46 @@ function SignUp() {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
+  // const [isLoading, setIsLoading] = useState(true);
+  const { refetchMe } = useContext(UserContext);
 
   const access = localStorage.getItem("access");
   const refresh = localStorage.getItem("refresh");
 
-  useEffect(() => {
-    const verifyToken = async () => {
-      if (!access || !refresh) {
-        setIsLoading(false);
-        return;
-      }
-      try {
-        const response = await fetch(`${BASE_URL}${ENDPOINTS.verifyToken}`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ token: access }),
-        });
+  // useEffect(() => {
+  //   const verifyToken = async () => {
+  //     if (!access || !refresh) {
+  //       setIsLoading(false);
+  //       return;
+  //     }
+  //     try {
+  //       const response = await fetch(`${BASE_URL}${ENDPOINTS.verifyToken}`, {
+  //         method: "POST",
+  //         headers: { "Content-Type": "application/json" },
+  //         body: JSON.stringify({ token: access }),
+  //       });
 
-        let data;
-        try {
-          data = await response.json();
-        } catch {
-          data = null;
-        }
+  //       let data;
+  //       try {
+  //         data = await response.json();
+  //       } catch {
+  //         data = null;
+  //       }
 
-        if (!response.ok) {
-          throw new Error(data?.error);
-        }
-        console.log(data);
-        setIsLoading(false)
-        navigate(`/strona-glowna`);
-      } catch (err) {
-        console.log(err);
-      }
-    };
+  //       if (!response.ok) {
+  //         throw new Error(data?.error);
+  //       }
+  //       console.log(data);
+  //       setIsLoading(false);
+  //       refetchMe();
+  //       navigate(`/strona-glowna`);
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   };
 
-    verifyToken();
-  }, []);
+  //   verifyToken();
+  // }, []);
 
   const handleLogin = async () => {
     setError("");
@@ -101,7 +104,7 @@ function SignUp() {
     if (e.key === "Enter") handleLogin();
   };
 
-  if (isLoading) return <h1>Ładowanie profilu...</h1>
+  // if (isLoading) return <h1>Ładowanie profilu...</h1>;
 
   return (
     <>

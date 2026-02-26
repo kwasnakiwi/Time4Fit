@@ -1,39 +1,41 @@
-import { useEffect, useState } from "react"
-import NavBar from "../components/NavBar"
-import SideBar from "../components/SideBar"
-import './../../../styles/calendar.css'
+import { useContext, useEffect, useState } from "react";
+import NavBar from "../components/NavBar";
+import SideBar from "../components/SideBar";
+import "./../../../styles/calendar.css";
 import CalEvent from "./cal_components/CalEvent";
 import { FaAngleDown as AngleDown } from "react-icons/fa";
+import { UserContext } from "../../../utils/UserContext";
 
-function Calendar(){
+function Calendar() {
   const [calendarType, setCalendarType] = useState("day");
   const [events, setEvents] = useState([]);
+
   const HOURS = Array.from({ length: 24 }, (_, i) => i);
   const COLUMNS = 7;
 
   useEffect(() => {
     setEvents([
-        {
-          start: "9:30",
-          end: "12:00",
-          title: "Test1",
-        },
-        {
-          start: "11:30",
-          end: "12:10",
-          title: "Test2",
-        },
-        {
-          start: "0:30",
-          end: "7:00",
-          title: "Test3",
-        },
-        {
-          start: "12:00",
-          end: "17:00",
-          title: "Test4",
-        }
-      ]);
+      {
+        start: "9:30",
+        end: "12:00",
+        title: "Test1",
+      },
+      {
+        start: "11:30",
+        end: "12:10",
+        title: "Test2",
+      },
+      {
+        start: "0:30",
+        end: "7:00",
+        title: "Test3",
+      },
+      {
+        start: "12:00",
+        end: "17:00",
+        title: "Test4",
+      },
+    ]);
   }, []);
 
   const getEventPosition = (time) => {
@@ -44,9 +46,9 @@ function Calendar(){
     h = Number(h);
     m = h * 68 + m;
     return m;
-  }
+  };
 
-  return(
+  return (
     <>
       <NavBar route="Kalendarz" title="Kalendarz" />
       <SideBar />
@@ -59,7 +61,7 @@ function Calendar(){
                 <option value="">Lorem</option>
                 <option value="">Lorem</option>
               </select>
-              <AngleDown className="icon"/>
+              <AngleDown className="icon" />
             </div>
             <div className="cal-filter-wrapper">
               <select className="cal-filter-select">
@@ -71,19 +73,19 @@ function Calendar(){
             </div>
           </div>
           <div className="cal-select">
-            <button 
+            <button
               className={`cal-select-btn ${calendarType == "day" ? "selected" : ""}`}
               onClick={() => setCalendarType("day")}
             >
               Dzień
             </button>
-            <button 
+            <button
               className={`cal-select-btn ${calendarType == "week" ? "selected" : ""}`}
               onClick={() => setCalendarType("week")}
             >
               Tydzień
             </button>
-            <button 
+            <button
               className={`cal-select-btn ${calendarType == "month" ? "selected" : ""}`}
               onClick={() => setCalendarType("month")}
             >
@@ -125,12 +127,19 @@ function Calendar(){
 
                 {/* eventy */}
                 {events.map((ev, i) => (
-                  <div 
+                  <div
                     className="cal-event"
                     key={i}
-                    style={{height: `${getEventPosition(ev.end) - getEventPosition(ev.start)}px`, width: "200px", backgroundColor: "limegreen", position: "absolute", top: getEventPosition(ev.start)}}
+                    style={{
+                      height: `${getEventPosition(ev.end) - getEventPosition(ev.start)}px`,
+                      width: "200px",
+                      backgroundColor: "limegreen",
+                      position: "absolute",
+                      top: getEventPosition(ev.start),
+                    }}
                   >
-                    {ev.title}<br/>
+                    {ev.title}
+                    <br />
                     {ev.start.padStart(5, "0")} do {ev.end.padStart(5, "0")}
                   </div>
                 ))}
@@ -140,7 +149,7 @@ function Calendar(){
         </section>
       </div>
     </>
-  )
+  );
 }
 
-export default Calendar
+export default Calendar;

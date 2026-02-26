@@ -28,87 +28,90 @@ import ProductsList from "./sites/MainPage/Diets/Products/ProductsList.jsx";
 import DishesList from "./sites/MainPage/Diets/Dishes/DishesList.jsx";
 import DishDetails from "./sites/MainPage/Diets/Dishes/DIshDetails.jsx";
 import Diets from "./sites/MainPage/Diets/Diets.jsx";
+import { UserProvider } from "./utils/UserContext.jsx";
 
 function App() {
   return (
     <>
       <Router>
-        <Routes>
-          <Route path="/" element={<SingUp />} />
-          <Route path="/rejestracja" element={<Register />} />
-          <Route path="/zapomnialem-hasla" element={<ForgotPassword />} />
-          <Route path="/logowanie" element={<TwoFA />} />
-          <Route
-            path="/zapomnialem-hasla/weryfikacja"
-            element={<ForgotPasswordVerify />}
-          />
-          <Route
-            path="/zapomnialem-hasla/zmiana-hasla"
-            element={<ChangePassword />}
-          />
-          <Route path="/eventy" element={<Events />} />
-          <Route path="/eventy/mapa-eventow" element={<EventsMap />} />
-          <Route path="/eventy/:id" element={<EventDetails />} />
-          <Route
-            path="/eventy/zaproszenie/event/:access_code"
-            element={<EventDetails />}
-          />
-          <Route
-            path="/eventy/dodawanie-eventu/*"
-            element={
-              <EventProvider>
+        <UserProvider>
+          <Routes>
+            <Route path="/" element={<SingUp />} />
+            <Route path="/rejestracja" element={<Register />} />
+            <Route path="/zapomnialem-hasla" element={<ForgotPassword />} />
+            <Route path="/logowanie" element={<TwoFA />} />
+            <Route
+              path="/zapomnialem-hasla/weryfikacja"
+              element={<ForgotPasswordVerify />}
+            />
+            <Route
+              path="/zapomnialem-hasla/zmiana-hasla"
+              element={<ChangePassword />}
+            />
+            <Route path="/eventy" element={<Events />} />
+            <Route path="/eventy/mapa-eventow" element={<EventsMap />} />
+            <Route path="/eventy/:id" element={<EventDetails />} />
+            <Route
+              path="/eventy/zaproszenie/event/:access_code"
+              element={<EventDetails />}
+            />
+            <Route
+              path="/eventy/dodawanie-eventu/*"
+              element={
+                <EventProvider>
+                  <Routes>
+                    <Route path="" element={<AddEvent1 />} />
+                    <Route path="2" element={<AddEvent2 />} />
+                  </Routes>
+                </EventProvider>
+              }
+            />
+            <Route path="/eventy/zaproszenie" element={<EventInvitation />} />
+            <Route path="/strona-glowna" element={<HomePage />} />
+            <Route path="/profil/edycja" element={<EditProfile />} />
+            <Route
+              path="/profil/edycja/stworz-profil-trenera"
+              element={<CreateTrainerProfile />}
+            />
+            <Route path="/test" element={<ToTimeForFit />} />
+            <Route path="/kalendarz" element={<Calendar />} />
+            <Route
+              path="/placowki/*"
+              element={
                 <Routes>
-                  <Route path="" element={<AddEvent1 />} />
-                  <Route path="2" element={<AddEvent2 />} />
+                  <Route path="wybor-planu" element={<ChoosePlace />} />
+                  <Route path="dodawanie-placowki" element={<AddPlace />} />
                 </Routes>
-              </EventProvider>
-            }
-          />
-          <Route path="/eventy/zaproszenie" element={<EventInvitation />} />
-          <Route path="/strona-glowna" element={<HomePage />} />
-          <Route path="/profil/edycja" element={<EditProfile />} />
-          <Route
-            path="/profil/edycja/stworz-profil-trenera"
-            element={<CreateTrainerProfile />}
-          />
-          <Route path="/test" element={<ToTimeForFit />} />
-          <Route path="/kalendarz" element={<Calendar />} />
-          <Route
-            path="/placowki/*"
-            element={
-              <Routes>
-                <Route path="wybor-planu" element={<ChoosePlace />} />
-                <Route path="dodawanie-placowki" element={<AddPlace />} />
-              </Routes>
-            }
-          />
-          <Route
-            path="time-4-biz/*"
-            element={
-              <Routes>
-                <Route path="menu-placowek" element={<PlacesMenu />} />
-              </Routes>
-            }
-          />
-          <Route
-            path="/lista-trenerow/*"
-            element={
-              <Routes>
-                <Route path="" element={<TrainerList />} />
-                <Route path=":trainerId" element={<PublicProfile />} />
-              </Routes>
-            }
-          />
-          <Route
-            path="/diety/*"
-            element={
-              <Routes>
-                <Route path="" element={<Diets />} />
-                <Route path="/potrawa/:id" element={<DishDetails />} />
-              </Routes>
-            }
-          />
-        </Routes>
+              }
+            />
+            <Route
+              path="time-4-biz/*"
+              element={
+                <Routes>
+                  <Route path="menu-placowek" element={<PlacesMenu />} />
+                </Routes>
+              }
+            />
+            <Route
+              path="/lista-trenerow/*"
+              element={
+                <Routes>
+                  <Route path="" element={<TrainerList />} />
+                  <Route path=":trainerId" element={<PublicProfile />} />
+                </Routes>
+              }
+            />
+            <Route
+              path="/diety/*"
+              element={
+                <Routes>
+                  <Route path="" element={<Diets />} />
+                  <Route path="/potrawa/:id" element={<DishDetails />} />
+                </Routes>
+              }
+            />
+          </Routes>
+        </UserProvider>
       </Router>
     </>
   );

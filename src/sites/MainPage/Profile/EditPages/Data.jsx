@@ -2,12 +2,22 @@ import "./../../../../styles/profile.css";
 import editIcon from "./../../../../assets/images/edit-icon.png";
 import circlePfp from "./../../../../assets/images/circle-pfp.png";
 import editIcon2 from "./../../../../assets/images/edit-icon2.png";
+import { useContext } from "react";
+import { UserContext } from "../../../../utils/UserContext";
+import { useNavigate } from "react-router-dom";
 
 function Data({ me, refetchMe, userData }) {
+  const { logout } = useContext(UserContext);
+
+  const navigate = useNavigate();
+
   return (
     <>
       <div className="profile-user-data">
-        <section className="user-data-panel ud-pfp">
+        <section
+          className="user-data-panel ud-pfp"
+          style={{ position: "relative" }}
+        >
           <div className="user-data-pfp-wrapper">
             <img src={circlePfp} alt="Zdjęcie profilowe" />
             <div className="change-pfp-icon">
@@ -19,9 +29,24 @@ function Data({ me, refetchMe, userData }) {
               {userData.name} {userData.surname}
             </h2>
             <span className="ud-user-status">
-              {!me?.subscription ? "Użytkownik" : me.subscription.plan_name} 
+              {!me?.subscription ? "Użytkownik" : me.subscription.plan_name}
             </span>
           </div>
+          <button
+            className="log-in-btn"
+            onClick={async () => {
+              await logout();
+              navigate("/");
+            }}
+            style={{
+              position: "absolute",
+              right: "20px",
+              top: "50%",
+              transform: "translateY(-50%)",
+            }}
+          >
+            Wyloguj się
+          </button>
         </section>
         <section className="user-data-panel ud-with-content">
           <div className="ud-container">

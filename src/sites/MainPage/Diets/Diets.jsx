@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./../../../styles/diets.css";
 import NavBar from "../components/NavBar";
 import SideBar from "../components/SideBar";
@@ -11,6 +11,7 @@ import ProductsList from "./Products/ProductsList";
 import DishesList from "./Dishes/DishesList";
 import { useNavigate, useLocation } from "react-router-dom";
 import Menu from "./Menu/Menu";
+import { UserContext } from "../../../utils/UserContext";
 
 function Diets() {
   const navigate = useNavigate();

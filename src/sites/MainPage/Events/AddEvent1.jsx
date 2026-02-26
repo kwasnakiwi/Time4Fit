@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { EventContext } from "../../../utils/EventContext.jsx";
 import { BASE_URL, ENDPOINTS } from "../../../utils/Endopoints.jsx";
 import { apiFetch } from "../../../interceptor/interceptor.jsx";
+import { UserContext } from "../../../utils/UserContext.jsx";
 
 async function fetchPostalForCity(city, setPostial) {
   try {
@@ -29,6 +30,8 @@ async function fetchPostalForCity(city, setPostial) {
 }
 
 function AddEvent1() {
+  const { isLoggedIn } = useContext(UserContext);
+
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
   const [categories, setCategories] = useState([]);
@@ -122,7 +125,7 @@ function AddEvent1() {
 
   return (
     <>
-      <NavBar route="Eventy / Tworzenie Eventu" title="Tworzenie Eventu" />
+      <NavBar route="Eventy / Tworzenie Eventu" title="Tworzenie Eventu" isNotProfileVisible={!isLoggedIn} />
       <SideBar />
       <main className="events-main">
         <div className="main-events-container">

@@ -156,7 +156,7 @@ function Menu({ showAddProductToMenuModal, setShowAddProductToMenuModal }) {
               id="kcal"
             />
             <CircularProgress
-              value={1900}
+              value={100}
               max={2200}
               label="Białko"
               gradientColors={["#1C398E", "#1744F9", "#4553F5"]}

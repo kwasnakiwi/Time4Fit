@@ -1,3 +1,5 @@
+import { BASE_URL, ENDPOINTS } from "../utils/Endopoints";
+
 export async function apiFetch(url, options = {}) {
   const access = localStorage.getItem("access");
 
@@ -19,14 +21,11 @@ export async function apiFetch(url, options = {}) {
       const refresh = localStorage.getItem("refresh");
 
       if (refresh) {
-        const refreshResponse = await fetch(
-          `${BASE_URL}${ENDPOINTS.refresh}`,
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ refresh }),
-          }
-        );
+        const refreshResponse = await fetch(`${BASE_URL}${ENDPOINTS.refresh}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ refresh }),
+        });
 
         let data = null;
         try {

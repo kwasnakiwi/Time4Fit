@@ -2,55 +2,64 @@ import NavBar from "../components/NavBar.jsx";
 import SideBar from "../components/SideBar.jsx";
 import ToTimeForFit from "../Loadings/ToTimeForFit.jsx";
 import { useState, useEffect, useContext } from "react";
-import './../../../styles/homepage.css'
-import { FaSearch as Search, FaArrowRight as Arrow, FaRegClock as Clock } from "react-icons/fa";
+import "./../../../styles/homepage.css";
+import {
+  FaSearch as Search,
+  FaArrowRight as Arrow,
+  FaRegClock as Clock,
+} from "react-icons/fa";
 import { useNavigate, Link } from "react-router-dom";
-import category from './../../../assets/images/category.png';
-import finalCategory from './../../../assets/images/last-category.png';
-import rec1 from './../../../assets/images/rec1.png';
-import rec2 from './../../../assets/images/rec2.png';
+import category from "./../../../assets/images/category.png";
+import finalCategory from "./../../../assets/images/last-category.png";
+import rec1 from "./../../../assets/images/rec1.png";
+import rec2 from "./../../../assets/images/rec2.png";
 import { BiMap as PinMap } from "react-icons/bi";
-import recClock from './../../../assets/images/rec-clock.png';
-import recLoc from './../../../assets/images/rec-loc.png';
-import recPeople from './../../../assets/images/rec-people.png';
-import rec3 from './../../../assets/images/rec3.png';
-import ac1 from './../../../assets/images/ac1.png';
-import ac2 from './../../../assets/images/ac2.png';
-import ac3 from './../../../assets/images/ac3.png';
-import ac4 from './../../../assets/images/ac4.png';
+import recClock from "./../../../assets/images/rec-clock.png";
+import recLoc from "./../../../assets/images/rec-loc.png";
+import recPeople from "./../../../assets/images/rec-people.png";
+import rec3 from "./../../../assets/images/rec3.png";
+import ac1 from "./../../../assets/images/ac1.png";
+import ac2 from "./../../../assets/images/ac2.png";
+import ac3 from "./../../../assets/images/ac3.png";
+import ac4 from "./../../../assets/images/ac4.png";
 import "react-day-picker/style.css";
 import Calendar from "../components/Calendar.jsx";
+import { UserContext } from "../../../utils/UserContext.jsx";
 
 function HomePage() {
-  const isLoggedIn = true;
   const navigate = useNavigate();
   const [selected, setSelected] = useState();
   const [isLoading, setIsLoading] = useState(true);
 
+  const { isLoggedIn } = useContext(UserContext);
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 2000)
+    }, 2000);
 
     return () => clearTimeout(timer);
-  }, [])
+  }, []);
 
-  if (isLoading) return <ToTimeForFit />
+  if (isLoading) return <ToTimeForFit />;
 
-  return(
+  return (
     <>
-      <NavBar route="Home" title="Home" isNotProfileVisible={!isLoggedIn} />
+      <NavBar route="Home" title="Home" />
       <SideBar />
       <main className="home-page-container">
         <div className="home-page">
-          {!isLoggedIn ?
+          {!isLoggedIn ? (
             <>
               <header className="upper-btns">
                 <div className="search-wrapper">
-                  <input type="text" placeholder="Wyszukaj" className="search-bar"/>
+                  <input
+                    type="text"
+                    placeholder="Wyszukaj"
+                    className="search-bar"
+                  />
                   <Search className="search-icon" />
                 </div>
-                <button onClick={() => navigate('/')} className="log-in-btn">Zaloguj się</button>
               </header>
               <section className="hp-categories-box">
                 <h2 className="hp-categories-title">Kategorie</h2>
@@ -106,7 +115,7 @@ function HomePage() {
                 </div>
               </section>
             </>
-            :
+          ) : (
             <>
               <header className="user-greeting-box">
                 <h1 className="user-greeting">Witaj ponownie, Andrzej!</h1>
@@ -137,15 +146,22 @@ function HomePage() {
                   <div className="user-stat-icon" id="green">
                     <img src={ac4} alt="Ikona aktywności" />
                   </div>
-                  <span className="user-stat-name">Najczęściej wybierana kategoria</span>
+                  <span className="user-stat-name">
+                    Najczęściej wybierana kategoria
+                  </span>
                   <span className="user-stat-value">Joga</span>
                 </div>
               </section>
             </>
-          }
-          <section className={`recomendations ${isLoggedIn ? 'logged-recomendations' : ''}`}>
-            {isLoggedIn &&
-              <div className="training-plan-container" style={{gridArea: 'plan'}}>
+          )}
+          <section
+            className={`recomendations ${isLoggedIn ? "logged-recomendations" : ""}`}
+          >
+            {isLoggedIn && (
+              <div
+                className="training-plan-container"
+                style={{ gridArea: "plan" }}
+              >
                 <h2 className="recomendation-title">
                   <img src={rec3} alt="zdj" />
                   Twój plan treningowy
@@ -153,184 +169,324 @@ function HomePage() {
                 <div className="training-plan-content">
                   <Calendar selected={selected} onSelect={setSelected} />
                   <div className="training-plan-items-box">
-                    <h3 className="training-plan-items-date">Wtorek, 25 Październik 2025</h3>
+                    <h3 className="training-plan-items-date">
+                      Wtorek, 25 Październik 2025
+                    </h3>
                     <div className="training-plan-items">
                       <div className="training-plan-item">
                         <div className="training-plan-item-left">
-                          <h4 className="training-plan-item-title">Joga dla zdrowia</h4>
+                          <h4 className="training-plan-item-title">
+                            Joga dla zdrowia
+                          </h4>
                           <span className="training-plan-item-date">
                             <Clock className="tpi-clock" />
                             <i>14:30</i>
                           </span>
                         </div>
-                        <Link to='' className="tp-to-event-btn">Przejdź do wydarzenia</Link>
+                        <Link to="" className="tp-to-event-btn">
+                          Przejdź do wydarzenia
+                        </Link>
                       </div>
                       <div className="training-plan-item">
                         <div className="training-plan-item-left">
-                          <h4 className="training-plan-item-title">Joga dla zdrowia</h4>
+                          <h4 className="training-plan-item-title">
+                            Joga dla zdrowia
+                          </h4>
                           <span className="training-plan-item-date">
                             <Clock className="tpi-clock" />
                             <i>14:30</i>
                           </span>
                         </div>
-                        <Link to='' className="tp-to-event-btn">Przejdź do wydarzenia</Link>
+                        <Link to="" className="tp-to-event-btn">
+                          Przejdź do wydarzenia
+                        </Link>
                       </div>
                       <div className="training-plan-item">
                         <div className="training-plan-item-left">
-                          <h4 className="training-plan-item-title">Joga dla zdrowia</h4>
+                          <h4 className="training-plan-item-title">
+                            Joga dla zdrowia
+                          </h4>
                           <span className="training-plan-item-date">
                             <Clock className="tpi-clock" />
                             <i>14:30</i>
                           </span>
                         </div>
-                        <Link to='' className="tp-to-event-btn">Przejdź do wydarzenia</Link>
+                        <Link to="" className="tp-to-event-btn">
+                          Przejdź do wydarzenia
+                        </Link>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            }
-            <div className="recomended-places-container" style={{gridArea: 'places'}}>
+            )}
+            <div
+              className="recomended-places-container"
+              style={{ gridArea: "places" }}
+            >
               <h2 className="recomendation-title">
                 <img id="ic1" src={rec1} alt="zdj" />
                 Polecane miejsca w regionie
               </h2>
               <div className="recomended-places">
                 <div className="rec-place">
-                  <div><h3 className="rec-place-name">My fitnes place</h3></div>
-                  <div><span className="rec-place-localization">
-                    <PinMap className="rec-loc-icon"/>
-                    Katowice, Park Tysiąclecia
-                  </span></div>
-                  <div><span className="rec-place-type">
-                    Siłownia
-                  </span></div>
-                  <div><Link><button className="go-to-place-btn">Przejdź do placówki <Arrow /></button></Link></div>
+                  <div>
+                    <h3 className="rec-place-name">My fitnes place</h3>
+                  </div>
+                  <div>
+                    <span className="rec-place-localization">
+                      <PinMap className="rec-loc-icon" />
+                      Katowice, Park Tysiąclecia
+                    </span>
+                  </div>
+                  <div>
+                    <span className="rec-place-type">Siłownia</span>
+                  </div>
+                  <div>
+                    <Link>
+                      <button className="go-to-place-btn">
+                        Przejdź do placówki <Arrow />
+                      </button>
+                    </Link>
+                  </div>
                 </div>
                 <div className="rec-place">
-                  <div><h3 className="rec-place-name">My fitnes place</h3></div>
-                  <div><span className="rec-place-localization">
-                    <PinMap className="rec-loc-icon"/>
-                    Katowice, Park Tysiąclecia
-                  </span></div>
-                  <div><span className="rec-place-type">
-                    Siłownia
-                  </span></div>
-                  <div><Link><button className="go-to-place-btn">Przejdź do placówki <Arrow /></button></Link></div>
+                  <div>
+                    <h3 className="rec-place-name">My fitnes place</h3>
+                  </div>
+                  <div>
+                    <span className="rec-place-localization">
+                      <PinMap className="rec-loc-icon" />
+                      Katowice, Park Tysiąclecia
+                    </span>
+                  </div>
+                  <div>
+                    <span className="rec-place-type">Siłownia</span>
+                  </div>
+                  <div>
+                    <Link>
+                      <button className="go-to-place-btn">
+                        Przejdź do placówki <Arrow />
+                      </button>
+                    </Link>
+                  </div>
                 </div>
                 <div className="rec-place">
-                  <div><h3 className="rec-place-name">My fitnes place</h3></div>
-                  <div><span className="rec-place-localization">
-                    <PinMap className="rec-loc-icon"/>
-                    Katowice, Park Tysiąclecia
-                  </span></div>
-                  <div><span className="rec-place-type">
-                    Siłownia
-                  </span></div>
-                  <div><Link><button className="go-to-place-btn">Przejdź do placówki <Arrow /></button></Link></div>
+                  <div>
+                    <h3 className="rec-place-name">My fitnes place</h3>
+                  </div>
+                  <div>
+                    <span className="rec-place-localization">
+                      <PinMap className="rec-loc-icon" />
+                      Katowice, Park Tysiąclecia
+                    </span>
+                  </div>
+                  <div>
+                    <span className="rec-place-type">Siłownia</span>
+                  </div>
+                  <div>
+                    <Link>
+                      <button className="go-to-place-btn">
+                        Przejdź do placówki <Arrow />
+                      </button>
+                    </Link>
+                  </div>
                 </div>
                 <div className="rec-place">
-                  <div><h3 className="rec-place-name">My fitnes place</h3></div>
-                  <div><span className="rec-place-localization">
-                    <PinMap className="rec-loc-icon"/>
-                    Katowice, Park Tysiąclecia
-                  </span></div>
-                  <div><span className="rec-place-type">
-                    Siłownia
-                  </span></div>
-                  <div><Link><button className="go-to-place-btn">Przejdź do placówki <Arrow /></button></Link></div>
+                  <div>
+                    <h3 className="rec-place-name">My fitnes place</h3>
+                  </div>
+                  <div>
+                    <span className="rec-place-localization">
+                      <PinMap className="rec-loc-icon" />
+                      Katowice, Park Tysiąclecia
+                    </span>
+                  </div>
+                  <div>
+                    <span className="rec-place-type">Siłownia</span>
+                  </div>
+                  <div>
+                    <Link>
+                      <button className="go-to-place-btn">
+                        Przejdź do placówki <Arrow />
+                      </button>
+                    </Link>
+                  </div>
                 </div>
                 <div className="rec-place">
-                  <div><h3 className="rec-place-name">My fitnes place</h3></div>
-                  <div><span className="rec-place-localization">
-                    <PinMap className="rec-loc-icon"/>
-                    Katowice, Park Tysiąclecia
-                  </span></div>
-                  <div><span className="rec-place-type">
-                    Siłownia
-                  </span></div>
-                  <div><Link><button className="go-to-place-btn">Przejdź do placówki <Arrow /></button></Link></div>
+                  <div>
+                    <h3 className="rec-place-name">My fitnes place</h3>
+                  </div>
+                  <div>
+                    <span className="rec-place-localization">
+                      <PinMap className="rec-loc-icon" />
+                      Katowice, Park Tysiąclecia
+                    </span>
+                  </div>
+                  <div>
+                    <span className="rec-place-type">Siłownia</span>
+                  </div>
+                  <div>
+                    <Link>
+                      <button className="go-to-place-btn">
+                        Przejdź do placówki <Arrow />
+                      </button>
+                    </Link>
+                  </div>
                 </div>
                 <div className="rec-place">
-                  <div><h3 className="rec-place-name">My fitnes place</h3></div>
-                  <div><span className="rec-place-localization">
-                    <PinMap className="rec-loc-icon"/>
-                    Katowice, Park Tysiąclecia
-                  </span></div>
-                  <div><span className="rec-place-type">
-                    Siłownia
-                  </span></div>
-                  <div><Link><button className="go-to-place-btn">Przejdź do placówki <Arrow /></button></Link></div>
+                  <div>
+                    <h3 className="rec-place-name">My fitnes place</h3>
+                  </div>
+                  <div>
+                    <span className="rec-place-localization">
+                      <PinMap className="rec-loc-icon" />
+                      Katowice, Park Tysiąclecia
+                    </span>
+                  </div>
+                  <div>
+                    <span className="rec-place-type">Siłownia</span>
+                  </div>
+                  <div>
+                    <Link>
+                      <button className="go-to-place-btn">
+                        Przejdź do placówki <Arrow />
+                      </button>
+                    </Link>
+                  </div>
                 </div>
                 <div className="rec-place">
-                  <div><h3 className="rec-place-name">My fitnes place</h3></div>
-                  <div><span className="rec-place-localization">
-                    <PinMap className="rec-loc-icon"/>
-                    Katowice, Park Tysiąclecia
-                  </span></div>
-                  <div><span className="rec-place-type">
-                    Siłownia
-                  </span></div>
-                  <div><Link><button className="go-to-place-btn">Przejdź do placówki <Arrow /></button></Link></div>
+                  <div>
+                    <h3 className="rec-place-name">My fitnes place</h3>
+                  </div>
+                  <div>
+                    <span className="rec-place-localization">
+                      <PinMap className="rec-loc-icon" />
+                      Katowice, Park Tysiąclecia
+                    </span>
+                  </div>
+                  <div>
+                    <span className="rec-place-type">Siłownia</span>
+                  </div>
+                  <div>
+                    <Link>
+                      <button className="go-to-place-btn">
+                        Przejdź do placówki <Arrow />
+                      </button>
+                    </Link>
+                  </div>
                 </div>
                 <div className="rec-place">
-                  <div><h3 className="rec-place-name">My fitnes place</h3></div>
-                  <div><span className="rec-place-localization">
-                    <PinMap className="rec-loc-icon"/>
-                    Katowice, Park Tysiąclecia
-                  </span></div>
-                  <div><span className="rec-place-type">
-                    Siłownia
-                  </span></div>
-                  <div><Link><button className="go-to-place-btn">Przejdź do placówki <Arrow /></button></Link></div>
+                  <div>
+                    <h3 className="rec-place-name">My fitnes place</h3>
+                  </div>
+                  <div>
+                    <span className="rec-place-localization">
+                      <PinMap className="rec-loc-icon" />
+                      Katowice, Park Tysiąclecia
+                    </span>
+                  </div>
+                  <div>
+                    <span className="rec-place-type">Siłownia</span>
+                  </div>
+                  <div>
+                    <Link>
+                      <button className="go-to-place-btn">
+                        Przejdź do placówki <Arrow />
+                      </button>
+                    </Link>
+                  </div>
                 </div>
                 <div className="rec-place">
-                  <div><h3 className="rec-place-name">My fitnes place</h3></div>
-                  <div><span className="rec-place-localization">
-                    <PinMap className="rec-loc-icon"/>
-                    Katowice, Park Tysiąclecia
-                  </span></div>
-                  <div><span className="rec-place-type">
-                    Siłownia
-                  </span></div>
-                  <div><Link><button className="go-to-place-btn">Przejdź do placówki <Arrow /></button></Link></div>
+                  <div>
+                    <h3 className="rec-place-name">My fitnes place</h3>
+                  </div>
+                  <div>
+                    <span className="rec-place-localization">
+                      <PinMap className="rec-loc-icon" />
+                      Katowice, Park Tysiąclecia
+                    </span>
+                  </div>
+                  <div>
+                    <span className="rec-place-type">Siłownia</span>
+                  </div>
+                  <div>
+                    <Link>
+                      <button className="go-to-place-btn">
+                        Przejdź do placówki <Arrow />
+                      </button>
+                    </Link>
+                  </div>
                 </div>
                 <div className="rec-place">
-                  <div><h3 className="rec-place-name">My fitnes place</h3></div>
-                  <div><span className="rec-place-localization">
-                    <PinMap className="rec-loc-icon"/>
-                    Katowice, Park Tysiąclecia
-                  </span></div>
-                  <div><span className="rec-place-type">
-                    Siłownia
-                  </span></div>
-                  <div><Link><button className="go-to-place-btn">Przejdź do placówki <Arrow /></button></Link></div>
+                  <div>
+                    <h3 className="rec-place-name">My fitnes place</h3>
+                  </div>
+                  <div>
+                    <span className="rec-place-localization">
+                      <PinMap className="rec-loc-icon" />
+                      Katowice, Park Tysiąclecia
+                    </span>
+                  </div>
+                  <div>
+                    <span className="rec-place-type">Siłownia</span>
+                  </div>
+                  <div>
+                    <Link>
+                      <button className="go-to-place-btn">
+                        Przejdź do placówki <Arrow />
+                      </button>
+                    </Link>
+                  </div>
                 </div>
                 <div className="rec-place">
-                  <div><h3 className="rec-place-name">My fitnes place</h3></div>
-                  <div><span className="rec-place-localization">
-                    <PinMap className="rec-loc-icon"/>
-                    Katowice, Park Tysiąclecia
-                  </span></div>
-                  <div><span className="rec-place-type">
-                    Siłownia
-                  </span></div>
-                  <div><Link><button className="go-to-place-btn">Przejdź do placówki <Arrow /></button></Link></div>
+                  <div>
+                    <h3 className="rec-place-name">My fitnes place</h3>
+                  </div>
+                  <div>
+                    <span className="rec-place-localization">
+                      <PinMap className="rec-loc-icon" />
+                      Katowice, Park Tysiąclecia
+                    </span>
+                  </div>
+                  <div>
+                    <span className="rec-place-type">Siłownia</span>
+                  </div>
+                  <div>
+                    <Link>
+                      <button className="go-to-place-btn">
+                        Przejdź do placówki <Arrow />
+                      </button>
+                    </Link>
+                  </div>
                 </div>
                 <div className="rec-place">
-                  <div><h3 className="rec-place-name">My fitnes place</h3></div>
-                  <div><span className="rec-place-localization">
-                    <PinMap className="rec-loc-icon"/>
-                    Katowice, Park Tysiąclecia
-                  </span></div>
-                  <div><span className="rec-place-type">
-                    Siłownia
-                  </span></div>
-                  <div><Link><button className="go-to-place-btn">Przejdź do placówki <Arrow /></button></Link></div>
+                  <div>
+                    <h3 className="rec-place-name">My fitnes place</h3>
+                  </div>
+                  <div>
+                    <span className="rec-place-localization">
+                      <PinMap className="rec-loc-icon" />
+                      Katowice, Park Tysiąclecia
+                    </span>
+                  </div>
+                  <div>
+                    <span className="rec-place-type">Siłownia</span>
+                  </div>
+                  <div>
+                    <Link>
+                      <button className="go-to-place-btn">
+                        Przejdź do placówki <Arrow />
+                      </button>
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>
-            <div className="recomended-events-container" style={{gridArea: 'events'}}>
+            <div
+              className="recomended-events-container"
+              style={{ gridArea: "events" }}
+            >
               <h2 className="recomendation-title">
                 <img id="ic2" src={rec2} alt="" />
                 Może cię zainteresować
@@ -344,17 +500,29 @@ function HomePage() {
                   <div className="rec-event-informations">
                     <span className="rec-event-information">Joga</span>
                     <span className="rec-event-information">+18</span>
-                    <span className="rec-event-information">Średniozaawansowany</span>
+                    <span className="rec-event-information">
+                      Średniozaawansowany
+                    </span>
                   </div>
                   <div className="rec-event-more-info-wrapper">
                     <div className="rec-event-more-info">
                       <ul className="rec-event-more-info-list">
-                        <li><img src={recClock} /> Paź 25, 19:00</li>
-                        <li><img src={recLoc} /> Katowice, Park tysiąclecia</li>
-                        <li><img src={recPeople} /> 6 miejsc</li>
+                        <li>
+                          <img src={recClock} /> Paź 25, 19:00
+                        </li>
+                        <li>
+                          <img src={recLoc} /> Katowice, Park tysiąclecia
+                        </li>
+                        <li>
+                          <img src={recPeople} /> 6 miejsc
+                        </li>
                       </ul>
                     </div>
-                    <Link><button className="rec-event-show-details-btn">Zobacz szczegóły <Arrow /></button></Link>
+                    <Link>
+                      <button className="rec-event-show-details-btn">
+                        Zobacz szczegóły <Arrow />
+                      </button>
+                    </Link>
                   </div>
                 </div>
                 <div className="rec-event">
@@ -365,17 +533,29 @@ function HomePage() {
                   <div className="rec-event-informations">
                     <span className="rec-event-information">Joga</span>
                     <span className="rec-event-information">+18</span>
-                    <span className="rec-event-information">Średniozaawansowany</span>
+                    <span className="rec-event-information">
+                      Średniozaawansowany
+                    </span>
                   </div>
                   <div className="rec-event-more-info-wrapper">
                     <div className="rec-event-more-info">
                       <ul className="rec-event-more-info-list">
-                        <li><img src={recClock} /> Paź 25, 19:00</li>
-                        <li><img src={recLoc} /> Katowice, Park tysiąclecia</li>
-                        <li><img src={recPeople} /> 6 miejsc</li>
+                        <li>
+                          <img src={recClock} /> Paź 25, 19:00
+                        </li>
+                        <li>
+                          <img src={recLoc} /> Katowice, Park tysiąclecia
+                        </li>
+                        <li>
+                          <img src={recPeople} /> 6 miejsc
+                        </li>
                       </ul>
                     </div>
-                    <Link><button className="rec-event-show-details-btn">Zobacz szczegóły <Arrow /></button></Link>
+                    <Link>
+                      <button className="rec-event-show-details-btn">
+                        Zobacz szczegóły <Arrow />
+                      </button>
+                    </Link>
                   </div>
                 </div>
                 <div className="rec-event">
@@ -386,17 +566,29 @@ function HomePage() {
                   <div className="rec-event-informations">
                     <span className="rec-event-information">Joga</span>
                     <span className="rec-event-information">+18</span>
-                    <span className="rec-event-information">Średniozaawansowany</span>
+                    <span className="rec-event-information">
+                      Średniozaawansowany
+                    </span>
                   </div>
                   <div className="rec-event-more-info-wrapper">
                     <div className="rec-event-more-info">
                       <ul className="rec-event-more-info-list">
-                        <li><img src={recClock} /> Paź 25, 19:00</li>
-                        <li><img src={recLoc} /> Katowice, Park tysiąclecia</li>
-                        <li><img src={recPeople} /> 6 miejsc</li>
+                        <li>
+                          <img src={recClock} /> Paź 25, 19:00
+                        </li>
+                        <li>
+                          <img src={recLoc} /> Katowice, Park tysiąclecia
+                        </li>
+                        <li>
+                          <img src={recPeople} /> 6 miejsc
+                        </li>
                       </ul>
                     </div>
-                    <Link><button className="rec-event-show-details-btn">Zobacz szczegóły <Arrow /></button></Link>
+                    <Link>
+                      <button className="rec-event-show-details-btn">
+                        Zobacz szczegóły <Arrow />
+                      </button>
+                    </Link>
                   </div>
                 </div>
                 <div className="rec-event">
@@ -407,17 +599,29 @@ function HomePage() {
                   <div className="rec-event-informations">
                     <span className="rec-event-information">Joga</span>
                     <span className="rec-event-information">+18</span>
-                    <span className="rec-event-information">Średniozaawansowany</span>
+                    <span className="rec-event-information">
+                      Średniozaawansowany
+                    </span>
                   </div>
                   <div className="rec-event-more-info-wrapper">
                     <div className="rec-event-more-info">
                       <ul className="rec-event-more-info-list">
-                        <li><img src={recClock} /> Paź 25, 19:00</li>
-                        <li><img src={recLoc} /> Katowice, Park tysiąclecia</li>
-                        <li><img src={recPeople} /> 6 miejsc</li>
+                        <li>
+                          <img src={recClock} /> Paź 25, 19:00
+                        </li>
+                        <li>
+                          <img src={recLoc} /> Katowice, Park tysiąclecia
+                        </li>
+                        <li>
+                          <img src={recPeople} /> 6 miejsc
+                        </li>
                       </ul>
                     </div>
-                    <Link><button className="rec-event-show-details-btn">Zobacz szczegóły <Arrow /></button></Link>
+                    <Link>
+                      <button className="rec-event-show-details-btn">
+                        Zobacz szczegóły <Arrow />
+                      </button>
+                    </Link>
                   </div>
                 </div>
                 <div className="rec-event">
@@ -428,17 +632,29 @@ function HomePage() {
                   <div className="rec-event-informations">
                     <span className="rec-event-information">Joga</span>
                     <span className="rec-event-information">+18</span>
-                    <span className="rec-event-information">Średniozaawansowany</span>
+                    <span className="rec-event-information">
+                      Średniozaawansowany
+                    </span>
                   </div>
                   <div className="rec-event-more-info-wrapper">
                     <div className="rec-event-more-info">
                       <ul className="rec-event-more-info-list">
-                        <li><img src={recClock} /> Paź 25, 19:00</li>
-                        <li><img src={recLoc} /> Katowice, Park tysiąclecia</li>
-                        <li><img src={recPeople} /> 6 miejsc</li>
+                        <li>
+                          <img src={recClock} /> Paź 25, 19:00
+                        </li>
+                        <li>
+                          <img src={recLoc} /> Katowice, Park tysiąclecia
+                        </li>
+                        <li>
+                          <img src={recPeople} /> 6 miejsc
+                        </li>
                       </ul>
                     </div>
-                    <Link><button className="rec-event-show-details-btn">Zobacz szczegóły <Arrow /></button></Link>
+                    <Link>
+                      <button className="rec-event-show-details-btn">
+                        Zobacz szczegóły <Arrow />
+                      </button>
+                    </Link>
                   </div>
                 </div>
                 <div className="rec-event">
@@ -449,17 +665,29 @@ function HomePage() {
                   <div className="rec-event-informations">
                     <span className="rec-event-information">Joga</span>
                     <span className="rec-event-information">+18</span>
-                    <span className="rec-event-information">Średniozaawansowany</span>
+                    <span className="rec-event-information">
+                      Średniozaawansowany
+                    </span>
                   </div>
                   <div className="rec-event-more-info-wrapper">
                     <div className="rec-event-more-info">
                       <ul className="rec-event-more-info-list">
-                        <li><img src={recClock} /> Paź 25, 19:00</li>
-                        <li><img src={recLoc} /> Katowice, Park tysiąclecia</li>
-                        <li><img src={recPeople} /> 6 miejsc</li>
+                        <li>
+                          <img src={recClock} /> Paź 25, 19:00
+                        </li>
+                        <li>
+                          <img src={recLoc} /> Katowice, Park tysiąclecia
+                        </li>
+                        <li>
+                          <img src={recPeople} /> 6 miejsc
+                        </li>
                       </ul>
                     </div>
-                    <Link><button className="rec-event-show-details-btn">Zobacz szczegóły <Arrow /></button></Link>
+                    <Link>
+                      <button className="rec-event-show-details-btn">
+                        Zobacz szczegóły <Arrow />
+                      </button>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -468,7 +696,7 @@ function HomePage() {
         </div>
       </main>
     </>
-  )
+  );
 }
 
-export default HomePage
+export default HomePage;
