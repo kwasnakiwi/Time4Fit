@@ -91,6 +91,11 @@ input{
 .forgot-password{
     text-decoration: none;
     color: #FD8722;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
 }
 .forgot-password-box{
     margin-bottom: 50px;

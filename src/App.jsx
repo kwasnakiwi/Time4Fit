@@ -39,14 +39,14 @@ function App() {
             <Route path="/" element={<SingUp />} />
             <Route path="/rejestracja" element={<Register />} />
             <Route path="/zapomnialem-hasla" element={<ForgotPassword />} />
-            <Route path="/logowanie" element={<TwoFA />} />
+            <Route path="/logowanie" element={<SingUp is2FA />} />
             <Route
               path="/zapomnialem-hasla/weryfikacja"
-              element={<ForgotPasswordVerify />}
+              element={<ForgotPassword isVerify />}
             />
             <Route
               path="/zapomnialem-hasla/zmiana-hasla"
-              element={<ChangePassword />}
+              element={<ForgotPassword isReset />}
             />
             <Route path="/eventy" element={<Events />} />
             <Route path="/eventy/mapa-eventow" element={<EventsMap />} />
