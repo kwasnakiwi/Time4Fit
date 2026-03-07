@@ -7,7 +7,7 @@ import { BASE_URL } from "../../utils/Endopoints.jsx";
 import { apiFetch } from "../../interceptor/interceptor.jsx";
 import { UserContext } from "../../utils/UserContext.jsx";
 
-function TwoFA({ retrySend, challengeId, purpose }) {
+function TwoFA({ retrySend, challengeId, purpose, }) {
   const navigate = useNavigate();
   const [code, setCode] = useState("");
   const [error, setError] = useState("");

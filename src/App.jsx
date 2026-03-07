@@ -37,7 +37,7 @@ function App() {
         <UserProvider>
           <Routes>
             <Route path="/" element={<SingUp />} />
-            <Route path="/rejestracja" element={<Register />} />
+            <Route path="/rejestracja" element={<SingUp />} />
             <Route path="/zapomnialem-hasla" element={<ForgotPassword />} />
             <Route path="/logowanie" element={<SingUp is2FA />} />
             <Route
