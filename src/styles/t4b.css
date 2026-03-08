@@ -39,6 +39,7 @@
     display: flex;
     align-items: center;
     gap: 24px;
+    width: 100%;
     img{
         border-radius: 6px;
         padding: 9.5px 9px;

@@ -9,7 +9,7 @@ import {
 } from "react-icons/fa";
 import ProductsList from "./Products/ProductsList";
 import DishesList from "./Dishes/DishesList";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import Menu from "./Menu/Menu";
 import { UserContext } from "../../../utils/UserContext";
 
@@ -17,22 +17,20 @@ function Diets() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const queryParams = new URLSearchParams(location.search);
-  const [filterType, setFilterType] = useState(
-    queryParams.get("type") || "myProducts",
-  );
+  const [searchParams, setSearchParams] = useSearchParams();
+  const filterType = searchParams.get("type") || "myProducts";
 
-  useEffect(() => {
-    const params = new URLSearchParams();
-    params.set("type", filterType);
-    navigate(
-      {
-        pathname: location.pathname,
-        search: params.toString(),
-      },
-      { replace: true },
-    );
-  }, [filterType, navigate, location.pathname]);
+  const updateURL = (key, value) => {
+    const newParams = new URLSearchParams(searchParams);
+
+    if (value === null || value === undefined || value === "") {
+      newParams.delete(key);
+    } else {
+      newParams.set(key, value);
+    }
+
+    setSearchParams(newParams, { replace: true });
+  };
 
   const [search, setSearch] = useState("");
   const [showAddProductModal, setShowAddProductModal] = useState(false);
@@ -61,31 +59,31 @@ function Diets() {
           <nav className="product-filters-types">
             <span
               className={`product-filters-type ${filterType === "menu" ? "selected" : ""}`}
-              onClick={() => setFilterType("menu")}
+              onClick={() => updateURL("type", "menu")}
             >
               Jadłospis
             </span>
             <span
               className={`product-filters-type ${filterType === "myDishes" ? "selected" : ""}`}
-              onClick={() => setFilterType("myDishes")}
+              onClick={() => updateURL("type", "myDishes")}
             >
               Moje potrawy
             </span>
             <span
               className={`product-filters-type ${filterType === "myProducts" ? "selected" : ""}`}
-              onClick={() => setFilterType("myProducts")}
+              onClick={() => updateURL("type", "myProducts")}
             >
               Moje produkty
             </span>
             <span
               className={`product-filters-type ${filterType === "supplements" ? "selected" : ""}`}
-              onClick={() => setFilterType("supplements")}
+              onClick={() => updateURL("type", "supplements")}
             >
               Suplementacje
             </span>
             <span
               className={`product-filters-type ${filterType === "measurements" ? "selected" : ""}`}
-              onClick={() => setFilterType("measurements")}
+              onClick={() => updateURL("type", "measurements")}
             >
               Pomiary i progres
             </span>

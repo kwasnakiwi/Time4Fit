@@ -346,6 +346,7 @@ function SignUp({ is2FA }) {
               }
               challengeId={challengeId}
               purpose={purpose}
+              isRegister={isRegister}
             />
           )}
         </div>

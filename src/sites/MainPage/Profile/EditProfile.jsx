@@ -20,7 +20,7 @@ import clPrSide5 from "./../../../assets/images/cl-pr-side5.png";
 import clPrSide6 from "./../../../assets/images/cl-pr-side6.png";
 import clPrSide7 from "./../../../assets/images/cl-pr-side7.png";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { apiFetch } from "../../../interceptor/interceptor.jsx";
 import { BASE_URL, ENDPOINTS } from "../../../utils/Endopoints.jsx";
 
@@ -33,8 +33,22 @@ function EditProfile() {
   const { me, refetchMe } = useContext(UserContext);
 
   const [userData, setUserData] = useState({});
-  const [selected, setSelected] = useState("data");
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const selected = searchParams.get("page") || "data";
   const navigate = useNavigate();
+
+  const updateURL = (key, value) => {
+    const newParams = new URLSearchParams(searchParams);
+
+    if (value === null || value === undefined || value === "") {
+      newParams.delete(key);
+    } else {
+      newParams.set(key, value);
+    }
+
+    setSearchParams(newParams, { replace: true });
+  };
 
   useEffect(() => {
     const getUserData = async () => {
@@ -80,7 +94,7 @@ function EditProfile() {
               <ul className="pr-side-part-list">
                 <li
                   className={selected == "data" ? "pr-side-selected" : ""}
-                  onClick={() => setSelected("data")}
+                  onClick={() => updateURL("page", "data")}
                 >
                   <div style={{ width: "20px", height: "20px" }}>
                     <img src={selected == "data" ? clPrSide2 : prSide2} />
@@ -89,7 +103,7 @@ function EditProfile() {
                 </li>
                 <li
                   className={selected == "safety" ? "pr-side-selected" : ""}
-                  onClick={() => setSelected("safety")}
+                  onClick={() => updateURL("page", "safety")}
                 >
                   <div style={{ width: "20px", height: "20px" }}>
                     <img src={selected == "safety" ? clPrSide3 : prSide3} />
@@ -100,7 +114,7 @@ function EditProfile() {
                   className={
                     selected == "notifications" ? "pr-side-selected" : ""
                   }
-                  onClick={() => setSelected("notifications")}
+                  onClick={() => updateURL("page", "notifications")}
                 >
                   <div style={{ width: "20px", height: "20px" }}>
                     <img
@@ -111,7 +125,7 @@ function EditProfile() {
                 </li>
                 <li
                   className={selected == "payments" ? "pr-side-selected" : ""}
-                  onClick={() => setSelected("payments")}
+                  onClick={() => updateURL("page", "payments")}
                 >
                   <div style={{ width: "20px", height: "20px" }}>
                     <img src={selected == "payments" ? clPrSide5 : prSide5} />
@@ -127,7 +141,7 @@ function EditProfile() {
               <ul className="pr-side-part-list">
                 <li
                   className={selected == "place" ? "pr-side-selected" : ""}
-                  onClick={() => setSelected("place")}
+                  onClick={() => updateURL("page", "place")}
                 >
                   <div style={{ width: "20px", height: "20px" }}>
                     <img src={selected == "place" ? clPrSide6 : prSide6} />
@@ -136,7 +150,7 @@ function EditProfile() {
                 </li>
                 <li
                   className={selected == "event" ? "pr-side-selected" : ""}
-                  onClick={() => setSelected("event")}
+                  onClick={() => updateURL("page", "event")}
                 >
                   <div style={{ width: "20px", height: "20px" }}>
                     <img src={selected == "event" ? clPrSide7 : prSide7} />
@@ -155,7 +169,7 @@ function EditProfile() {
                   onClick={() => {
                     !userData.is_trainer
                       ? navigate("/profil/edycja/stworz-profil-trenera")
-                      : setSelected("profile");
+                      : updateURL("page", "profile");
                   }}
                 >
                   <div style={{ width: "20px", height: "20px" }}>
@@ -163,7 +177,7 @@ function EditProfile() {
                   </div>
                   {userData.is_trainer ? "Mój trener" : "Jestem trenerem"}
                 </li>
-                <li onClick={() => setSelected("place")}>
+                <li onClick={() => updateURL("page", "place")}>
                   <div style={{ width: "20px", height: "20px" }}>
                     <img src={selected == "event" ? clPrSide7 : prSide7} />
                   </div>
