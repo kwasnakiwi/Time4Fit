@@ -5,13 +5,21 @@ import "./../../../styles/calendar.css";
 import CalEvent from "./cal_components/CalEvent";
 import { FaAngleDown as AngleDown } from "react-icons/fa";
 import { UserContext } from "../../../utils/UserContext";
+import { useSearchParams } from "react-router-dom";
 
 function Calendar() {
-  const [calendarType, setCalendarType] = useState("day");
+  const [searchParams, setSearchParams] = useSearchParams();
   const [events, setEvents] = useState([]);
+
+  const calendarType = searchParams.get("type") || "day";
 
   const HOURS = Array.from({ length: 24 }, (_, i) => i);
   const COLUMNS = 7;
+
+  const currentWeekDay = new Date().toLocaleDateString("pl-PL", {
+    weekday: "long",
+  });
+  const currentDay = new Date().toLocaleDateString("pl-PL", { day: "numeric" });
 
   useEffect(() => {
     setEvents([
@@ -26,8 +34,8 @@ function Calendar() {
         title: "Test2",
       },
       {
-        start: "0:30",
-        end: "7:00",
+        start: "1:00",
+        end: "2:00",
         title: "Test3",
       },
       {
@@ -35,17 +43,30 @@ function Calendar() {
         end: "17:00",
         title: "Test4",
       },
+      {
+        start: "22:00",
+        end: "23:15",
+        title: "Test5",
+      },
     ]);
   }, []);
 
+  const updateURL = (key, value) => {
+    const newParams = new URLSearchParams(searchParams);
+
+    if (value === null || value === undefined || value === "") {
+      newParams.delete(key);
+    } else {
+      newParams.set(key, value);
+    }
+
+    setSearchParams(newParams, { replace: true });
+  };
+
   const getEventPosition = (time) => {
-    let h, m;
-    [h, m] = time.split(":");
-    console.log(h, m);
-    m = Number(m);
-    h = Number(h);
-    m = h * 68 + m;
-    return m;
+    const [hours, minutes] = time.split(":");
+    const totalMinutes = Number(hours) * 60 + Number(minutes);
+    return totalMinutes * (68 / 60);
   };
 
   return (
@@ -75,19 +96,19 @@ function Calendar() {
           <div className="cal-select">
             <button
               className={`cal-select-btn ${calendarType == "day" ? "selected" : ""}`}
-              onClick={() => setCalendarType("day")}
+              onClick={() => updateURL("type", "day")}
             >
               Dzień
             </button>
             <button
               className={`cal-select-btn ${calendarType == "week" ? "selected" : ""}`}
-              onClick={() => setCalendarType("week")}
+              onClick={() => updateURL("type", "week")}
             >
               Tydzień
             </button>
             <button
               className={`cal-select-btn ${calendarType == "month" ? "selected" : ""}`}
-              onClick={() => setCalendarType("month")}
+              onClick={() => updateURL("type", "month")}
             >
               Miesiąc
             </button>
@@ -95,55 +116,47 @@ function Calendar() {
         </header>
         <section className="calendar-box">
           <div className="calendar-head">
-            <h1 className="cal-day-name">Wtorek</h1>
-            <div className="cal-day-num">8</div>
+            <h1 className="cal-day-name">
+              {currentWeekDay.slice(0, 1).toUpperCase() +
+                currentWeekDay.slice(1)}
+            </h1>
+            <div className="cal-day-num">{currentDay}</div>
           </div>
           <div className="day-grid-wrapper">
-            <div className="day-grid">
-              {/* GODZINY */}
-              <div className="time-column">
-                {HOURS.map((h) => (
-                  <div key={h} className="time-label">
-                    {h.toString().padStart(2, "0")}:00
-                  </div>
-                ))}
-              </div>
-
-              {/* SIATKA */}
-              <div className="grid-area">
-                {/* poziome linie (godziny) */}
-                {HOURS.map((h) => (
-                  <div key={h} className="hour-row" />
-                ))}
-
-                {/* pionowe linie */}
-                {Array.from({ length: COLUMNS - 1 }).map((_, i) => (
-                  <div
+            <div className="hours-label">
+              {HOURS.map((h, i) => (
+                <div className="cal-hour" key={i}>
+                  <span className="cal-hour-text">{h.toString()}:00</span>
+                </div>
+              ))}
+            </div>
+            <div className="calendar-grid">
+              {HOURS.map((_, i) => (
+                <div key={i} className="calendar-row" />
+              ))}
+              {Array.from({ length: COLUMNS + 1 }).map((_, i) => (
+                <div
+                  key={i}
+                  className="vertical-line"
+                  style={{ left: `${(i / COLUMNS) * 100}%` }}
+                />
+              ))}
+              {events
+                .sort(
+                  (a, b) =>
+                    getEventPosition(a.start) - getEventPosition(b.start),
+                )
+                .map((ev, i) => (
+                  <CalEvent
                     key={i}
-                    className="vertical-line"
-                    style={{ left: `${((i + 1) / COLUMNS) * 100}%` }}
+                    index={i} // Przekazujemy index do obliczeń
+                    start={ev.start}
+                    end={ev.end}
+                    title={ev.title}
+                    getEventPosition={getEventPosition}
+                    events={events} // Przekazujemy całą listę do porównania
                   />
                 ))}
-
-                {/* eventy */}
-                {events.map((ev, i) => (
-                  <div
-                    className="cal-event"
-                    key={i}
-                    style={{
-                      height: `${getEventPosition(ev.end) - getEventPosition(ev.start)}px`,
-                      width: "200px",
-                      backgroundColor: "limegreen",
-                      position: "absolute",
-                      top: getEventPosition(ev.start),
-                    }}
-                  >
-                    {ev.title}
-                    <br />
-                    {ev.start.padStart(5, "0")} do {ev.end.padStart(5, "0")}
-                  </div>
-                ))}
-              </div>
             </div>
           </div>
         </section>

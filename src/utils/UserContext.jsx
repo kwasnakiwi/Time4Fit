@@ -38,6 +38,7 @@ export const UserProvider = ({ children }) => {
 
   const privateRoutes = [
     "/profil/edycja",
+    "/kalendarz"
     // zablokowane sciezki aplikacji
   ];
 
