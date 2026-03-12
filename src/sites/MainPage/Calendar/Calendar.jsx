@@ -6,10 +6,13 @@ import CalEvent from "./cal_components/CalEvent";
 import { FaAngleDown as AngleDown } from "react-icons/fa";
 import { UserContext } from "../../../utils/UserContext";
 import { useSearchParams } from "react-router-dom";
+import { apiFetch } from "../../../interceptor/interceptor";
+import { BASE_URL, ENDPOINTS } from "../../../utils/Endopoints";
 
 function Calendar() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [events, setEvents] = useState([]);
+  const [currentTime, setCurrentTime] = useState("");
 
   const calendarType = searchParams.get("type") || "day";
 
@@ -22,33 +25,71 @@ function Calendar() {
   const currentDay = new Date().toLocaleDateString("pl-PL", { day: "numeric" });
 
   useEffect(() => {
-    setEvents([
-      {
-        start: "9:30",
-        end: "12:00",
-        title: "Test1",
-      },
-      {
-        start: "11:30",
-        end: "12:10",
-        title: "Test2",
-      },
-      {
-        start: "1:00",
-        end: "2:00",
-        title: "Test3",
-      },
-      {
-        start: "12:00",
-        end: "17:00",
-        title: "Test4",
-      },
-      {
-        start: "22:00",
-        end: "23:15",
-        title: "Test5",
-      },
-    ]);
+    const getTime = () => {
+      const now = new Date();
+      return now.getHours() + ":" + String(now.getMinutes()).padStart(2, "0");
+    };
+    setCurrentTime(getTime());
+
+    const interval = setInterval(() => {
+      setCurrentTime(getTime()); 
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    // setEvents([
+    //   {
+    //     start: "9:30",
+    //     end: "12:00",
+    //     title: "Test1",
+    //   },
+    //   {
+    //     start: "11:30",
+    //     end: "12:10",
+    //     title: "Test2",
+    //   },
+    //   {
+    //     start: "1:00",
+    //     end: "2:00",
+    //     title: "Test3",
+    //   },
+    //   {
+    //     start: "12:00",
+    //     end: "17:00",
+    //     title: "Test4",
+    //   },
+    //   {
+    //     start: "22:00",
+    //     end: "23:15",
+    //     title: "Test5",
+    //   },
+    // ]);
+
+    const getEvents = async () => {
+      try {
+        const response = await apiFetch(`${BASE_URL}${ENDPOINTS.eventEvents}`);
+
+        let data = null;
+        try {
+          data = await response.json();
+        } catch {
+          data = null;
+        }
+
+        if (!response.ok) {
+          throw new Error(data?.details);
+        }
+
+        setEvents(data?.results || []);
+        console.log("eventy na kalendarzu:", data?.results);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    getEvents();
   }, []);
 
   const updateURL = (key, value) => {
@@ -123,6 +164,13 @@ function Calendar() {
             <div className="cal-day-num">{currentDay}</div>
           </div>
           <div className="day-grid-wrapper">
+            <div className="current-time-line" style={{top: getEventPosition(currentTime)}}>
+              <span>{currentTime}</span>
+              <div className="line-wrapper">
+                <span className="circle" />
+                <hr />
+              </div>
+            </div>
             <div className="hours-label">
               {HOURS.map((h, i) => (
                 <div className="cal-hour" key={i}>
@@ -142,19 +190,41 @@ function Calendar() {
                 />
               ))}
               {events
+                .filter(
+                  (ev) =>
+                    new Date(ev.date_time_event).toDateString() ===
+                    new Date().toDateString(),
+                )
+                .map((ev) => {
+                  const eventDate = new Date(ev.date_time_event);
+                  const endDate = new Date(eventDate);
+                  endDate.setHours(eventDate.getHours() + 2);
+
+                  return {
+                    ...ev,
+                    start:
+                      eventDate.getHours() +
+                      ":" +
+                      String(eventDate.getMinutes()).padStart(2, "0"),
+                    end:
+                      endDate.getHours() +
+                      ":" +
+                      String(endDate.getMinutes()).padStart(2, "0"),
+                  };
+                })
                 .sort(
                   (a, b) =>
                     getEventPosition(a.start) - getEventPosition(b.start),
                 )
-                .map((ev, i) => (
+                .map((ev, i, processedEvents) => (
                   <CalEvent
                     key={i}
-                    index={i} // Przekazujemy index do obliczeń
+                    index={i}
                     start={ev.start}
                     end={ev.end}
                     title={ev.title}
                     getEventPosition={getEventPosition}
-                    events={events} // Przekazujemy całą listę do porównania
+                    events={processedEvents} // Przekazujemy tablicę z obliczonymi start/end!
                   />
                 ))}
             </div>

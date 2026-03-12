@@ -55,6 +55,9 @@ function CalEvent({ title, start, end, getEventPosition, events, index }) {
         boxSizing: "border-box",
         position: "absolute",
         zIndex: 10,
+        display: height < 50 ? "flex" : undefined,
+        gap: height < 50 ? "12px" : undefined,
+        alignContent: height < 50 ? "center" : undefined,
       }}
     >
       <span className="cal-event-title">{title}</span>
