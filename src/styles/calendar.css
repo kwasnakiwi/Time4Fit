@@ -210,7 +210,7 @@
   left: 45px;
   width: calc(100% - 55px);
   transform: translateY(-40%);
-  z-index: 1;
+  z-index: 11;
   > span {
     font-size: 12px;
     color: #ff0c0c;
@@ -220,10 +220,12 @@
 .line-wrapper {
   position: relative;
   hr {
-    border: 1px solid #ff0c0c;
+    border: none;
+    height: 0.5px;
+    background-color: #ff0c0c;
     margin: 0;
   }
-  > span{
+  > span {
     width: 6px;
     height: 6px;
     background-color: #ff0c0c;
@@ -232,5 +234,46 @@
     left: 0;
     top: 50%;
     transform: translateY(-50%);
+  }
+}
+
+/* week calendar head */
+
+.cal-weekdays-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  width: 100%;
+}
+.cal-weekday {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  row-gap: 7px;
+  cursor: pointer;
+  span {
+    font-size: 16px;
+    color: var(--primary-grey);
+    font-weight: 300;
+    padding: 5px 0;
+    width: 100%;
+    background-color: #f9fafc;
+  }
+  &:has(div.selected) span{
+    color: var(--primary-orange);
+    font-weight: 500;
+  }
+  div {
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--primary-grey);
+    width: 29px;
+    height: 29px;
+    &.selected {
+      color: white;
+      background: var(--main-gradient);
+      border-radius: 50%;
+    }
   }
 }

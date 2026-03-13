@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import NavBar from "../components/NavBar";
 import SideBar from "../components/SideBar";
 import "./../../../styles/calendar.css";
@@ -13,11 +13,33 @@ function Calendar() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [events, setEvents] = useState([]);
   const [currentTime, setCurrentTime] = useState("");
+  const timeLineRef = useRef(null);
 
   const calendarType = searchParams.get("type") || "day";
+  const calendarDay =
+    calendarType === "week"
+      ? searchParams.get("day") ||
+        new Date().toLocaleDateString("en-EN", { weekday: "long" })
+      : "";
 
   const HOURS = Array.from({ length: 24 }, (_, i) => i);
   const COLUMNS = 7;
+  const getWeekDays = (baseDate = new Date()) => {
+    const days = [];
+    let currentDate = new Date(baseDate);
+    currentDate.setHours(12, 0, 0, 0);
+
+    const dayOfWeek = currentDate.getDay();
+    const diffToMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+    currentDate.setDate(currentDate.getDate() - diffToMonday);
+
+    for (let i = 0; i < 7; i++) {
+      days.push(new Date(currentDate));
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+
+    return days;
+  };
 
   const currentWeekDay = new Date().toLocaleDateString("pl-PL", {
     weekday: "long",
@@ -32,11 +54,20 @@ function Calendar() {
     setCurrentTime(getTime());
 
     const interval = setInterval(() => {
-      setCurrentTime(getTime()); 
+      setCurrentTime(getTime());
     }, 1000);
 
     return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    if (timeLineRef.current) {
+      timeLineRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+    }
+  }, [events]);
 
   useEffect(() => {
     // setEvents([
@@ -83,7 +114,7 @@ function Calendar() {
         }
 
         setEvents(data?.results || []);
-        console.log("eventy na kalendarzu:", data?.results);
+        console.log("eventy:", data?.results);
       } catch (err) {
         console.error(err);
       }
@@ -109,6 +140,12 @@ function Calendar() {
     const totalMinutes = Number(hours) * 60 + Number(minutes);
     return totalMinutes * (68 / 60);
   };
+
+  const selectedDateObject =
+    getWeekDays().find(
+      (day) =>
+        day.toLocaleDateString("en-EN", { weekday: "long" }) === calendarDay,
+    ) || new Date();
 
   return (
     <>
@@ -156,15 +193,59 @@ function Calendar() {
           </div>
         </header>
         <section className="calendar-box">
-          <div className="calendar-head">
-            <h1 className="cal-day-name">
-              {currentWeekDay.slice(0, 1).toUpperCase() +
-                currentWeekDay.slice(1)}
-            </h1>
-            <div className="cal-day-num">{currentDay}</div>
+          <div
+            className="calendar-head"
+            style={
+              calendarType === "week"
+                ? { display: "flex", gap: "38px", paddingRight: "0px" }
+                : undefined
+            }
+          >
+            {calendarType === "day" && (
+              <h1 className="cal-day-name">
+                {currentWeekDay.slice(0, 1).toUpperCase() +
+                  currentWeekDay.slice(1)}
+              </h1>
+            )}
+            {calendarType === "week" && (
+              <>
+                <div style={{ width: "41.7px" }} />
+                <div className="cal-weekdays-wrapper">
+                  {getWeekDays().map((day, i) => {
+                    const dayName = day.toLocaleDateString("en-EN", {
+                      weekday: "long",
+                    });
+                    const isSelected = calendarDay === dayName;
+                    return (
+                      <div
+                        key={i}
+                        className="cal-weekday"
+                        onClick={() => updateURL("day", dayName)}
+                      >
+                        <span>
+                          {new Date(day).toLocaleDateString("pl-PL", {
+                            weekday: "long",
+                          })}
+                        </span>
+                        <div className={isSelected ? "selected" : ""}>
+                          {day.toLocaleDateString("pl-PL", { day: "numeric" })}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </>
+            )}
+            {calendarType === "day" && (
+              <div className="cal-day-num">{currentDay}</div>
+            )}
           </div>
           <div className="day-grid-wrapper">
-            <div className="current-time-line" style={{top: getEventPosition(currentTime)}}>
+            <div
+              className="current-time-line"
+              ref={timeLineRef}
+              style={{ top: `${getEventPosition(currentTime)}px` }}
+            >
               <span>{currentTime}</span>
               <div className="line-wrapper">
                 <span className="circle" />
@@ -190,11 +271,25 @@ function Calendar() {
                 />
               ))}
               {events
-                .filter(
-                  (ev) =>
-                    new Date(ev.date_time_event).toDateString() ===
-                    new Date().toDateString(),
-                )
+                .filter((ev) => {
+                  const eventDate = new Date(ev.date_time_event);
+
+                  if (calendarType === "day") {
+                    return (
+                      eventDate.toDateString() === new Date().toDateString()
+                    );
+                  }
+
+                  if (calendarType === "week") {
+                    // Porównujemy datę eventu z datą wybranego dnia z paska tygodnia
+                    return (
+                      eventDate.toDateString() ===
+                      selectedDateObject.toDateString()
+                    );
+                  }
+
+                  return false;
+                })
                 .map((ev) => {
                   const eventDate = new Date(ev.date_time_event);
                   const endDate = new Date(eventDate);
