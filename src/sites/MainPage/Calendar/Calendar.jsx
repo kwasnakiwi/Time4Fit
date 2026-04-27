@@ -480,7 +480,7 @@ function Calendar() {
                   {calendarType === "day"
                     ? // LOGIKA DLA JEDNEGO DNIA
                       (() => {
-                        const dayEvents = MOCK_BREAKDOWNS.filter(
+                        const dayEvents = events.filter(
                           (item) =>
                             new Date(item.startTime).toDateString() ===
                             viewDate.toDateString(),
@@ -506,7 +506,7 @@ function Calendar() {
                       })()
                     : // LOGIKA DLA TYGODNIA
                       currentWeekDays.map((day, dayIdx) => {
-                        const dayEvents = MOCK_BREAKDOWNS.filter(
+                        const dayEvents = events.filter(
                           (item) =>
                             new Date(item.startTime).toDateString() ===
                             day.date.toDateString(),
@@ -539,7 +539,7 @@ function Calendar() {
               {calendarType === "month" && (
                 <div className="rc-month-grid">
                   {currentMonthDays.map((d, i) => {
-                    const dayEvents = MOCK_BREAKDOWNS.filter(
+                    const dayEvents = events.filter(
                       (item) =>
                         new Date(item.startTime).toDateString() ===
                         d.date.toDateString(),
