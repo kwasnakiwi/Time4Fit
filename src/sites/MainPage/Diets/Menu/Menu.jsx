@@ -45,7 +45,6 @@ function Menu({ showAddProductToMenuModal, setShowAddProductToMenuModal }) {
           />
           <span>
             <img src={orangeCalendar} alt="" />
-            {/* data (z wielkiej litery) */}
             {menuDate
               .toLocaleDateString("pl-PL", {
                 weekday: "long",
