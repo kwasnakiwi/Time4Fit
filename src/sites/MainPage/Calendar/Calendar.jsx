@@ -5,7 +5,7 @@ import {
   FaAngleRight as AngleRight,
   FaAngleDown as AngleDown,
 } from "react-icons/fa";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import CalEvent from "./cal_components/CalEvent.jsx";
 import NavBar from "../components/NavBar.jsx";
 import SideBar from "../components/SideBar.jsx";
@@ -14,17 +14,13 @@ const events = [
   // --- TYDZIEŃ 13-19 KWIETNIA 2026 ---
   {
     id: 1,
-    machineName: "Tokarka T-100",
-    requesterFirstName: "Jan",
-    requesterLastName: "Kowalski",
+    eventName: "Tokarka T-100",
     startTime: "2026-04-14T08:00:00",
     endTime: "2026-04-14T11:00:00",
   },
   {
     id: 2,
-    machineName: "Frezarka F-50",
-    requesterFirstName: "Anna",
-    requesterLastName: "Nowak",
+    eventName: "Frezarka F-50",
     startTime: "2026-04-16T14:00:00",
     endTime: "2026-04-16T16:30:00",
   },
@@ -32,97 +28,73 @@ const events = [
   // --- TYDZIEŃ 20-26 KWIETNIA 2026 ---
   {
     id: 3,
-    machineName: "Prasa P-200",
-    requesterFirstName: "Marek",
-    requesterLastName: "Nowak",
+    eventName: "Prasa P-200",
     startTime: "2026-04-20T07:00:00",
     endTime: "2026-04-20T10:30:00",
   },
   {
     id: 4,
-    machineName: "Wiertarka X",
-    requesterFirstName: "Jan",
-    requesterLastName: "Kos",
+    eventName: "Wiertarka X",
     startTime: "2026-04-20T08:00:00",
     endTime: "2026-04-20T11:00:00",
   },
   {
     id: 5,
-    machineName: "Frezarka Y",
-    requesterFirstName: "Ola",
-    requesterLastName: "As",
+    eventName: "Frezarka Y",
     startTime: "2026-04-20T09:00:00",
     endTime: "2026-04-20T12:00:00",
   },
   {
     id: 6,
-    machineName: "Frezarka Y (Duplikat czasu)",
-    requesterFirstName: "Ola",
-    requesterLastName: "As",
+    eventName: "Frezarka Y (Duplikat czasu)",
     startTime: "2026-04-20T09:00:00",
     endTime: "2026-04-20T12:00:00",
   },
   {
     id: 7,
-    machineName: "Frezarka Y (Popołudnie)",
-    requesterFirstName: "Ola",
-    requesterLastName: "As",
+    eventName: "Frezarka Y (Popołudnie)",
     startTime: "2026-04-20T12:00:00",
     endTime: "2026-04-20T15:00:00",
   },
   {
     id: 8,
-    machineName: "Wiertarka CNC",
-    requesterFirstName: "Adam",
-    requesterLastName: "Zieliński",
+    eventName: "Wiertarka CNC",
     startTime: "2026-04-21T10:00:00",
     endTime: "2026-04-21T14:30:00",
   },
   {
     id: 9,
-    machineName: "Linia A1",
-    requesterFirstName: "Kuba",
-    requesterLastName: "Kowalski",
+    eventName: "Linia A1",
     startTime: "2026-04-22T15:00:00",
     endTime: "2026-04-22T18:00:00",
   },
   {
     id: 10,
-    machineName: "Linia A2 (Kolizja)",
-    requesterFirstName: "Ewa",
-    requesterLastName: "Lis",
+    eventName: "Linia A2 (Kolizja)",
     startTime: "2026-04-22T16:00:00",
     endTime: "2026-04-22T19:00:00",
   },
   {
     id: 11,
-    machineName: "Robot S",
-    requesterFirstName: "Piotr",
-    requesterLastName: "Wiśniewski",
+    eventName: "Robot S",
     startTime: "2026-04-23T08:30:00",
     endTime: "2026-04-23T11:00:00",
   },
   {
     id: 12,
-    machineName: "Kompresor",
-    requesterFirstName: "Robert",
-    requesterLastName: "Lewandowski",
+    eventName: "Kompresor",
     startTime: "2026-04-24T12:00:00",
     endTime: "2026-04-24T15:00:00",
   },
   {
     id: 13,
-    machineName: "Suwnica B",
-    requesterFirstName: "Kamil",
-    requesterLastName: "Ślimak",
+    eventName: "Suwnica B",
     startTime: "2026-04-25T09:00:00",
     endTime: "2026-04-25T13:00:00",
   },
   {
     id: 14,
-    machineName: "Wentylacja",
-    requesterFirstName: "Łukasz",
-    requesterLastName: "Podolski",
+    eventName: "Wentylacja",
     startTime: "2026-04-26T14:00:00",
     endTime: "2026-04-26T17:30:00",
   },
@@ -130,33 +102,25 @@ const events = [
   // --- TYDZIEŃ 27 KWIETNIA - 03 MAJA 2026 ---
   {
     id: 15,
-    machineName: "Podnośnik P-10",
-    requesterFirstName: "Darek",
-    requesterLastName: "Wójcik",
+    eventName: "Podnośnik P-10",
     startTime: "2026-04-27T06:00:00",
     endTime: "2026-04-27T09:00:00",
   },
   {
     id: 16,
-    machineName: "Piec Hartowniczy",
-    requesterFirstName: "Szymon",
-    requesterLastName: "Król",
+    eventName: "Piec Hartowniczy",
     startTime: "2026-04-29T10:00:00",
     endTime: "2026-04-29T15:00:00",
   },
   {
     id: 17,
-    machineName: "Zasilacz Awaryjny",
-    requesterFirstName: "Beata",
-    requesterLastName: "Pawlak",
+    eventName: "Zasilacz Awaryjny",
     startTime: "2026-05-01T08:00:00",
     endTime: "2026-05-01T12:00:00",
   },
   {
     id: 18,
-    machineName: "Brama Wjazdowa",
-    requesterFirstName: "Marcin",
-    requesterLastName: "Gortat",
+    eventName: "Brama Wjazdowa",
     startTime: "2026-05-03T18:00:00",
     endTime: "2026-05-03T21:00:00",
   },
@@ -166,10 +130,12 @@ function Calendar() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [currentTime, setCurrentTime] = useState(new Date());
 
-  const calendarType = searchParams.get("type") || "week";
+  const calendarType = searchParams.get("type") || "day";
   const dateParam = searchParams.get("date");
   const viewDate = dateParam ? new Date(dateParam) : new Date();
   const HOURS = Array.from({ length: 24 }, (_, i) => i);
+
+  const navigate = useNavigate();
 
   const handleNavigate = (direction) => {
     const newDate = new Date(viewDate);
@@ -475,11 +441,8 @@ function Calendar() {
                         currentTime.getHours() * 60 + currentTime.getMinutes(),
                     }}
                   />
-
-                  {/* Renderowanie Wydarzeń */}
                   {calendarType === "day"
-                    ? // LOGIKA DLA JEDNEGO DNIA
-                      (() => {
+                    ? (() => {
                         const dayEvents = events.filter(
                           (item) =>
                             new Date(item.startTime).toDateString() ===
@@ -495,7 +458,7 @@ function Calendar() {
                               id={item.id}
                               start={new Date(item.startTime)}
                               end={new Date(item.endTime)}
-                              name={item.machineName}
+                              name={item.eventName}
                               styleOverride={{
                                 left: `${leftPos}%`,
                                 width: `${subWidth}%`,
@@ -504,8 +467,7 @@ function Calendar() {
                           );
                         });
                       })()
-                    : // LOGIKA DLA TYGODNIA
-                      currentWeekDays.map((day, dayIdx) => {
+                    : currentWeekDays.map((day, dayIdx) => {
                         const dayEvents = events.filter(
                           (item) =>
                             new Date(item.startTime).toDateString() ===
@@ -523,7 +485,7 @@ function Calendar() {
                               id={item.id}
                               start={new Date(item.startTime)}
                               end={new Date(item.endTime)}
-                              name={item.machineName}
+                              name={item.eventName}
                               styleOverride={{
                                 left: `${leftPos}%`,
                                 width: `${subWidth}%`,
@@ -534,8 +496,6 @@ function Calendar() {
                       })}
                 </div>
               )}
-
-              {/* Widok Miesięczny */}
               {calendarType === "month" && (
                 <div className="rc-month-grid">
                   {currentMonthDays.map((d, i) => {
@@ -549,6 +509,17 @@ function Calendar() {
                       <div
                         key={i}
                         className={`rc-month-cell ${!d.isCurrentMonth ? "grey" : ""} ${d.isToday ? "today" : ""}`}
+                        onClick={() => {
+                          const year = d.date.getFullYear();
+                          const month = String(d.date.getMonth() + 1).padStart(
+                            2,
+                            "0",
+                          );
+                          const day = String(d.date.getDate()).padStart(2, "0");
+                          const dateString = `${year}-${month}-${day}`;
+
+                          navigate(`/kalendarz?type=day&date=${dateString}`);
+                        }}
                       >
                         <div className="rc-month-day-header">
                           <span>{d.dayNumber}</span>
@@ -557,9 +528,10 @@ function Calendar() {
                           {dayEvents.slice(0, 3).map((e, idx) => (
                             <CalEvent
                               key={idx}
+                              id={e.id}
                               start={new Date(e.startTime)}
                               end={new Date(e.endTime)}
-                              name={e.machineName}
+                              name={e.eventName}
                               isSmall
                             />
                           ))}

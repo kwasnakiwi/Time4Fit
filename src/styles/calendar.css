@@ -325,10 +325,11 @@
 
 .rc-current-time-line {
   position: absolute;
-  width: calc(100% - 5px);
+  width: calc(100% + 30px);
   height: 2px;
   background-color: rgb(255, 45, 8);
   z-index: 11;
+  transform: translateX(-30px);
   &::before {
     content: "";
     position: absolute;
@@ -357,6 +358,9 @@
   font-size: 22px;
   color: var(--bd-text-main);
   font-weight: 600;
+  cursor: pointer;
+  outline: 2px solid transparent;
+  transition: outline 0.2s ease-out;
   &.grey {
     color: var(--bd-text-muted);
     font-weight: 300;
@@ -366,11 +370,17 @@
     background: var(--main-gradient);
     background-clip: text;
   }
+  &:hover{
+    z-index: 1111;
+    outline: 2px solid var(--primary-orange);
+  }
 }
 .rc-month-cell {
   display: flex;
-  flex-direction: column;
   overflow: hidden;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 8px;
 }
 
 .rc-month-day-header {
@@ -381,9 +391,8 @@
   display: flex;
   flex-direction: column;
   gap: 2px;
-  margin-top: -33px;
-  transform: translateX(40px);
-  max-width: 146px;
+  max-width: 126px;
+  width: 100%;
 }
 
 .rc-month-event-strip {

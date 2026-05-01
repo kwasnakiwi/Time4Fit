@@ -23,6 +23,7 @@ import TrainerList from "./sites/MainPage/TrainerList/TrainerList.jsx";
 import DishDetails from "./sites/MainPage/Diets/Dishes/DIshDetails.jsx";
 import Diets from "./sites/MainPage/Diets/Diets.jsx";
 import { UserProvider } from "./utils/UserContext.jsx";
+import Workouts from "./sites/MainPage/Workouts/Workouts.jsx";
 
 function App() {
   return (
@@ -101,6 +102,14 @@ function App() {
                 <Routes>
                   <Route path="" element={<Diets />} />
                   <Route path="/potrawa/:id" element={<DishDetails />} />
+                </Routes>
+              }
+            />
+            <Route
+              path="/cwiczenia/*"
+              element={
+                <Routes>
+                  <Route path="" element={<Workouts />} />
                 </Routes>
               }
             />

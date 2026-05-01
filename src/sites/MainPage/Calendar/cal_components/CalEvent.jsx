@@ -1,5 +1,6 @@
 import React from "react";
 import "../../../../styles/calendar.css";
+import { useNavigate } from "react-router-dom";
 
 function CalEvent({ name, start, end, width, styleOverride, id, isSmall }) {
   const colors = ["#D8F6DC", "#DEF1F7", "#DEDFF7", "#F7F7DE"];
@@ -8,6 +9,8 @@ function CalEvent({ name, start, end, width, styleOverride, id, isSmall }) {
   const colorIndex = id ? id % colors.length : 0;
   const backgroundColor = colors[colorIndex];
   const borderColor = borderColors[colorIndex];
+
+  const navigate = useNavigate();
 
   const getElementLeftProp = () => {
     const day = start.getDay() === 0 ? 6 : start.getDay() - 1;
@@ -47,7 +50,11 @@ function CalEvent({ name, start, end, width, styleOverride, id, isSmall }) {
   return (
     <>
       {!isSmall ? (
-        <div className="rc-element" style={getElementStyle(start, end)}>
+        <div
+          onClick={() => navigate(`/eventy/${id}`)}
+          className="rc-element"
+          style={getElementStyle(start, end)}
+        >
           <span className="ev-name">{name}</span>
           <br />
           <span>
@@ -56,6 +63,7 @@ function CalEvent({ name, start, end, width, styleOverride, id, isSmall }) {
         </div>
       ) : (
         <div
+          onClick={() => navigate(`/eventy/${id}`)}
           className="rc-month-event-strip"
           style={{
             backgroundColor: backgroundColor,
