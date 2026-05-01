@@ -92,7 +92,7 @@
   display: grid;
   gap: 32px;
   grid-template-columns: 0.3fr 0.3fr 0.8fr 0.3fr 0.3fr 0.2fr 0.1fr;
-  &:not(:last-child){
+  &:not(:last-child) {
     margin-bottom: 10px;
   }
 }
@@ -148,7 +148,7 @@
       font-size: 16px;
       font-weight: 600;
       color: white;
-      background: var(--purple-gradient);
+      background: var(--dark-purple-gradient);
       display: flex;
       align-items: center;
       justify-content: center;

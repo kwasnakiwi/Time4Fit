@@ -8,9 +8,13 @@ import {
   FaPlus as Plus,
 } from "react-icons/fa";
 import Workout from "./elements/Workout";
+import { useState } from "react";
+import { createPortal } from "react-dom";
+import AddWorkoutModal from "./elements/AddWorkoutModal.jsx";
 
 function Workouts() {
   const [searchParams, setSearchParams] = useSearchParams();
+  const [showAddWorkoutModal, setShowAddWorkoutModal] = useState(false);
 
   const workoutCategory = searchParams.get("category") || "all";
 
@@ -93,6 +97,7 @@ function Workouts() {
 
   return (
     <>
+      {showAddWorkoutModal && createPortal(<AddWorkoutModal setShowModal={setShowAddWorkoutModal} />, document.body)}
       <NavBar title="Ćwiczenia" route="Ćwiczenia" />
       <SideBar />
       <main className="home-page-container">
@@ -133,7 +138,7 @@ function Workouts() {
               </div>
             </div>
             <div className="wk-top-filters-right">
-              <button className="add-product-btn">
+              <button onClick={() => setShowAddWorkoutModal(true)} className="add-product-btn">
                 <Plus />
                 Dodaj ćwiczenie
               </button>
