@@ -113,7 +113,6 @@ function Events() {
                 Darmowe
               </button>
             </div>
-
             <div className="filters">
               <div className="selectt-wrapper hom2">
                 <select

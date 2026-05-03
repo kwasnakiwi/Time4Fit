@@ -25,6 +25,7 @@ import Diets from "./sites/MainPage/Diets/Diets.jsx";
 import { UserProvider } from "./utils/UserContext.jsx";
 import Workouts from "./sites/MainPage/Workouts/Workouts.jsx";
 import AddTrainingPlan from "./sites/MainPage/Workouts/TrainingPlan/AddTrainingPlan.jsx";
+import TrainingPlans from "./sites/MainPage/Workouts/TrainingPlan/TrainingPlans.jsx";
 
 function App() {
   return (
@@ -107,11 +108,15 @@ function App() {
               }
             />
             <Route
-              path="/cwiczenia/*"
+              path="/plany-treningowe/*"
               element={
                 <Routes>
-                  <Route path="" element={<Workouts />} />
-                  <Route path="plany-treningowe/dodaj-plan-treningowy" element={<AddTrainingPlan />} />
+                  <Route path="" element={<TrainingPlans />} />
+                  <Route path="cwiczenia" element={<Workouts />} />
+                  <Route
+                    path="dodaj-plan-treningowy"
+                    element={<AddTrainingPlan />}
+                  />
                 </Routes>
               }
             />

@@ -65,12 +65,12 @@ function SideBar({ ist4b }) {
           <img
             style={{ maxHeight: "22px" }}
             src={
-              location.pathname.startsWith("/cwiczenia")
+              location.pathname.startsWith("/plany-treningowe")
                 ? trainingSelected
                 : training
             }
-            className={`sidebar-icon icon ${location.pathname == "/cwiczenia" ? "sidebar-selected" : ""} ${ist4b ? "t4b" : ""}`}
-            onClick={() => navigate("/cwiczenia")}
+            className={`sidebar-icon icon ${location.pathname == "/plany-treningowe" ? "sidebar-selected" : ""} ${ist4b ? "t4b" : ""}`}
+            onClick={() => navigate("/plany-treningowe")}
           />
         </div>
         <div className="sideicon-wrapper">

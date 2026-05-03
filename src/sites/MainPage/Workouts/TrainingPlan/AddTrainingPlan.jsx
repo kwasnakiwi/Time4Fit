@@ -5,6 +5,8 @@ import whitePlan from "./../../../../assets/svgs/whitePlan.svg";
 import whiteSave from "./../../../../assets/svgs/whiteSave.svg";
 import { useState } from "react";
 import { FaAngleDown as AngleDown, FaPlus as Plus } from "react-icons/fa";
+import { createPortal } from "react-dom";
+import ChoosePartModal from "./elements/ChoosePartModal";
 
 function AddTrainingPlan() {
   const [title, setTitle] = useState("");
@@ -12,9 +14,20 @@ function AddTrainingPlan() {
   const [advancedLevel, setAdvancedLevel] = useState("");
   const [priority, setPriority] = useState("");
   const [duration, setDuration] = useState(0);
+  const [showChoosePartModal, setShowChoosePartModal] = useState(false);
+  const [showChooseWorkoutsModal, setShowChooseWorkoutsModal] = useState(false);
 
   return (
     <>
+      {showChoosePartModal &&
+        createPortal(
+          <ChoosePartModal
+            setShowChoosePartModal={setShowChoosePartModal}
+            setShowChooseWorkoutsModal={setShowChooseWorkoutsModal}
+            showChooseWorkoutsModal={showChooseWorkoutsModal}
+          />,
+          document.body,
+        )}
       <NavBar
         title="Dodawanie planu treningowego"
         route="Ćwiczenia / Dodawanie planu treningowego"
@@ -140,14 +153,15 @@ function AddTrainingPlan() {
               </div>
               Ćwiczenia
             </div>
-            <button className="atp-box-header-button">
+            <button
+              className="atp-box-header-button"
+              onClick={() => setShowChoosePartModal(true)}
+            >
               <Plus />
               Dodaj
             </button>
           </div>
-          <div className="atp-workouts-content">
-            
-          </div>
+          <div className="atp-workouts-content"></div>
         </div>
       </main>
     </>
