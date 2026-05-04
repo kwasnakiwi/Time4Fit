@@ -4,9 +4,15 @@ import "./../../../../styles/workouts.css";
 import whitePlan from "./../../../../assets/svgs/whitePlan.svg";
 import whiteSave from "./../../../../assets/svgs/whiteSave.svg";
 import { useState } from "react";
-import { FaAngleDown as AngleDown, FaPlus as Plus } from "react-icons/fa";
+import {
+  FaAngleDown as AngleDown,
+  FaPlus as Plus,
+  FaSearch as Search,
+} from "react-icons/fa";
 import { createPortal } from "react-dom";
 import ChoosePartModal from "./elements/ChoosePartModal";
+import { useSearchParams } from "react-router-dom";
+import TrainingPlanExercise from "./elements/TrainingPlanExercise";
 
 function AddTrainingPlan() {
   const [title, setTitle] = useState("");
@@ -16,6 +22,78 @@ function AddTrainingPlan() {
   const [duration, setDuration] = useState(0);
   const [showChoosePartModal, setShowChoosePartModal] = useState(false);
   const [showChooseWorkoutsModal, setShowChooseWorkoutsModal] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [selectedExercise, setSelectedExercise] = useState(null);
+
+  const workoutCategory = searchParams.get("category") || "all";
+
+  const updateURL = (key, value) => {
+    let newParams = new URLSearchParams(searchParams);
+
+    if (value != "" && value != null && value != undefined) {
+      newParams.set(key, value);
+    } else {
+      newParams.delete(key);
+    }
+
+    setSearchParams(newParams);
+  };
+
+  const workoutsCategories = [
+    { name: "Wszystkie", category: "all" },
+    { name: "Klatka piersiowa", category: "chest" },
+    { name: "Nogi", category: "legs" },
+    { name: "Biceps", category: "biceps" },
+    { name: "Plecy", category: "back" },
+  ];
+
+  const planExercisesData = [
+    {
+      id: 1,
+      part: "Biceps",
+      title: "Uginanie ramion ze sztangą",
+      sets: "5",
+      reps: "12 - 6",
+      weight: "20 - 40",
+      timeout: 30,
+    },
+    {
+      id: 2,
+      part: "Klatka",
+      title: "Wyciskanie hantli na skosie dodatnim",
+      sets: "4",
+      reps: "10",
+      weight: "25",
+      timeout: 60,
+    },
+    {
+      id: 3,
+      part: "Plecy",
+      title: "Wiosłowanie sztangą w opadzie",
+      sets: "4",
+      reps: "8 - 12",
+      weight: "60",
+      timeout: 90,
+    },
+    {
+      id: 4,
+      part: "Triceps",
+      title: "Prostowanie ramion na wyciągu górnym",
+      sets: "3",
+      reps: "15",
+      weight: "15 - 20",
+      timeout: 45,
+    },
+    {
+      id: 5,
+      part: "Nogi",
+      title: "Przysiady ze sztangą",
+      sets: "5",
+      reps: "5",
+      weight: "100",
+      timeout: 120,
+    },
+  ];
 
   return (
     <>
@@ -151,6 +229,9 @@ function AddTrainingPlan() {
               <div className="image-wrapper">
                 <img src={whitePlan} alt="" />
               </div>
+              {planExercisesData.length > 0 && (
+                <span className="atp-enum">{planExercisesData.length}</span>
+              )}
               Ćwiczenia
             </div>
             <button
@@ -161,7 +242,54 @@ function AddTrainingPlan() {
               Dodaj
             </button>
           </div>
-          <div className="atp-workouts-content"></div>
+          <div className="atp-workouts-content">
+            {planExercisesData.length > 0 && (
+              <header
+                className="wk-top-filters"
+                style={{ padding: "12px 20px" }}
+              >
+                <div className="top">
+                  <div className="wk-top-filters-left">
+                    <div className="filter-wrapper">
+                      <input
+                        placeholder="Wyszukaj ćwiczenia..."
+                        className="p-filter-input"
+                        type="text"
+                      />
+                      <Search className="p-search-icon" />
+                    </div>
+                  </div>
+                </div>
+                <div className="bottom" style={{ marginTop: "8px" }}>
+                  {workoutsCategories.map((w, i) => (
+                    <button
+                      key={i}
+                      className={`product-category ${workoutCategory === w.category ? "selected" : ""}`}
+                      onClick={() => updateURL("category", w.category)}
+                    >
+                      {w.name}
+                    </button>
+                  ))}
+                </div>
+              </header>
+            )}
+            <div className="atp-exercises-wrapper">
+              {planExercisesData.map((ex, i) => (
+                <TrainingPlanExercise
+                  key={ex.id}
+                  i={i}
+                  setSelectedExercise={setSelectedExercise}
+                  part={ex.part}
+                  title={ex.title}
+                  sets={ex.sets}
+                  reps={ex.reps}
+                  weight={ex.weight}
+                  timeout={ex.timeout}
+                  className={selectedExercise == i ? "selected" : ""}
+                />
+              ))}
+            </div>
+          </div>
         </div>
       </main>
     </>

@@ -5,6 +5,7 @@ import redTraingle from "./../../../../../assets/svgs/red-traingle.svg";
 import orangeList from "./../../../../../assets/svgs/orangeList.svg";
 import purpleClock from "./../../../../../assets/svgs/purpleClock.svg";
 import whiteClock from "./../../../../../assets/svgs/whiteClock.svg";
+import { useNavigate } from "react-router-dom";
 
 function TrainingPlan({
   hardLevel,
@@ -17,6 +18,7 @@ function TrainingPlan({
   amount,
   time,
 }) {
+
   const level = hardLevel === 0 ? "green" : hardLevel === 1 ? "yellow" : "red";
   const figure =
     intensity === 0

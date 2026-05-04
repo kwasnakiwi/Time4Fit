@@ -6,12 +6,12 @@ import {
 import NavBar from "../../components/NavBar";
 import SideBar from "../../components/SideBar";
 import "./../../../../styles/workouts.css";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import TrainingPlan from "./elements/TrainingPlan";
 
 function TrainingPlans() {
   const [searchParams, setSearchParams] = useSearchParams();
-
+  const navigate = useNavigate();
   const page = searchParams.get("page") || "workouts";
 
   const updateURL = (key, value) => {
@@ -105,7 +105,10 @@ function TrainingPlans() {
               </div>
             </div>
             <div className="wk-top-filters-right">
-              <button className="add-product-btn">
+              <button
+                onClick={() => navigate("dodaj-plan-treningowy")}
+                className="add-product-btn"
+              >
                 <Plus />
                 Utwórz nowy plan treningowy
               </button>

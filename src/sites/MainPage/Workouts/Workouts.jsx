@@ -97,7 +97,11 @@ function Workouts() {
 
   return (
     <>
-      {showAddWorkoutModal && createPortal(<AddWorkoutModal setShowModal={setShowAddWorkoutModal} />, document.body)}
+      {showAddWorkoutModal &&
+        createPortal(
+          <AddWorkoutModal setShowModal={setShowAddWorkoutModal} />,
+          document.body,
+        )}
       <NavBar title="Ćwiczenia" route="Ćwiczenia" />
       <SideBar />
       <main className="home-page-container">
@@ -138,7 +142,10 @@ function Workouts() {
               </div>
             </div>
             <div className="wk-top-filters-right">
-              <button onClick={() => setShowAddWorkoutModal(true)} className="add-product-btn">
+              <button
+                onClick={() => setShowAddWorkoutModal(true)}
+                className="add-product-btn"
+              >
                 <Plus />
                 Dodaj ćwiczenie
               </button>
