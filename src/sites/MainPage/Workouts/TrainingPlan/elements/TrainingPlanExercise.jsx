@@ -2,6 +2,9 @@ import "./../../../../../styles/workouts.css";
 import dots from "./../../../../../assets/svgs/dots.svg";
 import redBin from "./../../../../../assets/svgs/red-bin.svg";
 import orangeEdit from "./../../../../../assets/svgs/orangeEdit.svg";
+import ConfigExerciseModal from "./ConfigExerciseModal";
+import { useState } from "react";
+import { createPortal } from "react-dom";
 
 function TrainingPlanExercise({
   i,
@@ -14,8 +17,18 @@ function TrainingPlanExercise({
   timeout,
   className,
 }) {
+  const [showConfigExerciseModal, setShowConfigExerciseModal] = useState(false);
+
   return (
     <>
+      {showConfigExerciseModal &&
+        createPortal(
+          <ConfigExerciseModal
+            id={i}
+            setShowModal={setShowConfigExerciseModal}
+          />,
+          document.body,
+        )}
       <div
         className={`tp-exercise ${className}`}
         onClick={() => setSelectedExercise(i)}
@@ -49,7 +62,7 @@ function TrainingPlanExercise({
         </div>
         <div className="tp-exercise-box actions">
           <img src={redBin} alt="" />
-          <img src={orangeEdit} alt="" />
+          <img src={orangeEdit} alt="" onClick={() => setShowConfigExerciseModal(true)} />
         </div>
       </div>
     </>

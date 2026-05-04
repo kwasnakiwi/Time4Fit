@@ -13,6 +13,7 @@ import { createPortal } from "react-dom";
 import ChoosePartModal from "./elements/ChoosePartModal";
 import { useSearchParams } from "react-router-dom";
 import TrainingPlanExercise from "./elements/TrainingPlanExercise";
+import ConfigExerciseModal from "./elements/ConfigExerciseModal";
 
 function AddTrainingPlan() {
   const [title, setTitle] = useState("");
@@ -106,6 +107,7 @@ function AddTrainingPlan() {
           />,
           document.body,
         )}
+      
       <NavBar
         title="Dodawanie planu treningowego"
         route="Ćwiczenia / Dodawanie planu treningowego"

@@ -489,7 +489,7 @@
 /* tp exercise */
 .atp-exercises-wrapper {
   margin: 0 20px;
-  max-height: 350px;
+  max-height: calc(100% - 120px);
   overflow: auto;
 }
 .atp-enum {
@@ -575,5 +575,14 @@
         background: var(--dark-green-gradient);
       }
     }
+  }
+}
+.modal-ingredients-names{
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  span{
+    text-align: center;
+    font-size: 14px;
   }
 }
