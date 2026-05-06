@@ -26,6 +26,7 @@ import { UserProvider } from "./utils/UserContext.jsx";
 import Workouts from "./sites/MainPage/Workouts/Workouts.jsx";
 import AddTrainingPlan from "./sites/MainPage/Workouts/TrainingPlan/AddTrainingPlan.jsx";
 import TrainingPlans from "./sites/MainPage/Workouts/TrainingPlan/TrainingPlans.jsx";
+import MyClients from "./sites/MainPage/Clients/MyClients.jsx";
 
 function App() {
   return (
@@ -112,14 +113,19 @@ function App() {
               element={
                 <Routes>
                   <Route path="" element={<TrainingPlans />} />
-                  <Route path="cwiczenia" element={<Workouts />} />
                   <Route
-                    path="dodaj-plan-treningowy"
-                    element={<AddTrainingPlan />}
+                    path="dodaj-plan-treningowy/*"
+                    element={
+                      <Routes>
+                        <Route path="" element={<AddTrainingPlan />} />
+                        <Route path="dodaj-cwiczenie" element={<Workouts />} />
+                      </Routes>
+                    }
                   />
                 </Routes>
               }
             />
+            <Route path="/moi-podopieczni" element={<MyClients />} />
           </Routes>
         </UserProvider>
       </Router>

@@ -260,7 +260,7 @@
 }
 .tm-workouts-wrapper {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+  grid-template-columns: 1fr 1fr 1fr;
   grid-auto-rows: minmax(50px, 100px);
   gap: 20px 12px;
   margin-top: 20px;
@@ -585,4 +585,34 @@
     text-align: center;
     font-size: 14px;
   }
+}
+
+.no-exercise-found{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 4px;
+  width: 100%;
+  *{
+    margin: 0;
+  }
+  h3{
+    font-weight: bold;
+    color: transparent;
+    font-size: 20px;
+    background: var(--main-gradient);
+    background-clip: text;
+  }
+  p{
+    font-weight: 500;
+    font-size: 16px;
+    color: var(--primary-grey);
+  }
+}
+.add-own-workout{
+  height: fit-content;
 }

@@ -1,0 +1,187 @@
+:root {
+  --main-gradient: linear-gradient(
+    90deg,
+    #e96d00 0%,
+    #f98017 39%,
+    #f59745 100%
+  );
+  --purple-gradient: linear-gradient(
+    90deg,
+    #ca00e9 12%,
+    #f917f6 76%,
+    #de45f5 100%
+  );
+  --blue-gradient: linear-gradient(
+    90deg,
+    #0052e9 0%,
+    #1766f9 39%,
+    #4582f5 100%
+  );
+  --green-gradient: linear-gradient(
+    90deg,
+    #13e900 0%,
+    #22f917 39%,
+    #53f545 100%
+  );
+  --red-gradient: linear-gradient(90deg, #dc2626 62%, #ef4444 100%);
+  --dark-purple-gradient: linear-gradient(90deg, #7c3aed 25%, #9333ea 100%);
+  --magenta-gradient: linear-gradient(90deg, #b500b2 25%, #9d00c4 100%);
+  --teal-gradient: linear-gradient(90deg, #0094b5 25%, #00bdc4 100%);
+  --dark-green-gradient: linear-gradient(90deg, #00b546 25%, #00c44e 100%);
+  --primary-orange: #e96d00;
+  --clr-secondary: #ffe6d0;
+  --text-secondery: #1e2a38;
+  --primary-grey: #747474;
+  --clr-red: #b71c1c;
+  --bg-red: #fdecea;
+  --clr-green: #2e7d32;
+  --bg-green: #e8f5e9;
+  --clr-red2: #e80101;
+  --bg-red2: #ffd0d0;
+
+  --clr-red3: #c10007;
+  --bg-red3: #fef2f2;
+
+  --clr-purple: #bb15fc;
+  --bg-purple: #f4e8fc;
+  --bold-purple: #531c8e;
+
+  --clr-blue: #155dfc;
+  --bg-blue: #e7eefc;
+  --bold-blue: #1c398e;
+
+  --clr-cyan: #00ced5;
+  --bg-cyan: #e8f5fc;
+
+  --clr-yellow: #e27100;
+  --bg-yellow: #f9f0e8;
+  --bold-yellow: #7b3306;
+
+  --clr-green2: #00a63e;
+  --bg-green2: #e6f5ec;
+  --bold-green: #0d542b;
+
+  --border-blue: #dbeafe;
+  --bg-blue2: #eff6ff;
+}
+.filter-right-buttons {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    &.to-inactive {
+      background: var(--dark-purple-gradient);
+    }
+    &.to-deleted {
+      background: var(--red-gradient);
+    }
+  }
+  &.disabled button {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+}
+.clients-wrapper {
+  padding: 10px;
+  background-color: white;
+  border-radius: 14px;
+  margin: 0 10px;
+}
+.clients-top {
+  background-color: #f7f7f7;
+  padding: 6px 10px;
+  border-radius: 8px;
+}
+.clients-top,
+.client-field {
+  display: grid;
+  grid-template-columns: 40px 0.3fr 0.4fr 0.5fr 0.2fr 0.2fr;
+}
+.client-top-box {
+  display: flex;
+  align-items: center;
+  input {
+    margin: 0;
+    width: 18px;
+    height: 18px;
+    border: 1px solid var(--primary-grey);
+    cursor: pointer;
+  }
+  span {
+    font-size: 14px;
+    color: var(--primary-grey);
+  }
+}
+.client-field {
+  padding: 20px 10px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+.client-field-box {
+  display: flex;
+  align-items: center;
+  input {
+    margin: 0;
+    width: 18px;
+    height: 18px;
+    border: 1px solid var(--primary-grey);
+    cursor: pointer;
+  }
+  > img{
+    cursor: pointer;
+    display: block;
+    margin: 0 auto;
+  }
+}
+.cf-name {
+  font-size: 16px;
+  color: var(--text-secondery);
+  font-weight: 500;
+}
+.cf-flex-wrapper {
+  display: flex;
+  flex-direction: column;
+  row-gap: 5px;
+}
+.cf-email,
+.cf-phone {
+  display: flex;
+  gap: 10px;
+}
+.cf-email {
+  color: var(--primary-orange);
+}
+.cf-goal {
+  background-color: #e6edf3;
+  color: var(--text-secondery);
+  font-weight: 500;
+  border-radius: 6px;
+  padding: 6px 12px;
+}
+.cf-last-visit {
+  color: var(--primary-grey);
+}
+.cf-days-away {
+  color: var(--primary-orange);
+  font-size: 12px;
+  &.black {
+    color: black;
+  }
+  &.green {
+    color: var(--clr-green);
+  }
+}

@@ -23,7 +23,11 @@
     #22f917 39%,
     #53f545 100%
   );
+  --red-gradient: linear-gradient(90deg, #dc2626 62%, #ef4444 100%);
   --dark-purple-gradient: linear-gradient(90deg, #7c3aed 25%, #9333ea 100%);
+  --magenta-gradient: linear-gradient(90deg, #b500b2 25%, #9d00c4 100%);
+  --teal-gradient: linear-gradient(90deg, #0094b5 25%, #00bdc4 100%);
+  --dark-green-gradient: linear-gradient(90deg, #00b546 25%, #00c44e 100%);
   --primary-orange: #e96d00;
   --clr-secondary: #ffe6d0;
   --text-secondery: #1e2a38;
@@ -234,7 +238,8 @@
   color: white;
   font-size: 25px;
   position: absolute;
-  top: 20px;
+  top: 50%;
+  transform: translateY(-50%);
   right: 20px;
   cursor: pointer;
 }
@@ -934,4 +939,39 @@ select.template-modal-input {
   height: 100vh;
   max-height: 640px;
   font-size: 14px;
+}
+
+/* delete modal */
+
+.delete-modal {
+  .template-modal-header {
+    background: var(--red-gradient);
+  }
+  .template-modal-img-wrapper {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+  .dark-red {
+    font-weight: 600;
+    color: var(--clr-red);
+  }
+  .template-modal-btn.accept {
+    background: var(--red-gradient);
+  }
+}
+.tm-delete-text {
+  font-size: 16px;
+  color: var(--text-secondery);
+}
+.tm-delete-warn {
+  background-color: var(--bg-red);
+  padding: 20px;
+  border-radius: 6px;
+  margin-top: 12px;
+  border: 1px solid var(--clr-red);
+  p {
+    color: var(--clr-red);
+    font-weight: 300;
+    margin: 0;
+    font-size: 14px;
+  }
 }

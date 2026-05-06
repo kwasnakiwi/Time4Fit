@@ -2,113 +2,117 @@ import { useState } from "react";
 import bicepsIcon from "./../../../../../assets/svgs/bicepsIcon.svg";
 import "./../../../../../styles/popup.css";
 import "./../../../../../styles/workouts.css";
+import orCirclePlus from "./../../../../../assets/svgs/or-circle-plus.svg";
+import { useNavigate } from "react-router-dom";
 
 function ChooseWorkoutsModal({ setShowChooseWorkoutsModal, part }) {
   const [search, setSearch] = useState("");
   const [selectedWorkouts, setSelectedWorkouts] = useState([]);
 
-  const workoutsData = [
-    {
-      id: 1,
-      category: "chest",
-      part: "Klatka piersiowa",
-      exercise: "Wyciskanie hantli na ławce płaskiej",
-      muscles: "Klata, triceps, barki",
-      level: 1,
-      equipment: "Hantle",
-      complexity: 1,
-    },
-    {
-      id: 2,
-      category: "legs",
-      part: "Nogi",
-      exercise: "Przysiad ze sztangą na karku",
-      muscles: "Czworogłowe, pośladki, lędźwia",
-      level: 2,
-      equipment: "Sztanga",
-      complexity: 2,
-    },
-    {
-      id: 3,
-      category: "back",
-      part: "Plecy",
-      exercise: "Podciąganie na drążku (nachwyt)",
-      muscles: "Najszerszy grzbietu, bicepsy",
-      level: 2,
-      equipment: "Drążek",
-      complexity: 2,
-    },
-    {
-      id: 4,
-      category: "biceps",
-      part: "Biceps",
-      exercise: "Uginanie ramion z hantlami z supinacją",
-      muscles: "Biceps, przedramiona",
-      level: 0,
-      equipment: "Hantle",
-      complexity: 0,
-    },
-    {
-      id: 5,
-      category: "chest",
-      part: "Klatka piersiowa",
-      exercise: "Rozpiętki na maszynie Butterfly",
-      muscles: "Klatka piersiowa (środek)",
-      level: 0,
-      equipment: "Maszyna",
-      complexity: 0,
-    },
-    {
-      id: 6,
-      category: "legs",
-      part: "Nogi",
-      exercise: "Martwy ciąg na prostych nogach",
-      muscles: "Dwugłowe, pośladki, dół pleców",
-      level: 1,
-      equipment: "Sztanga",
-      complexity: 1,
-    },
-    {
-      id: 7,
-      category: "back",
-      part: "Plecy",
-      exercise: "Wiosłowanie hantlem w opadzie",
-      muscles: "Najszerszy, czworoboczny, tył barku",
-      level: 1,
-      equipment: "Hantle",
-      complexity: 1,
-    },
-    {
-      id: 8,
-      category: "chest",
-      part: "Klatka piersiowa",
-      exercise: "Pompki na poręczach (Dips)",
-      muscles: "Dół klatki, triceps, barki",
-      level: 2,
-      equipment: "Poręcze",
-      complexity: 2,
-    },
-    {
-      id: 9,
-      category: "legs",
-      part: "Nogi",
-      exercise: "Wykroki chodzone",
-      muscles: "Pośladki, czworogłowe",
-      level: 1,
-      equipment: "Hantle",
-      complexity: 1,
-    },
-    {
-      id: 10,
-      category: "biceps",
-      part: "Biceps",
-      exercise: "Uginanie ramion na modlitewniku",
-      muscles: "Biceps (krótka głowa)",
-      level: 1,
-      equipment: "Sztanga łamana",
-      complexity: 1,
-    },
-  ];
+  const navigate = useNavigate();
+
+  const workoutsData = [];
+  //   {
+  //     id: 1,
+  //     category: "chest",
+  //     part: "Klatka piersiowa",
+  //     exercise: "Wyciskanie hantli na ławce płaskiej",
+  //     muscles: "Klata, triceps, barki",
+  //     level: 1,
+  //     equipment: "Hantle",
+  //     complexity: 1,
+  //   },
+  //   {
+  //     id: 2,
+  //     category: "legs",
+  //     part: "Nogi",
+  //     exercise: "Przysiad ze sztangą na karku",
+  //     muscles: "Czworogłowe, pośladki, lędźwia",
+  //     level: 2,
+  //     equipment: "Sztanga",
+  //     complexity: 2,
+  //   },
+  //   {
+  //     id: 3,
+  //     category: "back",
+  //     part: "Plecy",
+  //     exercise: "Podciąganie na drążku (nachwyt)",
+  //     muscles: "Najszerszy grzbietu, bicepsy",
+  //     level: 2,
+  //     equipment: "Drążek",
+  //     complexity: 2,
+  //   },
+  //   {
+  //     id: 4,
+  //     category: "biceps",
+  //     part: "Biceps",
+  //     exercise: "Uginanie ramion z hantlami z supinacją",
+  //     muscles: "Biceps, przedramiona",
+  //     level: 0,
+  //     equipment: "Hantle",
+  //     complexity: 0,
+  //   },
+  //   {
+  //     id: 5,
+  //     category: "chest",
+  //     part: "Klatka piersiowa",
+  //     exercise: "Rozpiętki na maszynie Butterfly",
+  //     muscles: "Klatka piersiowa (środek)",
+  //     level: 0,
+  //     equipment: "Maszyna",
+  //     complexity: 0,
+  //   },
+  //   {
+  //     id: 6,
+  //     category: "legs",
+  //     part: "Nogi",
+  //     exercise: "Martwy ciąg na prostych nogach",
+  //     muscles: "Dwugłowe, pośladki, dół pleców",
+  //     level: 1,
+  //     equipment: "Sztanga",
+  //     complexity: 1,
+  //   },
+  //   {
+  //     id: 7,
+  //     category: "back",
+  //     part: "Plecy",
+  //     exercise: "Wiosłowanie hantlem w opadzie",
+  //     muscles: "Najszerszy, czworoboczny, tył barku",
+  //     level: 1,
+  //     equipment: "Hantle",
+  //     complexity: 1,
+  //   },
+  //   {
+  //     id: 8,
+  //     category: "chest",
+  //     part: "Klatka piersiowa",
+  //     exercise: "Pompki na poręczach (Dips)",
+  //     muscles: "Dół klatki, triceps, barki",
+  //     level: 2,
+  //     equipment: "Poręcze",
+  //     complexity: 2,
+  //   },
+  //   {
+  //     id: 9,
+  //     category: "legs",
+  //     part: "Nogi",
+  //     exercise: "Wykroki chodzone",
+  //     muscles: "Pośladki, czworogłowe",
+  //     level: 1,
+  //     equipment: "Hantle",
+  //     complexity: 1,
+  //   },
+  //   {
+  //     id: 10,
+  //     category: "biceps",
+  //     part: "Biceps",
+  //     exercise: "Uginanie ramion na modlitewniku",
+  //     muscles: "Biceps (krótka głowa)",
+  //     level: 1,
+  //     equipment: "Sztanga łamana",
+  //     complexity: 1,
+  //   },
+  // ];
 
   const toggleWorkout = (id) => {
     setSelectedWorkouts((prev) =>
@@ -142,7 +146,6 @@ function ChooseWorkoutsModal({ setShowChooseWorkoutsModal, part }) {
             ✕
           </span>
         </header>
-
         <section className="template-modal-content">
           <div className="template-modal-input-box">
             <input
@@ -153,9 +156,27 @@ function ChooseWorkoutsModal({ setShowChooseWorkoutsModal, part }) {
               placeholder="Wyszukaj ćwiczenie..."
             />
           </div>
-
-          <div className="tm-workouts-wrapper">
-            {workoutsData.map((wk) => (
+          <div className="tm-workouts-wrapper" style={{ position: "relative" }}>
+            {workoutsData?.length <= 0 && (
+              <>
+                <div className="tm-workout add-own-workout" onClick={() => navigate("dodaj-cwiczenie")}>
+                  <span className="title" style={{ textAlign: "center" }}>
+                    Stwórz własne ćwiczenie
+                  </span>
+                  <img
+                    style={{
+                      width: "17px",
+                      height: "17px",
+                      alignSelf: "center",
+                    }}
+                    src={orCirclePlus}
+                    alt=""
+                  />
+                </div>
+                <div className=""></div>
+              </>
+            )}
+            {workoutsData?.map((wk) => (
               <div
                 key={wk.id}
                 className={`tm-workout ${selectedWorkouts.includes(wk.id) ? "selected" : ""}`}
@@ -166,6 +187,15 @@ function ChooseWorkoutsModal({ setShowChooseWorkoutsModal, part }) {
                 <span className="equipment">{wk.equipment}</span>
               </div>
             ))}
+            {workoutsData?.length <= 0 && (
+              <div className="no-exercise-found">
+                <h3>Nie znaleźliśmy takiego ćwiczenia w bazie</h3>
+                <p>
+                  Możesz dodać własne i korzystać z niego w planach
+                  treningowych.
+                </p>
+              </div>
+            )}
           </div>
         </section>
         <hr className="template-modal-line" />
@@ -180,8 +210,7 @@ function ChooseWorkoutsModal({ setShowChooseWorkoutsModal, part }) {
             className="template-modal-btn accept"
             onClick={() => setShowChooseWorkoutsModal(false)}
           >
-            {selectedWorkouts.length > 0 && "x" + selectedWorkouts.length}{" "}
-            Dodaj
+            {selectedWorkouts.length > 0 && "x" + selectedWorkouts.length} Dodaj
           </button>
         </section>
       </div>
