@@ -1,14 +1,30 @@
-import "./../../../styles/surveys.css";
-import whiteField1 from "./../../../assets/svgs/whiteField1.svg";
-import redBin from "./../../../assets/svgs/red-bin.svg";
-import dots from "./../../../assets/svgs/dots.svg";
-import blackWarn from "./../../../assets/svgs/black-warn.svg";
+import "./../../../../styles/surveys.css";
+import whiteField1 from "./../../../../assets/svgs/whiteField1.svg";
+import whiteField2 from "./../../../../assets/svgs/whiteField2.svg";
+import whiteField3 from "./../../../../assets/svgs/whiteField3.svg";
+import whiteField4 from "./../../../../assets/svgs/whiteField4.svg";
+import whiteField5 from "./../../../../assets/svgs/whiteField5.svg";
+import whiteField6 from "./../../../../assets/svgs/whiteField6.svg";
+import whiteField7 from "./../../../../assets/svgs/whiteField7.svg";
+import whiteField8 from "./../../../../assets/svgs/whiteField8.svg";
+import whiteField9 from "./../../../../assets/svgs/whiteField9.svg";
+import redBin from "./../../../../assets/svgs/red-bin.svg";
+import dots from "./../../../../assets/svgs/dots.svg";
+import blackWarn from "./../../../../assets/svgs/black-warn.svg";
 import { useRef } from "react";
 
 function CommonHeader({ data, onUpdate, deleteField }) {
   const icons = {
     "Tekst krótki": whiteField1,
     "Tekst długi": whiteField1,
+    "Skala ocen": whiteField2,
+    "Pole liczbowe": whiteField3,
+    Select: whiteField4,
+    Multiselect: whiteField5,
+    "Tabela pytań": whiteField6,
+    "Tak/Nie": whiteField7,
+    Data: whiteField8,
+    Pliki: whiteField9,
   };
 
   const checkboxRef = useRef(null);
@@ -18,7 +34,11 @@ function CommonHeader({ data, onUpdate, deleteField }) {
       <div className="asf-header">
         <div className="asf-header-left">
           <div className="asf-header-img-wrapper">
-            <img src={icons[data.type]} alt="" />
+            <img
+              className={`${data.type === "Skala ocen" ? "margin-right" : ""}`}
+              src={icons[data.type]}
+              alt=""
+            />
           </div>
           <div className="asf-header-text">
             <span className="asf-type">{data.type}</span>

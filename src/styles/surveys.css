@@ -68,13 +68,14 @@
   display: grid;
   grid-template-columns: auto 343px;
   padding: 10px;
-  .left{
+  .left {
     max-height: calc(100vh - 146px);
     overflow: auto;
     scrollbar-width: none;
     padding: 10px;
+    position: relative;
   }
-  .right{
+  .right {
     padding: 10px;
   }
 }
@@ -102,6 +103,11 @@
   gap: 12px;
   font-size: 14px;
   border-radius: 8px;
+  cursor: pointer;
+  &:disabled{
+    opacity: 0.5;
+    cursor: default;
+  }
   &.view {
     background-color: transparent;
     color: var(--text-secondery);
@@ -147,7 +153,7 @@
     padding-left: 40px;
     width: calc(100% - 55px);
   }
-  &:focus{
+  &:focus {
     border: 1px solid var(--primary-orange);
     outline: none;
   }
@@ -164,7 +170,7 @@
   &:not(:last-child) {
     margin-bottom: 6px;
   }
-  &:hover{
+  &:hover {
     border-color: var(--primary-orange);
   }
 }
@@ -240,45 +246,46 @@
   border: 1px solid #e2e2e2;
   margin: 18px 0;
 }
-.asf-input-box{
+.asf-input-box {
   display: flex;
   flex-direction: column;
   row-gap: 4px;
   position: relative;
   margin-bottom: 18px;
+  width: 100%;
 }
-.asf-input-box-title{
+.asf-input-box-title {
   font-size: 14px;
 }
-.asf-length-counter{
+.asf-length-counter {
   position: absolute;
   top: 0;
   right: 0;
   font-size: 12px;
   color: var(--primary-grey);
 }
-.asf-is-required-wrapper{
-  background-color: #F9FAFB;
+.asf-is-required-wrapper {
+  background-color: #f9fafb;
   padding: 10px;
   border-radius: 8px;
   display: flex;
   justify-content: space-between;
 }
-.asf-is-required-text{
+.asf-is-required-text {
   font-size: 14px;
   display: flex;
   align-items: center;
   gap: 8px;
 }
-.asf-switch-wrapper{
-  background-color: #BDBDBD;
+.asf-switch-wrapper {
+  background-color: #bdbdbd;
   width: 40px;
   height: 19px;
   border-radius: 39px;
   cursor: pointer;
   position: relative;
   transition: all 0.1s ease-out;
-  &::after{
+  &::after {
     content: "";
     position: absolute;
     width: 15px;
@@ -289,10 +296,71 @@
     border-radius: 50%;
     transition: all 0.1s ease-out;
   }
-  &:has(input:checked){
+  &:has(input:checked) {
     background-color: var(--primary-orange);
-    &::after{
+    &::after {
       transform: translateX(19px);
     }
+  }
+}
+.as-no-fields {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  text-align: center;
+  h1 {
+    margin: 0;
+    color: transparent;
+    font-size: 20px;
+    font-weight: 700;
+    background: var(--main-gradient);
+    background-clip: text;
+  }
+  p {
+    font-weight: 500;
+    color: var(--primary-grey);
+    margin: 0;
+    margin-top: 4px;
+  }
+}
+.asf-scale-inputs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  .asf-input-box {
+    margin-bottom: 0;
+  }
+  .asf-input-box-title {
+    font-size: 12px;
+  }
+}
+.asf-scale-inputs-title {
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+img.margin-right {
+  display: block;
+  margin-right: 10px;
+}
+.asf-add-option{
+  color: var(--primary-orange);
+  font-size: 12px;
+  cursor: pointer;
+  > span{
+    font-weight: 700;
+  }
+}
+.asf-select-option{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  &:not(:last-child){
+    margin-bottom: 4px;
+  }
+  > img{
+    cursor: pointer;
   }
 }

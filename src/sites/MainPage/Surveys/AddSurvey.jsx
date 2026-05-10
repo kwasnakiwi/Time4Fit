@@ -23,23 +23,21 @@ import NumberField from "./fieldTypes/NumberField.jsx";
 import DateField from "./fieldTypes/DateField.jsx";
 import MatrixField from "./fieldTypes/MatrixField.jsx";
 import FilesField from "./fieldTypes/FilesField.jsx";
-import CommonHeader from "./CommonHeader.jsx";
+import CommonHeader from "./elements/CommonHeader.jsx";
+import { createPortal } from "react-dom";
+import AddSurveyModal from "./elements/AddSurveyModal.jsx";
 
 function AddSurvey() {
   const [qSearch, setQSearch] = useState("");
   const [addedFields, setAddedFields] = useState([]);
+  const [showAddSurveyModal, setShowAddSurveyModal] = useState(false);
 
   const QUESTION_COMPONENTS = {
-    "Tekst krótki": TextField,
-    "Tekst długi": TextField,
     Select: SelectField,
-    Multiselect: MultiselectField,
-    "Tak/Nie": YesNoField,
+    Multiselect: SelectField,
     "Skala ocen": ScaleField,
     "Pole liczbowe": NumberField,
-    Data: DateField,
-    Macierz: MatrixField,
-    Pliki: FilesField,
+    "Tabela pytań": MatrixField,
   };
 
   const surveyFieldTypes = [
@@ -84,8 +82,8 @@ function AddSurvey() {
       icon: field7,
     },
     {
-      name: "Macierz",
-      desc: "Tabela odpowiedzi",
+      name: "Tabela pytań",
+      desc: "Kilka pytań dotyczących tego samego tematu",
       icon: field8,
     },
     {
@@ -104,9 +102,14 @@ function AddSurvey() {
       desc: "",
       isRequired: false,
 
-      options: field.name === "Select" ? ["Opcja 1"] : [],
+      options:
+        field.name === "Select" || field.name === "Multiselect"
+          ? ["", "", ""]
+          : [],
       min: field.name === "Skala ocen" ? 1 : null,
       max: field.name === "Skala ocen" ? 5 : null,
+      rows: field.name === "Tabela pytań" ? ["", "", ""] : [],
+      columns: field.name === "Tabela pytań" ? ["", "", ""] : [],
     };
     setAddedFields([...addedFields, newField]);
   };
@@ -125,13 +128,42 @@ function AddSurvey() {
     );
   };
 
+  const handleDragStart = (e, field) => {
+    e.dataTransfer.setData("fieldType", JSON.stringify(field));
+    e.dataTransfer.effectAllowed = "copy";
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "copy";
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    const fieldDataString = e.dataTransfer.getData("fieldType");
+
+    if (fieldDataString) {
+      const field = JSON.parse(fieldDataString);
+      addField(field);
+    }
+  };
+
   return (
     <>
+      {showAddSurveyModal &&
+        createPortal(
+          <AddSurveyModal setShowModal={setShowAddSurveyModal} />,
+          document.body,
+        )}
       <NavBar title="Dodaj ankietę" route="Ankiety / Dodaj ankietę" />
       <SideBar />
       <main className="home-page-container">
         <div className="as-wrapper">
-          <div className="left">
+          <div
+            className="left"
+            onDragOver={(e) => handleDragOver(e)}
+            onDrop={(e) => handleDrop(e)}
+          >
             {addedFields.map((fieldData) => {
               const SpecificComponent = QUESTION_COMPONENTS[fieldData.type];
 
@@ -143,14 +175,25 @@ function AddSurvey() {
                     deleteField={deleteField}
                   />
                   {SpecificComponent && (
-                    <SpecificComponent
-                      data={fieldData}
-                      onUpdate={(newData) => updateField(fieldData.id, newData)}
-                    />
+                    <>
+                      <hr className="asf-line" />
+                      <SpecificComponent
+                        data={fieldData}
+                        onUpdate={(newData) =>
+                          updateField(fieldData.id, newData)
+                        }
+                      />
+                    </>
                   )}
                 </div>
               );
             })}
+            {addedFields.length === 0 && (
+              <div className="as-no-fields">
+                <h1>Brak pól w tej ankiecie</h1>
+                <p>Możesz dodać nowe!</p>
+              </div>
+            )}
           </div>
           <div className="right">
             <div className="as-panel as-buttons">
@@ -158,7 +201,11 @@ function AddSurvey() {
                 <img src={blackEye} alt="" />
                 Podgląd
               </button>
-              <button className="as-button save">
+              <button
+                className="as-button save"
+                onClick={() => setShowAddSurveyModal(true)}
+                disabled={addedFields.length === 0}
+              >
                 <img src={whiteSave} alt="" />
                 Zapisz
               </button>
@@ -184,9 +231,15 @@ function AddSurvey() {
                     key={i}
                     onClick={() => addField(field)}
                     className="as-field-type"
+                    draggable
+                    onDragStart={(e) => handleDragStart(e, field)}
                   >
                     <div className="as-img-wrapper">
-                      <img src={field.icon} alt="" />
+                      <img
+                        className={`${field.name === "Skala ocen" ? "margin-right" : ""}`}
+                        src={field.icon}
+                        alt=""
+                      />
                     </div>
                     <div className="as-field-type-text">
                       <span className="name">{field.name}</span>
