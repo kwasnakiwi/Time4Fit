@@ -577,17 +577,17 @@
     }
   }
 }
-.modal-ingredients-names{
+.modal-ingredients-names {
   display: flex;
   justify-content: space-between;
   margin-top: 10px;
-  span{
+  span {
     text-align: center;
     font-size: 14px;
   }
 }
 
-.no-exercise-found{
+.no-exercise-found {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -597,22 +597,120 @@
   align-items: center;
   row-gap: 4px;
   width: 100%;
-  *{
+  * {
     margin: 0;
   }
-  h3{
+  h3 {
     font-weight: bold;
     color: transparent;
     font-size: 20px;
     background: var(--main-gradient);
     background-clip: text;
   }
-  p{
+  p {
     font-weight: 500;
     font-size: 16px;
     color: var(--primary-grey);
   }
 }
-.add-own-workout{
+.add-own-workout {
   height: fit-content;
+}
+
+/* diets panels */
+
+.dp-calories-box {
+  padding: 10px 20px;
+  background: var(--main-gradient);
+  border-radius: 8px;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+.dp-calories-box-left {
+  > h3 {
+    font-weight: normal;
+    font-size: 14px;
+    margin: 0;
+  }
+  > p {
+    margin: 0;
+    font-size: 18px;
+    strong {
+      font-size: 24px;
+    }
+  }
+}
+.dp-img-box {
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.dp-macros {
+  display: flex;
+  gap: 8px;
+}
+.dp-macro {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  .dp-label {
+    font-size: 12px;
+  }
+  .dp-value {
+    font-size: 14px;
+    font-weight: bold;
+  }
+  &.blue {
+    background-color: #eff6ff;
+    border-color: #dbeafe;
+    .dp-label {
+      color: #155dfc;
+    }
+    .dp-value {
+      color: #1c398e;
+    }
+  }
+  &.yellow {
+    background-color: #fffbeb;
+    border-color: #fef3c6;
+    .dp-label {
+      color: #e27100;
+    }
+    .dp-value {
+      color: #7b3306;
+    }
+  }
+  &.green {
+    background-color: #f0fdf4;
+    border-color: #dbfce7;
+    .dp-label {
+      color: #00a63e;
+    }
+    .dp-value {
+      color: #0d542b;
+    }
+  }
+}
+.dp-text{
+  color: var(--primary-grey);
+  font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 6px;
+  .dp-text-label{
+    font-weight: 500;
+  }
+  .dp-text-value{
+    margin: 0;
+  }
 }

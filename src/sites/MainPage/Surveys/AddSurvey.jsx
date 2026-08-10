@@ -31,6 +31,8 @@ function AddSurvey() {
   const [qSearch, setQSearch] = useState("");
   const [addedFields, setAddedFields] = useState([]);
   const [showAddSurveyModal, setShowAddSurveyModal] = useState(false);
+  const [isDraggingOver, setIsDraggingOver] = useState(false);
+  const [draggedFieldType, setDraggedFieldType] = useState(null);
 
   const QUESTION_COMPONENTS = {
     Select: SelectField,
@@ -38,6 +40,14 @@ function AddSurvey() {
     "Skala ocen": ScaleField,
     "Pole liczbowe": NumberField,
     "Tabela pytań": MatrixField,
+  };
+
+  const specificHeights = {
+    Select: 511,
+    Multiselect: 511,
+    "Skala ocen": 455,
+    "Pole liczbowe": 455,
+    "Tabela pytań": 667,
   };
 
   const surveyFieldTypes = [
@@ -131,6 +141,7 @@ function AddSurvey() {
   const handleDragStart = (e, field) => {
     e.dataTransfer.setData("fieldType", JSON.stringify(field));
     e.dataTransfer.effectAllowed = "copy";
+    setDraggedFieldType(field.name);
   };
 
   const handleDragOver = (e) => {
@@ -140,11 +151,25 @@ function AddSurvey() {
 
   const handleDrop = (e) => {
     e.preventDefault();
+    setIsDraggingOver(false);
+    
     const fieldDataString = e.dataTransfer.getData("fieldType");
 
     if (fieldDataString) {
       const field = JSON.parse(fieldDataString);
       addField(field);
+    }
+  };
+
+  const handleDragEnter = (e) => {
+    e.preventDefault();
+    setIsDraggingOver(true);
+  };
+
+  const handleDragLeave = (e) => {
+    e.preventDefault();
+    if (!e.currentTarget.contains(e.relatedTarget)) {
+      setIsDraggingOver(false);
     }
   };
 
@@ -160,9 +185,12 @@ function AddSurvey() {
       <main className="home-page-container">
         <div className="as-wrapper">
           <div
-            className="left"
+            className={`left ${isDraggingOver ? "drag-active" : ""}`}
             onDragOver={(e) => handleDragOver(e)}
+            onDragEnter={handleDragEnter}
+            onDragLeave={handleDragLeave}
             onDrop={(e) => handleDrop(e)}
+            style={{ minHeight: "400px", transition: "all 0.2s ease" }}
           >
             {addedFields.map((fieldData) => {
               const SpecificComponent = QUESTION_COMPONENTS[fieldData.type];
@@ -188,10 +216,18 @@ function AddSurvey() {
                 </div>
               );
             })}
-            {addedFields.length === 0 && (
+            {addedFields.length === 0 && !isDraggingOver && (
               <div className="as-no-fields">
                 <h1>Brak pól w tej ankiecie</h1>
                 <p>Możesz dodać nowe!</p>
+              </div>
+            )}
+            {isDraggingOver && (
+              <div
+                className="as-drop-placeholder"
+                style={{ height: `${specificHeights[draggedFieldType]}px` }}
+              >
+                <span>+</span>
               </div>
             )}
           </div>

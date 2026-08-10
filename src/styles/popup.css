@@ -275,6 +275,9 @@
   &.secondery {
     color: var(--text-secondery);
   }
+  span.pink {
+    color: #ff0099;
+  }
 }
 .template-modal-input {
   padding: 10px 8px;

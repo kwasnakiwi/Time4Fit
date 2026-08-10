@@ -31,7 +31,7 @@ function MyClients() {
       newParams.set(key, value);
     }
 
-    setSearchParams(newParams);
+    setSearchParams(newParams, { replace: true });
   };
 
   const clients = [

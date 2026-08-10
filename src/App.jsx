@@ -36,13 +36,13 @@ import TrainingPlans from "./sites/MainPage/Workouts/TrainingPlan/TrainingPlans.
 import Calendar from "./sites/MainPage/Calendar/Calendar.jsx";
 import AddSurvey from "./sites/MainPage/Surveys/AddSurvey.jsx";
 import ToTimeForFit from "./sites/MainPage/Loadings/ToTimeForFit.jsx";
+import EventsPanel from "./sites/MainPage/Events/eventsPanel/EventsPanel.jsx";
 
 function App() {
   return (
     <Router>
       <UserProvider>
         <Routes>
-          
           {/* --- SEKCJA AUTH --- */}
           <Route path="/">
             <Route index element={<SingUp />} />
@@ -128,14 +128,22 @@ function App() {
           <Route path="/plany-treningowe">
             <Route index element={<TrainingPlans />} />
             <Route path="dodaj-plan-treningowy">
-              <Route index element={<AddTrainingPlan />} />
+              <Route index element={<AddTrainingPlan type="training_plan" />} />
               <Route path="dodaj-cwiczenie" element={<Workouts />} />
+            </Route>
+            <Route path="dodaj-plan-diety">
+              <Route index element={<AddTrainingPlan type="diet_plan" />} />
             </Route>
           </Route>
 
           {/* --- SEKCJA ANKIETY --- */}
           <Route path="/ankiety">
             <Route path="dodaj-ankiete" element={<AddSurvey />} />
+          </Route>
+
+          {/* --- SEKCJA PANEL WYDARZEŃ --- */}
+          <Route path="/panel-wydarzen">
+            <Route index element={<EventsPanel />} />
           </Route>
         </Routes>
       </UserProvider>
